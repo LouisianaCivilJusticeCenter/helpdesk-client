@@ -4,9 +4,6 @@ import Nav from './Nav.jsx';
 const Header = ({ signOut, user }) => (
   <div>
     <Nav signOut={signOut} user={user} />
-    <h1>
-      Justice Tours
-    </h1>
   </div>
 );
 

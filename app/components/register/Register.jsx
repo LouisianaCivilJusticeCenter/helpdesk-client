@@ -1,6 +1,7 @@
 import React from 'react';
 import Validation from 'react-validation';
 import validator from 'validator';
+import $ from 'jquery';
 
 Object.assign(Validation.rules, {
   required: {
@@ -53,21 +54,27 @@ class Register extends React.Component {
   onSubmit(event) {
     event.preventDefault();
 
-    var data = {
+    let data = {
       first_name: event.target.firstName.value,
       last_name: event.target.lastName.value,
       email: event.target.email.value,
       username: event.target.username.value,
-      password: event.target.password.value
+      password: event.target.password.value,
     };
-    console.log(data);
-    fetch('api/v1/users', {
-      method: 'POST',
-      body: data,
-    })
-    .then(res => res.json())
-    .then(yup => console.log(yup));
-
+    data = JSON.stringify(data)
+    // const formData = new FormData();
+    // for (let key in data) {
+      // formData.append(key, data[key]);
+    // }
+    const success = (res) => console.log(res);
+    $.ajax({
+      type: 'POST',
+      url: '/v1/users',
+      contentType: 'application/json',
+      data,
+      success,
+      dataType: 'json',
+    });
   }
 
   removeApiError() {
