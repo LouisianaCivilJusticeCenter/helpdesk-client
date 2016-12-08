@@ -5,7 +5,7 @@ class Flow extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      question: this.props.issue.question,
+      answer: this.props.issue,
       prevQuestion: {},
       error: '',
       success: false,
@@ -13,32 +13,42 @@ class Flow extends Component {
     this.handleYes = this.handleYes.bind(this);
     this.handleNo = this.handleNo.bind(this);
     this.renderChatButton = this.renderChatButton.bind(this);
+    this.handleBack = this.handleBack.bind(this);
   }
 
   handleYes() {
-    this.setState({ prevQuestion: this.state.question });
-    if (this.state.question.yes.success) {
+    const { question } = this.state.answer;
+    const curr = this.state.answer;
+    if (question.yes.success) {
       this.setState({ success: true });
-    } else if (!this.state.question.yes.error) {
-      this.setState({ question: this.state.question.yes.question });
+    } else if (!question.yes.error) {
+      const next = question.yes;
+      next.prev = curr;
+      this.setState({ answer: next });
     } else {
-      this.setState({ error: this.state.question.yes.error });
+      const next = question.yes;
+      next.prev = curr;
+      this.setState({ answer: next, error: question.yes.error });
     }
   }
 
   handleNo() {
-    this.setState({ prevQuestion: this.state.question });
-    if (this.state.question.no.success) {
+    const { question } = this.state.answer;
+    const curr = this.state.answer;
+    this.setState({ prevQuestion: question });
+    if (question.no.success) {
       this.setState({ success: true });
-    } else if (!this.state.question.no.error) {
-      this.setState({ question: this.state.question.no.question });
+    } else if (!question.no.error) {
+      const next = question.no;
+      next.prev = curr;
+      this.setState({ answer: next });
     } else {
-      this.setState({ error: this.state.question.no.error });
+      this.setState({ error: question.no.error });
     }
   }
 
   handleBack() {
-    const prev = this.state.question;
+    this.setState({ answer: this.state.answer.prev, error: '', success: false });
   }
 
   renderChatButton() {
@@ -48,16 +58,18 @@ class Flow extends Component {
   }
 
   render() {
+    const { question } = this.state.answer;
     return (
       <div>
         {/* <h1>{this.props.issue.title}</h1> */}
         <FlowQuestion
-          question={this.state.question}
+          question={question}
           onNo={this.handleNo}
           onYes={this.handleYes}
           error={this.state.error}
           renderChatButton={this.renderChatButton}
           success={this.state.success}
+          handleBack={this.handleBack}
         />
       </div>
     );

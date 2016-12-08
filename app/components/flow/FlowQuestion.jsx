@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 
-const FlowQuestion = ({ renderChatButton, success, error, question, onNo, onYes }) => (
+const FlowQuestion = ({ renderChatButton, success, error, question, onNo, onYes, handleBack }) => (
   <div>
     <div className="row">
       {!error.length ?
@@ -14,6 +14,9 @@ const FlowQuestion = ({ renderChatButton, success, error, question, onNo, onYes 
       }
     </div>
     <div>
+      <button type="button" onClick={handleBack}>
+        back
+      </button>
       {success ? renderChatButton() : null}
     </div>
   </div>
@@ -26,6 +29,7 @@ FlowQuestion.propTypes = {
   renderChatButton: PropTypes.func.isRequired,
   error: PropTypes.string.isRequired,
   success: PropTypes.bool.isRequired,
+  handleBack: PropTypes.func.isRequired,
 };
 
 export default FlowQuestion;
