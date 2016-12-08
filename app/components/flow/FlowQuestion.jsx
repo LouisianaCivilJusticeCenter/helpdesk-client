@@ -1,11 +1,11 @@
 import React, { PropTypes } from 'react';
 
-const FlowQuestion = ({ renderChatButton, success, error, question, onNo, onYes, handleBack }) => (
+const FlowQuestion = ({ renderChatButton, success, error, answer, onNo, onYes, handleBack }) => (
   <div>
     <div className="row">
       {!error.length ?
         <div>
-          <h3>{question.text}</h3>
+          <h3>{answer.question.text}</h3>
           <button type="button" onClick={onYes}>Yes</button>
           <button type="button" onClick={onNo}>No</button>
         </div>
@@ -14,16 +14,19 @@ const FlowQuestion = ({ renderChatButton, success, error, question, onNo, onYes,
       }
     </div>
     <div>
-      <button type="button" onClick={handleBack}>
-        back
-      </button>
+      {answer.prev ?
+        <button type="button" onClick={handleBack}>back</button>
+        :
+        null
+      }
+
       {success ? renderChatButton() : null}
     </div>
   </div>
 );
 
 FlowQuestion.propTypes = {
-  question: PropTypes.object,
+  answer: PropTypes.object,
   onNo: PropTypes.func.isRequired,
   onYes: PropTypes.func.isRequired,
   renderChatButton: PropTypes.func.isRequired,
