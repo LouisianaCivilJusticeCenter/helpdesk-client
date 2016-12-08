@@ -1,3 +1,4 @@
+/* eslint no-console: ["error", { allow: ["warn", "error"] }] */
 import React from 'react';
 import Validation from 'react-validation';
 import validator from 'validator';
@@ -62,7 +63,7 @@ class Register extends React.Component {
       password: event.target.password.value,
     };
     data = JSON.stringify(data);
-    const success = (res) => console.log(res);
+    const success = (res) => console.warn(res);
     $.ajax({
       type: 'POST',
       url: '/v1/users',

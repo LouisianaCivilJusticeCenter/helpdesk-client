@@ -2,7 +2,7 @@
 
 const flows = {
   divorce: {
-    title: 'this is title',
+    title: 'Divorce',
     question: {
       text: 'Have you or your spouse filed for a divorce?',
       yes: {

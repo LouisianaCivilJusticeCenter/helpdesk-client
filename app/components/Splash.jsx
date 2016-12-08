@@ -7,7 +7,7 @@ const Splash = (props) => (
 );
 
 Splash.propTypes = {
-  title: PropTypes.string.isRequired
+  title: PropTypes.string.isRequired,
 };
 
 export default Splash;

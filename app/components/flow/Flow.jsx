@@ -1,4 +1,5 @@
 import React, { PropTypes, Component } from 'react';
+import { Link } from 'react-router';
 import FlowQuestion from './FlowQuestion.jsx';
 
 class Flow extends Component {
@@ -53,24 +54,32 @@ class Flow extends Component {
 
   renderChatButton() {
     return (
-      <button className="btn btn-default btn-lg btn-block">Chat Now</button>
+      <Link to="/register">
+        <button
+          className="btn btn-default btn-lg btn-block"
+        >
+          Register
+        </button>
+      </Link>
     );
   }
 
   render() {
     const { answer, error, success } = this.state;
     return (
-      <div>
-        {/* <h1>{this.props.issue.title}</h1> */}
-        <FlowQuestion
-          answer={answer}
-          onNo={this.handleNo}
-          onYes={this.handleYes}
-          error={error}
-          renderChatButton={this.renderChatButton}
-          success={success}
-          handleBack={this.handleBack}
-        />
+      <div className="row">
+        <div className="col-md-offset-3 col-md-6 text-center">
+          <h1>{this.props.issue.title}</h1>
+          <FlowQuestion
+            answer={answer}
+            onNo={this.handleNo}
+            onYes={this.handleYes}
+            error={error}
+            renderChatButton={this.renderChatButton}
+            success={success}
+            handleBack={this.handleBack}
+          />
+        </div>
       </div>
     );
   }
