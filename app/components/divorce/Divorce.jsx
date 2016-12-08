@@ -1,14 +1,8 @@
-/**
- * React Starter Kit (https://www.reactstarterkit.com/)
- *
- * Copyright © 2014-2016 Kriasoft, LLC. All rights reserved.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE.txt file in the root directory of this source tree.
- */
+/* eslint max-len: 0 */
 
 import React from 'react';
 import { Link } from 'react-router';
+import FlowQuestion from '../flow/FlowQuestion.jsx';
 
 class Divorce extends React.Component {
   constructor(props) {
@@ -23,63 +17,6 @@ class Divorce extends React.Component {
         seperate: null,
       },
     };
-    this.renderSeperate = this.renderSeperate.bind(this);
-    this.handleChangeResident = this.handleChangeResident.bind(this);
-    this.handleChangeChildren = this.handleChangeChildren.bind(this);
-    this.handleChangeSeperate1 = this.handleChangeSeperate1.bind(this);
-    this.handleChangeSeperate6 = this.handleChangeSeperate6.bind(this);
-  }
-
-  handleChangeResident(event) {
-    const error = 'You are not eligible for a 103.1 Divorce in Louisiana because you are not a resident.';
-    return event.target.value === 'yes' ?
-      this.setState({ resident: event.target.value, error: { resident: null } })
-      :
-      this.setState({
-        resident: event.target.value,
-        children: '-',
-        seperate1: '-',
-        seperate6: '-',
-        error: { resident: error } });
-  }
-  handleChangeChildren(event) {
-    return event.target.value === 'yes' ?
-      this.setState({
-        children: event.target.value,
-        seperate1: '-',
-        seperate6: '-',
-        error: { seperate: null },
-      })
-      :
-      this.setState({
-        children: event.target.value,
-        seperate1: '-',
-        seperate6: '-',
-        error: { seperate: null },
-      });
-  }
-  handleChangeSeperate1(event) {
-    const error = 'You are not eligible for a 103.1 divorce b/c you do not meet the separation time.';
-    return event.target.value === 'yes' ?
-      this.setState({ seperate1: event.target.value, error: { seperate: null } })
-      :
-      this.setState({ seperate1: event.target.value, error: { seperate: error } });
-  }
-  handleChangeSeperate6(event) {
-    const error = 'You are not eligible for a 103.1 divorce b/c you do not meet the separation time.';
-    return event.target.value === 'yes' ?
-      this.setState({ seperate6: event.target.value, error: { seperate: null } })
-      :
-      this.setState({ seperate6: event.target.value, error: { seperate: error } });
-  }
-
-  renderSubmit() {
-    const submitText = 'You are eligible for online assistance through this kiosk. Create your user profile and access free legal chat and documents HERE';
-    return this.state.seperate6 === 'yes' || this.state.seperate1 === 'yes' ?
-      // <button type="button" value={submitText} />
-      <Link to="/register">{submitText}</Link>
-      :
-      null;
   }
 
   renderSeperate() {
@@ -109,44 +46,36 @@ class Divorce extends React.Component {
 
   render() {
     const title = 'Divorce Flow Chart';
+    const questions = {
+      question: {
+        text: 'Have you or your spouse filed for a divorce?',
+        yes: {
+          error: 'Due to Legal Ethics Concerns...call hotline',
+        },
+        no: {
+          question: {
+            text: 'Do you have any minor children of the marriage?',
+            yes: {
+              question: {
+                text: 'Have you been living seperate and apart for 365 days?',
+                yes: {
+                  question: {
+                    text: 'Do you have any community property that needs to be divided?',
+                  },
+                },
+                no: {
+                  error: 'Please call hotline',
+                },
+              },
+            },
+            no: 'Have you been living seperate and apart for 180 days?',
+          },
+        },
+      },
+    };
     return (
       <div>
-        <div>
-          <h1>{title}</h1>
-        </div>
-        <form>
-          <div>
-            <label htmlFor="resident">
-              Have you resided in Louisiana for at least 6 months?
-              <select value={this.state.resident} onChange={this.handleChangeResident}>
-                <option value="">-</option>
-                <option value="yes">yes</option>
-                <option value="no">no</option>
-              </select>
-            </label>
-          </div>
-          {this.state.error.resident ?
-            <div>{this.state.error.resident}</div>
-            :
-            <div>
-              <label htmlFor="children">
-                Do you have minor children with your spouse
-                <select value={this.state.children} onChange={this.handleChangeChildren}>
-                  <option value="">-</option>
-                  <option value="yes">yes</option>
-                  <option value="no">no</option>
-                </select>
-              </label>
-            </div>
-          }
-          {this.state.children !== '-' ? this.renderSeperate() : null}
-          {this.state.error.seperate}
-          {this.renderSubmit()}
-        </form>
-        <div>
-          You may speak to an intake specialist and obtain legal information,
-          advice, and referrals by calling our hotline at 1-800-310-7029
-        </div>
+        <FlowQuestion title={title} />
       </div>
     );
   }

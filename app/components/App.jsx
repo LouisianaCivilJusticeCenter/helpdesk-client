@@ -3,7 +3,7 @@ import { Router, Route, IndexRoute, hashHistory } from 'react-router';
 import Home from './home/Home.jsx';
 import NotFound from './NotFound.jsx';
 import SignIn from './SignIn.jsx';
-import Divorce from './divorce/Divorce.jsx';
+import FlowContainer from './flow/FlowContainer.jsx';
 import Register from './register/Register.jsx';
 import MainContainer from './MainContainer.jsx';
 
@@ -35,7 +35,7 @@ class App extends React.Component {
         <Route path="/" component={MainContainer}>
           <IndexRoute component={Home} />
           <Route path="sign-in" component={SignIn} />
-          <Route path="divorce" component={Divorce} />
+          <Route path="flow/:issue" component={FlowContainer} />
           <Route path="register" component={Register} />
           <Route path="*" component={NotFound} />
         </Route>

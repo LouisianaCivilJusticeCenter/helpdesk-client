@@ -7,11 +7,11 @@ import Sidebar from './Sidebar.jsx';
 
 const Home = () => {
   const flows = [
-    { flow: 'Divorce', link: '/divorce' },
+    { flow: 'Divorce', link: 'flow/divorce' },
     { flow: 'Custody/Visitation', link: '/custody' },
-    { flow: 'Child Support', link: '/child-support' },
-    { flow: 'Domestic Abuse', link: '/abuse' },
-    { flow: 'Inter-Family Adoption', link: '/adoption' },
+    { flow: 'Child Support', link: '/child_support' },
+    { flow: 'Domestic Abuse', link: '/dv' },
+    { flow: 'Inter-Family Adoption', link: 'adoption' },
   ];
   return (
     <div className="row">

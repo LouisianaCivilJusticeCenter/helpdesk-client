@@ -61,11 +61,7 @@ class Register extends React.Component {
       username: event.target.username.value,
       password: event.target.password.value,
     };
-    data = JSON.stringify(data)
-    // const formData = new FormData();
-    // for (let key in data) {
-      // formData.append(key, data[key]);
-    // }
+    data = JSON.stringify(data);
     const success = (res) => console.log(res);
     $.ajax({
       type: 'POST',
