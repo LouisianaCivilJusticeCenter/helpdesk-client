@@ -114,7 +114,9 @@ const flows = {
                   },
                 },
               },
-              no: 'Please call our hotline: 504-355-0970',
+              no: {
+                error: 'Please call our hotline: 504-355-0970',
+              },
             },
           },
           no: {
@@ -139,17 +141,9 @@ const flows = {
                   text: 'Was the order granted in Louisiana?',
                   yes: {
                     question: {
-                      text: '',
+                      text: 'Are you a named party to the case?',
                       yes: {
-                        question: {
-                          text: 'Are you a named party to the case?',
-                          yes: {
-                            success: 'You are eligible for assistance through this kiosk. Create your user profile and acess free legal chat and documents HERE.',
-                          },
-                          no: {
-                            error: 'Please call our hotline at 504-355-0970',
-                          },
-                        },
+                        success: 'You are eligible for assistance through this kiosk. Create your user profile and acess free legal chat and documents HERE.',
                       },
                       no: {
                         error: 'Please call our hotline at 504-355-0970',
@@ -195,6 +189,100 @@ const flows = {
           },
         },
       },
+    },
+  },
+  dv: {
+    title: 'Domestic Violence',
+    question: {
+      text: 'Are you or your minor child a victim of Abuse?',
+      yes: {
+        question: {
+          text: 'Is the abuser your: Spouse, Former Spouse, Dating Partner, Parent, Child, Stepparent, Stepchild, Foster Parent, Foster Child, Grandparent, Grandchild?',
+          yes: {
+            question: {
+              text: 'Are you seeking a protective order',
+              yes: {
+                success: 'You are eligible for online assistance through this kiosk. Create your user profile and access free legal chat and documents here.',
+              },
+              no: {
+                error: 'Please call our hotline: 504-355-0970',
+              },
+            },
+          },
+          no: {
+            question: {
+              text: 'Were you the victim of stalking or cyberstalking by a stranger or acquaintance?',
+              yes: {
+                question: {
+                  text: 'Are you seeking a Protective order?',
+                  yes: {
+                    success: 'You are eligible for online assistance through this kiosk. Create your user profile and access free legal chat and documents here.',
+                  },
+                  no: {
+                    error: 'Please call our hotline: 504-355-0970',
+                  },
+                },
+              },
+              no: {
+                error: 'Please call our hotline: 504-355-0970',
+              },
+            },
+          },
+        },
+      },
+      no: {
+        error: 'Please call our hotline: 504-355-0970',
+      },
+    },
+  },
+  adoption: {
+    title: 'Visitiation',
+    question: {
+      text: 'Are you the parent of the child?',
+      yes: {
+        question: {
+          text: 'Is there a custoy/visitation order in place',
+          yes: {
+            question: {
+              text: 'Are you trying to change the visitation order?',
+              yes: {
+                question: {
+                  text: 'Were you ever accused of Domestic Violence/sexual or physcial against the child or a parent of the child?',
+                  yes: {
+                    error: 'Please call our hotline: 504-355-0970',
+                  },
+                  no: {
+                    question: {
+                      text: 'Is there any material change in the circumstances? Or you are unhappy with the Judgement?',
+                      yes: {
+                        question: {
+                          text: 'Are you named a party to the case?',
+                          yes: {
+                            success: 'You are eligible for online assistance through this kiosk. Create your user profile and access free legal chat and documents here.',
+                          },
+                          no: {
+                            error: 'Please call our hotline: 504-355-0970',
+                          },
+                        },
+                      },
+                      no: {
+                        error: 'Please call our hotline: 504-355-0970',
+                      },
+                    },
+                  },
+                },
+              },
+              no: {
+                error: 'Please call our hotline: 504-355-0970',
+              },
+            },
+          },
+          no: {
+            error: 'Please call our hotline: 504-355-0970',
+          },
+        },
+      },
+      no: {},
     },
   },
 };
