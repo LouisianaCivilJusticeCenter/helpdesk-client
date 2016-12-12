@@ -8,10 +8,10 @@ import Sidebar from './Sidebar.jsx';
 const Home = () => {
   const flows = [
     { flow: 'Divorce', link: 'flow/divorce' },
-    { flow: 'Custody/Visitation', link: '/custody' },
-    { flow: 'Child Support', link: '/child_support' },
-    { flow: 'Domestic Abuse', link: '/dv' },
-    { flow: 'Inter-Family Adoption', link: 'adoption' },
+    { flow: 'Custody/Visitation', link: '/flow/custody' },
+    { flow: 'Child Support', link: '/flow/child_support' },
+    { flow: 'Domestic Abuse', link: '/flow/dv' },
+    { flow: 'Inter-Family Adoption', link: '/flow/adoption' },
   ];
   return (
     <div className="row">

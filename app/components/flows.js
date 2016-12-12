@@ -124,6 +124,79 @@ const flows = {
       },
     },
   },
+  custody: {
+    title: 'Custody',
+    question: {
+      text: 'Is there a custody order in place?',
+      yes: {
+        question: {
+          text: 'Are you seeking to modify the current order?',
+          yes: {
+            question: {
+              text: 'Was your order granted by civil court or juvenile court?',
+              yes: {
+                question: {
+                  text: 'Was the order granted in Louisiana?',
+                  yes: {
+                    question: {
+                      text: '',
+                      yes: {
+                        question: {
+                          text: 'Are you a named party to the case?',
+                          yes: {
+                            success: 'You are eligible for assistance through this kiosk. Create your user profile and acess free legal chat and documents HERE.',
+                          },
+                          no: {
+                            error: 'Please call our hotline at 504-355-0970',
+                          },
+                        },
+                      },
+                      no: {
+                        error: 'Please call our hotline at 504-355-0970',
+                      },
+                    },
+                  },
+                  no: {
+                    error: 'Please call our hotline at 504-355-0970',
+                  },
+                },
+              },
+              no: {
+                error: 'Please call our hotline at 504-355-0970',
+              },
+            },
+          },
+        },
+      },
+      no: {
+        question: {
+          text: 'Are you trying to establish custody/visitations',
+          yes: {
+            question: {
+              text: 'Are you the father?',
+              yes: {
+                question: {
+                  text: 'Has your paternity been established? (Is your name on the childs birth certificate?)',
+                  yes: {
+                    success: 'You are eligible for assistance through this kiosk. Create your user profile and acess free legal chat and documents HERE.',
+                  },
+                  no: {
+                    error: 'Please call our hotline at 504-355-0970',
+                  },
+                },
+              },
+              no: {
+                success: 'You are eligible for assistance through this kiosk. Create your user profile and acess free legal chat and documents HERE.',
+              },
+            },
+          },
+          no: {
+            error: 'Please call our hotline at 504-355-0970',
+          },
+        },
+      },
+    },
+  },
 };
 
 export default flows;
