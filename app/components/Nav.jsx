@@ -25,7 +25,9 @@ const Nav = ({ signOut }) => (
         </ul>
         <ul className="nav navbar-right">
           <li><Link to="/" onClick={signOut}>Sign Out</Link></li>
+          <li><Link to="/sign-in" onClick={signOut}>Sign In</Link></li>
         </ul>
+
       </div>
 
     </div>

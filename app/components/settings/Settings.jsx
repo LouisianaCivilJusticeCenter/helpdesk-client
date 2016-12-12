@@ -1,7 +1,6 @@
 /* eslint no-console: ["error", { allow: ["warn", "error"] }] */
 import React from 'react';
 import Validation from 'react-validation';
-import { browserHistory } from 'react-router';
 import validator from 'validator';
 import $ from 'jquery';
 
@@ -14,24 +13,6 @@ Object.assign(Validation.rules, {
     rule: value => validator.isEmail(value),
     hint: value => <span className="form-error is-visible">{value} isnt an Email.</span>,
   },
-  password: {
-    rule: (value, components) => {
-      const password = components.password.state;
-      const passwordConfirm = components.passwordConfirm.state;
-      const isBothUsed = password
-          && passwordConfirm
-          && password.isUsed
-          && passwordConfirm.isUsed;
-      const isBothChanged = isBothUsed && password.isChanged && passwordConfirm.isChanged;
-
-      if (!isBothUsed || !isBothChanged) {
-        return true;
-      }
-
-      return password.value === passwordConfirm.value;
-    },
-    hint: () => <span className="form-error is-visible">Passwords should be equal.</span>,
-  },
   api: {
     hint: value => (
       <button className="form-error is-visible">
@@ -41,7 +22,7 @@ Object.assign(Validation.rules, {
   },
 });
 
-class Register extends React.Component {
+class Settings extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -54,41 +35,25 @@ class Register extends React.Component {
   }
 
   onSubmit(event) {
+    const token = localStorage.getItem('token');
     event.preventDefault();
 
     let data = {
-      first_name: event.target.firstName.value,
-      last_name: event.target.lastName.value,
-      email: event.target.email.value,
-      username: event.target.username.value,
-      password: event.target.password.value,
-    };
-    let tokenData = {
-      grant_type: 'password',
-      username: data.username,
-      password: data.password,
+      dob: event.target.dob.value,
+      street: event.target.street.value,
+      city: event.target.city.value,
+      state: event.target.state.value,
+      zip: event.target.zip.value,
+      income: event.target.income.value,
+      gender: event.target.gender.value,
+      race: event.target.race.value,
+      veteran: event.target.veteran.value,
     };
     data = JSON.stringify(data);
-    tokenData = JSON.stringify(tokenData);
-    const tokenSuccess = (res) => {
-      console.warn(res.data[0].access_token, 'this is res in token success');
-      localStorage.setItem('token', res.data[0].access_token);
-      browserHistory.push('/settings');
-    };
-
-    const success = () => {
-      $.ajax({
-        type: 'POST',
-        url: '/v1/access_tokens',
-        contentType: 'application/json',
-        data: tokenData,
-        success: tokenSuccess,
-        dataType: 'json',
-      });
-    };
+    const success = (res) => console.warn(res);
     $.ajax({
-      type: 'POST',
-      url: '/v1/users',
+      type: 'PUT',
+      url: `/v1/users?access_token=${token}`,
       contentType: 'application/json',
       data,
       success,
@@ -103,72 +68,93 @@ class Register extends React.Component {
   render() {
     return (
       <Validation.components.Form ref={c => { this.form = c; }} onSubmit={this.onSubmit}>
-        <h3>Registration</h3>
+        <h3>Settings</h3>
         <div>
           <label>
-            First Name*
             <Validation.components.Input
               value=""
-              placeholder="John"
-              name="firstName"
+              placeholder="Date Of Birth"
+              name="dob"
               validations={['required']}
             />
           </label>
         </div>
         <div>
           <label>
-            Last Name*
             <Validation.components.Input
               value=""
-              placeholder="Doe"
-              name="lastName"
+              placeholder="Home Address"
+              name="street"
               validations={['required']}
             />
           </label>
         </div>
         <div>
           <label>
-            Username*
             <Validation.components.Input
               value=""
-              placeholder="JohnDoe"
-              name="username"
+              placeholder="City"
+              name="city"
               validations={['required']}
             />
           </label>
         </div>
         <div>
           <label>
-            Email*
             <Validation.components.Input
-              value=""
-              placeholder="email@email.com"
-              name="email"
-              validations={['required', 'email']}
+              value="Louisiana"
+              name="state"
+              validations={['required']}
             />
           </label>
         </div>
         <div>
           <label>
-            Password*
             <Validation.components.Input
-              type="password"
               value=""
-              placeholder="******"
-              name="password"
-              validations={['required', 'password']}
+              placeholder="Zipcode"
+              name="zip"
+              validations={['required']}
             />
           </label>
         </div>
         <div>
           <label>
-            Confirm Password*
             <Validation.components.Input
-              type="password"
               value=""
-              placeholder="******"
-              name="passwordConfirm"
-              validations={['required', 'password']}
+              placeholder="Monthly household income"
+              name="income"
+              validations={['required']}
+            />
+          </label>
+        </div>
+        <div>
+          <label>
+            <Validation.components.Input
+              value=""
+              placeholder="Gender"
+              name="gender"
+              validations={['required']}
+            />
+          </label>
+        </div>
+        <div>
+          <label>
+            <Validation.components.Input
+              value=""
+              placeholder="Race/Ethnicity"
+              name="race"
+              validations={['required']}
+            />
+          </label>
+        </div>
+        <div>
+          <label>
+            <Validation.components.Input
+              value=""
+              placeholder="Are You A Veteran"
+              name="veteran"
+              validations={['required']}
             />
           </label>
         </div>
@@ -180,4 +166,4 @@ class Register extends React.Component {
   }
 }
 
-export default Register;
+export default Settings;
