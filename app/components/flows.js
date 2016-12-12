@@ -254,7 +254,7 @@ const flows = {
                   no: {
                     question: {
                       text: 'Is there any material change in the circumstances? Or you are unhappy with the Judgement?',
-                      yes: {
+                      no: {
                         question: {
                           text: 'Are you named a party to the case?',
                           yes: {
@@ -265,7 +265,7 @@ const flows = {
                           },
                         },
                       },
-                      no: {
+                      yes: {
                         error: 'Please call our hotline: 504-355-0970',
                       },
                     },
@@ -282,7 +282,25 @@ const flows = {
           },
         },
       },
-      no: {},
+      no: {
+        question: {
+          text: 'Are you the grandparent of the child or subling?',
+          yes: {
+            question: {
+              text: 'Are the parents of the child married?',
+              yes: {
+                error: 'Please call our hotline: 504-355-0970',
+              },
+              no: {
+                success: 'You are eligible for online assistance through this kiosk. Create your user profile and access free legal chat and documents here.',
+              },
+            },
+          },
+          no: {
+            error: 'Please call our hotline: 504-355-0970',
+          },
+        },
+      },
     },
   },
 };
