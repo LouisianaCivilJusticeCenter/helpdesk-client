@@ -67,11 +67,58 @@ const flows = {
                     success: 'success',
                   },
                   no: {
-                    error: 'last',
+                    error: 'Please call our hotline: (504 355-0970)',
                   },
                 },
               },
             },
+          },
+        },
+      },
+    },
+  },
+  child_support: {
+    title: 'Child Support',
+    question: {
+      text: 'Is there a child support order in place from the state of Louisiana',
+      yes: {
+        question: {
+          text: 'Are you seeking to modify the current order?',
+          yes: {
+            question: {
+              text: 'Are you names a party to the case?',
+              yes: {
+                success: 'You are eligible for online assistance through this kiosk. Create your user profile and access free legal chat and documents here.',
+              },
+              no: {
+                error: 'Please call our hotline: 504-355-0970',
+              },
+            },
+          },
+        },
+      },
+      no: {
+        question: {
+          text: 'Are you trying to establish Child Support',
+          yes: {
+            question: {
+              text: 'Has the paternity been established?',
+              yes: {
+                question: {
+                  text: 'Does the child live in Louisiana',
+                  yes: {
+                    success: 'You are eligible for online assistance through this kiosk. Create your user profile and access free legal chat and documents here.',
+                  },
+                  no: {
+                    error: 'Please call our hotline: 504-355-0970',
+                  },
+                },
+              },
+              no: 'Please call our hotline: 504-355-0970',
+            },
+          },
+          no: {
+            error: 'Please call our hotline: 504-355-0970',
           },
         },
       },
