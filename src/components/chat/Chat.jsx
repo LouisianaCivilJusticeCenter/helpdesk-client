@@ -8,32 +8,65 @@ class Chat extends Component {
     this.state = {
       socket: io('http://localhost:8080'),
     };
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.switchRoom = this.switchRoom.bind(this);
   }
 
   componentDidMount() {
-    this.state.socket.on('chat message', msg => {
-      console.log('this is message', msg);
-      $('#messages').append($('<li>').text(msg));
+    const id = this.props.params.id;
+    const socket = this.state.socket;
+    socket.on('connect', function(){
+        socket.emit('adduser', 'ali', id);
     });
+
+    socket.on('updatechat', function (username, data) {
+        $('#conversation').append('<b>'+ username + ':</b> ' + data + '<br>');
+    });
+
+
+    socket.on('updaterooms', function (rooms, current_room) {
+
+        $('#rooms').empty();
+        $.each(rooms, function(key, value) {
+            if(value == current_room){
+                $('#rooms').append('<div>' + value + '</div>');
+            }
+            else {
+                $('#rooms').append('<div>' + value + '</div>');
+            }
+        });
+    });
+
+    $('#datasend').click( function() {
+       var message = $('#data').val();
+       $('#data').val('');
+       socket.emit('sendchat', message);
+     });
+
+     $('#data').keypress(function(e) {
+         if(e.which == 13) {
+             $(this).blur();
+             $('#datasend').focus().click();
+         }
+     });
   }
 
-  handleSubmit(e) {
-    e.preventDefault();
-    const value = e.target.chat.value;
-    this.state.socket.emit('chat message', value);
-    $('#m').val('');
-    return false;
+  switchRoom(room) {
+    this.state.socket.emit('switchRoom', room);
   }
 
   render() {
     return (
       <div>
-        <ul id="messages"></ul>
-        <form id="chat" onSubmit={this.handleSubmit}>
-          <input name="chat" id="m" autoComplete="off" />
-          <button id="chatButton">Send</button>
-        </form>
+        <div>
+          <b>ROOMS</b>
+          <div id="rooms"></div>
+        </div>
+
+        <div >
+          <div id="conversation"></div>
+          <input id="data" />
+          <input type="button" id="datasend" value="send" />
+        </div>
       </div>
     );
   }
