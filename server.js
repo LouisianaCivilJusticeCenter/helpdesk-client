@@ -1,12 +1,25 @@
-const express = require('express');
-const proxy = require('express-http-proxy');
-const app = express();
+var path = require('path');
+var webpack = require('webpack');
+var express = require('express');
+var config = require('./webpack.config');
 
-app.use(express.static('./app'));
-app.use('/v1/users', proxy("http://localhost:3000", {
-  forwardPath: function(req, res) {
-    // console.log('inside v1 proxy');
-    return '/v1/users';
-  },
+var app = express();
+var compiler = webpack(config);
+
+app.use(require('webpack-dev-middleware')(compiler, {
+  publicPath: config.output.publicPath,
 }));
-app.listen(process.env.PORT || 8100);
+
+app.use(require('webpack-hot-middleware')(compiler));
+
+app.get('*', function(req, res) {
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+app.listen(3000, function(err) {
+  if (err) {
+    return console.error(err);
+  }
+
+  console.log('Listening at http://localhost:3000/');
+});

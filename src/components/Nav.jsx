@@ -26,6 +26,7 @@ const Nav = ({ signOut }) => (
         <ul className="nav navbar-right">
           <li><Link to="/" onClick={signOut}>Sign Out</Link></li>
           <li><Link to="/sign-in" onClick={signOut}>Sign In</Link></li>
+          <a href="http://localhost:3000">Chat</a>
         </ul>
 
       </div>

@@ -1,27 +1,23 @@
+const path = require('path');
+const webpack = require('webpack');
 module.exports = {
-  entry: './app/main.jsx',
+  devtool: 'cheap-module-eval-source-map',
+  entry: ['webpack-hot-middleware/client', './src/Main.jsx'],
   output: {
-    path: './app',
+    path: path.join(__dirname, 'dist'),
     filename: 'bundle.js',
+    publicPath: '/static/',
   },
-  devServer: {
-    inline: true,
-    contentBase: './app',
-    port: 8100,
-    proxy: {
-      '/v1/*': {
-        target: 'http://localhost:3000',
-      },
-    },
-  },
+  plugins: [
+    new webpack.HotModuleReplacementPlugin(),
+  ],
   module: {
     loaders: [
       {
         test: /\.jsx?$/,
-        exclude: /node_modules/,
-        loader: 'babel',
+        include: path.join(__dirname, 'src'),
+        loaders: ['react-hot', 'babel'],
       },
-      { test: /\.css$/, loader: 'style-loader!css-loader' },
     ],
   },
 };
