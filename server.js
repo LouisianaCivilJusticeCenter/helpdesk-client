@@ -10,7 +10,9 @@ const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 http.listen(8080, '127.0.0.1');
 
+
 io.on('connection', function (socket) {
+  console.log(socket)
   socket.on('chat message', function(msg){
     io.emit('chat message', msg);
   });
