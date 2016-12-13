@@ -5,32 +5,25 @@ import Header from './Header.jsx';
 class MainContainer extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { user: null };
     this.signOut = this.signOut.bind(this);
   }
 
-
-  getChildContext() {
-    return {
-      user: this.state.user,
-    };
-  }
-
   componentDidMount() {
-    // fetch('/api/v1/auth/verify', { credentials: 'include' })
-    // .then(res => res.json())
-    // .then((data) => {
-    //   if (data.name) {
-    //     localStorage.setItem('user.name', data.name);
-    //     localStorage.setItem('user.id', data.id);
-    //     this.setState({ user: data });
-    //   } else {
-    //     localStorage.clear();
-    //     this.setState({ user: null });
-    //   }
-    // })
-    // .catch(err => console.error(err));
-    this.setState({ user: null });
+    const token = localStorage.getItem('token');
+    console.log(token);
+    fetch(`/v1/access_tokens?access_token=${token}`)
+    .then(res => res.json())
+    .then((data) => {
+      console.log(data, 'this is data');
+      if (data.meta.error) {
+        localStorage.clear();
+      } else {
+        console.log(data.data[0], 'this is data[0]');
+        console.log(data.data[0].user_id, 'this is dat.userid');
+        localStorage.setItem('user_id', data.data[0].user_id);
+      }
+    })
+    .catch(err => console.error(err));
   }
 
   signOut() {
@@ -43,7 +36,7 @@ class MainContainer extends React.Component {
   render() {
     return (
       <div>
-        <Header signOut={this.signOut} user={this.state.user} />
+        <Header signOut={this.signOut} />
         <div className="container-fluid">
           {this.props.children}
         </div>
@@ -53,9 +46,5 @@ class MainContainer extends React.Component {
 }
 
 MainContainer.propTypes = { children: React.PropTypes.object };
-
-MainContainer.childContextTypes = {
-  user: PropTypes.object,
-};
 
 export default MainContainer;

@@ -71,12 +71,17 @@ class Register extends React.Component {
     data = JSON.stringify(data);
     tokenData = JSON.stringify(tokenData);
     const tokenSuccess = (res) => {
+      console.warn(res.data, 'this is res.data token success');
       console.warn(res.data[0].access_token, 'this is res in token success');
       localStorage.setItem('token', res.data[0].access_token);
+      localStorage.setItem('id', res.data[0].id);
+      localStorage.setItem('username', res.data[0].username);
+
       browserHistory.push('/settings');
     };
 
-    const success = () => {
+    const success = (res) => {
+      console.warn(res.data, 'this is res.data success');
       $.ajax({
         type: 'POST',
         url: '/v1/access_tokens',

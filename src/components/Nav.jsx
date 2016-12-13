@@ -1,7 +1,10 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 
-const Nav = ({ signOut }) => (
+const Nav = ({ signOut }) => {
+  const userId = localStorage.getItem('user_id');
+  const chatLink = `/chat/${userId}`;
+  return (
   <nav className="navbar navbar-default">
     <div className="container-fluid">
       <div className="navbar-header">
@@ -23,11 +26,16 @@ const Nav = ({ signOut }) => (
         <ul className="nav navbar-left">
           <li><Link to="/">Home</Link></li>
         </ul>
-        <ul className="nav navbar-right">
-          <li><Link to="/" onClick={signOut}>Sign Out</Link></li>
-          <li><Link to="/sign-in" onClick={signOut}>Sign In</Link></li>
-          <a href="http://localhost:3000">Chat</a>
-        </ul>
+        {localStorage.getItem('token') ?
+          <ul className="nav navbar-right">
+            <li><Link to="/" onClick={signOut}>Sign Out</Link></li>
+            <li><Link to={chatLink}>Chat</Link></li>
+          </ul>
+          :
+          <ul className="nav navbar-right">
+            <li><Link to="/sign-in">Sign Out</Link></li>
+          </ul>
+        }
 
       </div>
 
@@ -35,7 +43,7 @@ const Nav = ({ signOut }) => (
 
 
   </nav>
-);
+)};
 
 Nav.propTypes = {
   signOut: PropTypes.func.isRequired,

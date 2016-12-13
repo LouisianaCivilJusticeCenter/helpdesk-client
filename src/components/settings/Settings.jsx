@@ -2,6 +2,7 @@
 import React from 'react';
 import Validation from 'react-validation';
 import validator from 'validator';
+import { browserHistory } from 'react-router';
 import $ from 'jquery';
 
 Object.assign(Validation.rules, {
@@ -50,7 +51,9 @@ class Settings extends React.Component {
       veteran: event.target.veteran.value,
     };
     data = JSON.stringify(data);
-    const success = (res) => console.warn(res);
+    const success = (res) => {
+      browserHistory.push(`chat/${res.data[0].user_id}`);
+    };
     $.ajax({
       type: 'PUT',
       url: `/v1/users?access_token=${token}`,
