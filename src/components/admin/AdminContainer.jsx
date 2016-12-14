@@ -19,7 +19,7 @@ class AdminContainer extends Component {
   componentDidMount() {
     const socket = this.state.socket;
     socket.on('connect', () => {
-      socket.emit('admin');
+      socket.emit('admin', 'admin');
     });
     socket.on('updaterooms', () => {
       this.getRooms();

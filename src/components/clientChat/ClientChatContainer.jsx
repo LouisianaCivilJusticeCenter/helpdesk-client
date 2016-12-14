@@ -32,22 +32,22 @@ class ClientChatContainer extends Component {
       });
     });
 
-    socket.on('updatechat', function (username, data) {
+    socket.on('updatechat', (username, data) => {
       $('#conversation').append('<b>'+ username + ':</b> ' + data + '<br>');
     });
 
-    $('#datasend').click( function() {
-       var message = $('#data').val();
-       $('#data').val('');
-       socket.emit('sendchat', message);
-     });
+    $('#datasend').click(() => {
+      const message = $('#data').val();
+      $('#data').val('');
+      socket.emit('sendchat', message);
+    });
 
-     $('#data').keypress(function(e) {
-         if(e.which == 13) {
-             $(this).blur();
-             $('#datasend').focus().click();
-         }
-     });
+    $('#data').keypress(function(e) {
+      if (e.which === 13) {
+        $(this).blur();
+        $('#datasend').focus().click();
+      }
+    });
   }
 
   switchRoom(room) {
