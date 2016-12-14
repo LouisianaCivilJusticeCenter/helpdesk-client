@@ -25,28 +25,21 @@ class AdminContainer extends Component {
       this.getRooms();
     });
     socket.on('updatechat', (username, message, roomId) => {
-      console.log('inside update chat');
-      console.log('roomID', roomId);
       if (roomId) {
         $('#conversation').empty();
-        console.log('not equal so fetch');
         fetch(`/v1/messages?room_id=${roomId}`)
         .then(res => res.json())
         .then(data => {
-          console.log('this is data', data);
           data.data.forEach(oldMessage => {
-            console.log(oldMessage, 'this is old message');
-            $('#conversation').append('<b>' + oldMessage.from_username + ':</b> ' + oldMessage.body + '<br>');
-          })
+            $('#conversation').append(`<b>${oldMessage.from_username}:</b>${oldMessage.body}<br>`);
+          });
         });
       } else {
-        console.log('not fetching');
-        $('#conversation').append('<b>' + username + ':</b> ' + message + '<br>');
+        $('#conversation').append(`<b>${username}:</b>${message}<br>`);
       }
-
     });
+
     $('#datasend').click(() => {
-      console.log('inside click');
       const message = $('#data').val();
       $('#data').val('');
       socket.emit('sendchat', message);
@@ -58,33 +51,20 @@ class AdminContainer extends Component {
     .then(res => res.json())
     .then(data => {
       const rooms = _.unique(data.data.map((tokenObj => tokenObj.user_id)));
-      console.log('this is rooms', rooms);
       this.setState({ rooms });
     });
   }
 
   switchRoom(e) {
     const room = e.target.value;
-    console.log('this is room in switch room', room);
     this.setState({ currentRoom: room });
     this.state.socket.emit('switchRoom', room);
   }
 
   renderRoomList() {
-    console.log(this.state.rooms, 'this is state rooms');
     return this.state.rooms.map((room, i) => (
       <button key={i} value={room} onClick={this.switchRoom}>{room}</button>
     ));
-  }
-
-  getOldMessages(){
-    fetch('http://localhost:3000/v1/access_tokens')
-    .then(res => res.json())
-    .then(data => {
-      const rooms = _.unique(data.data.map((tokenObj => tokenObj.user_id)));
-      console.log('this is rooms', rooms);
-      this.setState({ rooms });
-    });
   }
 
   render() {

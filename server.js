@@ -1,3 +1,5 @@
+/* eslint no-param-reassign: "off" */
+
 const path = require('path');
 const webpack = require('webpack');
 const express = require('express');
@@ -9,7 +11,6 @@ const rp = require('request-promise');
 const app = express();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
-const _ = require('underscore');
 http.listen(8080, '127.0.0.1');
 
 const usernames = {};
@@ -26,7 +27,10 @@ io.on('connection', socket => {
     usernames[user.username] = user.username;
     socket.join(user.id);
     socket.emit('updatechat', 'SERVER', 'you have connected');
-    socket.broadcast.to(user.id).emit('updatechat', 'SERVER', user.username + ' has connected to this room');
+    socket
+      .broadcast
+      .to(user.id)
+      .emit('updatechat', 'SERVER', `${user.username} has connected to this room`);
     socket.emit('updaterooms');
   });
 
