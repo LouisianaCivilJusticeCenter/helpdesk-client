@@ -9,11 +9,11 @@ class AdminContainer extends Component {
     this.state = {
       socket: io('http://localhost:8080'),
       rooms: [],
-      currentRoom: '',
+      currentRoom: null,
     };
     this.switchRoom = this.switchRoom.bind(this);
     this.renderRoomList = this.renderRoomList.bind(this);
-    this.getRooms = this.getRooms.bind(this);
+    this.sendChat = this.sendChat.bind(this);
   }
 
   componentDidMount() {
@@ -21,12 +21,15 @@ class AdminContainer extends Component {
     socket.on('connect', () => {
       socket.emit('admin', 'admin');
     });
-    socket.on('updaterooms', () => {
-      this.getRooms();
+    socket.on('updaterooms', rooms => {
+      console.warn('inside update rooms');
+      this.setState({ rooms });
     });
     socket.on('updatechat', (username, message, roomId) => {
       if (roomId) {
+        console.warn('fetching');
         $('#conversation').empty();
+        $('#conversation').append(`<b>${username}:</b>${message}<br>`);
         fetch(`/v1/messages?room_id=${roomId}`)
         .then(res => res.json())
         .then(data => {
@@ -38,46 +41,46 @@ class AdminContainer extends Component {
         $('#conversation').append(`<b>${username}:</b>${message}<br>`);
       }
     });
-
-    $('#datasend').click(() => {
-      const message = $('#data').val();
-      $('#data').val('');
-      socket.emit('sendchat', message);
-    });
-  }
-
-  getRooms() {
-    fetch('http://localhost:3000/v1/access_tokens')
-    .then(res => res.json())
-    .then(data => {
-      const rooms = _.unique(data.data.map((tokenObj => tokenObj.user_id)));
-      this.setState({ rooms });
-    });
   }
 
   switchRoom(e) {
-    const room = e.target.value;
-    this.setState({ currentRoom: room });
-    this.state.socket.emit('switchRoom', room);
+    console.warn('inside switch room');
+    const roomId = e.target.value;
+    console.log('this is room ID', roomId);
+    this.setState({ currentRoom: roomId });
+    this.state.socket.emit('switchRoom', roomId);
   }
 
   renderRoomList() {
+    console.log('rendering room list');
     return this.state.rooms.map((room, i) => (
-      <button key={i} value={room} onClick={this.switchRoom}>{room}</button>
+      <button key={i} value={room.roomId} onClick={this.switchRoom}>{room.roomId}</button>
     ));
+  }
+
+  sendChat(e){
+    console.log('message seinding')
+    const message = $('#data').val();
+    $('#data').val('');
+    this.state.socket.emit('sendchat', message);
   }
 
   render() {
     return (
       <div>
         <div>
-          <b>ROOMS</b>
+          <b>Current Chats</b>
           {this.state.rooms ? this.renderRoomList() : <p>no rooms</p>}
           <div id="rooms"></div>
         </div>
-        <div id="conversation"></div>
-        <input id="data" />
-        <input type="button" id="datasend" value="send" />
+        {this.state.currentRoom ?
+          <form>
+            <div id="conversation"></div>
+            <input id="data" />
+            <input type="button" id="datasend" value="send" onClick={this.sendChat} />
+          </form>
+        :
+        null}
       </div>
     );
   }

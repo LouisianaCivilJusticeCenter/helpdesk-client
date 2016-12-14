@@ -10,7 +10,6 @@ class ClientChatContainer extends Component {
       socket: io(`${window.location.protocol}//${window.location.hostname}:8080`),
       user: null,
     };
-    this.switchRoom = this.switchRoom.bind(this);
   }
 
   componentDidMount() {
@@ -47,10 +46,6 @@ class ClientChatContainer extends Component {
         $('#datasend').focus().click();
       }
     });
-  }
-
-  switchRoom(room) {
-    this.state.socket.emit('switchRoom', room);
   }
 
   render() {
