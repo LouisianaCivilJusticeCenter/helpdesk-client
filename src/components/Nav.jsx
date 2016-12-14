@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 
 const Nav = ({ signOut }) => {
-  const userId = localStorage.getItem('user_id');
+  const userId = localStorage.getItem('id');
   const chatLink = `/chat/${userId}`;
   return (
     <nav className="navbar navbar-default">
@@ -28,12 +28,13 @@ const Nav = ({ signOut }) => {
           </ul>
           {localStorage.getItem('token') ?
             <ul className="nav navbar-right">
-              <li><Link to="/" onClick={signOut}>Sign Out</Link></li>
+              <li><button type="button" onClick={signOut}>Sign Out</button></li>
               <li><Link to={chatLink}>Chat</Link></li>
             </ul>
             :
             <ul className="nav navbar-right">
-              <li><Link to="/sign-in">Sign Out</Link></li>
+              <li><Link to="/sign-in">Sign In</Link></li>
+              <li><Link to="/admin">admin</Link></li>
             </ul>
           }
 

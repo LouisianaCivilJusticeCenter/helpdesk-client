@@ -41,8 +41,15 @@ class SignIn extends React.Component {
     tokenData = JSON.stringify(tokenData);
     const tokenSuccess = (res) => {
       console.warn(res.data[0].access_token, 'this is res in token success');
+      console.warn(res.data[0], 'this is res.data in token success');
       localStorage.setItem('token', res.data[0].access_token);
-      browserHistory.push('/settings');
+      localStorage.setItem('id', res.data[0].user_id);
+      localStorage.setItem('username', res.data[0].username);
+      if (res.data[0].user_id === 1) {
+        browserHistory.push('/admin');
+      } else {
+        browserHistory.push('/settings');
+      }
     };
     // TODO: Add error handling
     $.ajax({

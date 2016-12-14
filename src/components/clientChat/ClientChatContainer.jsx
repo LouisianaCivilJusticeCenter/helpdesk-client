@@ -1,39 +1,39 @@
 import React, { Component } from 'react';
+import { browserHistory } from 'react-router';
 import io from 'socket.io-client';
 import $ from 'jquery';
 
-class Chat extends Component {
+class ClientChatContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      socket: io('http://localhost:8080'),
+      socket: io(`${window.location.protocol}//${window.location.hostname}:8080`),
+      user: null,
     };
     this.switchRoom = this.switchRoom.bind(this);
   }
 
   componentDidMount() {
+    const context = this;
     const id = this.props.params.id;
     const socket = this.state.socket;
-    socket.on('connect', function(){
-        socket.emit('adduser', 'ali', id);
+    const token = localStorage.getItem('token');
+    socket.on('connect', () => {
+      fetch(`/v1/users/${id}?access_token=${token}`)
+      .then(res => res.json())
+      .then(res => {
+        if (res.meta.error) {
+          localStorage.clear();
+          browserHistory.push('/sign-in');
+        } else {
+          context.state.user = res.data[0];
+          context.state.socket.emit('adduser', res.data[0]);
+        }
+      });
     });
 
     socket.on('updatechat', function (username, data) {
-        $('#conversation').append('<b>'+ username + ':</b> ' + data + '<br>');
-    });
-
-
-    socket.on('updaterooms', function (rooms, current_room) {
-
-        $('#rooms').empty();
-        $.each(rooms, function(key, value) {
-            if(value == current_room){
-                $('#rooms').append('<div>' + value + '</div>');
-            }
-            else {
-                $('#rooms').append('<div>' + value + '</div>');
-            }
-        });
+      $('#conversation').append('<b>'+ username + ':</b> ' + data + '<br>');
     });
 
     $('#datasend').click( function() {
@@ -58,11 +58,6 @@ class Chat extends Component {
     return (
       <div>
         <div>
-          <b>ROOMS</b>
-          <div id="rooms"></div>
-        </div>
-
-        <div >
           <div id="conversation"></div>
           <input id="data" />
           <input type="button" id="datasend" value="send" />
@@ -72,4 +67,4 @@ class Chat extends Component {
   }
 }
 
-export default Chat;
+export default ClientChatContainer;

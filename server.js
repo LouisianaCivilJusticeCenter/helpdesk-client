@@ -8,48 +8,70 @@ const proxy = require('express-http-proxy');
 const app = express();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
+const _ = require('underscore');
 http.listen(8080, '127.0.0.1');
 
 const usernames = {};
 
 const rooms = [];
 
-io.on('connection', function (socket) {
-  socket.on('adduser', function(username, room) {
-        socket.username = username;
-        socket.room = room;
-        usernames[username] = username;
-        if(!rooms.includes(room)){
-          rooms.push(room)
-        }
-        socket.join(room);
-        socket.emit('updatechat', 'SERVER', 'you have connected to Lobby');
-        socket.broadcast.to(room).emit('updatechat', 'SERVER', username + ' has connected to this room');
-        socket.emit('updaterooms', rooms, room);
-    });
+io.on('connection', socket => {
+  socket.on('admin', () => {
+    socket.emit('updaterooms', rooms);
+  });
 
-    socket.on('sendchat', function(data) {
-        io.sockets["in"](socket.room).emit('updatechat', socket.username, data);
-    });
+  socket.on('adduser', (user) => {
+    socket.username = user.username;
+    socket.room = user.id;
+    usernames[user.username] = user.username;
+    if (!(_.findWhere(rooms, { id: user.id }))) {
+      rooms.push(user);
+    }
+    socket.join(user.id);
+    socket.emit('updatechat', 'SERVER', 'you have connected');
+    socket.broadcast.to(user.id).emit('updatechat', 'SERVER', user.username + ' has connected to this room');
+    socket.emit('updaterooms', rooms, user);
+  });
 
-    socket.on('switchRoom', function(newroom) {
-        var oldroom;
-        oldroom = socket.room;
-        socket.leave(socket.room);
-        socket.join(newroom);
-        socket.emit('updatechat', 'SERVER', 'you have connected to ' + newroom);
-        socket.broadcast.to(oldroom).emit('updatechat', 'SERVER', socket.username + ' has left this room');
-        socket.room = newroom;
-        socket.broadcast.to(newroom).emit('updatechat', 'SERVER', socket.username + ' has joined this room');
-        socket.emit('updaterooms', rooms, newroom);
-    });
+  socket.on('sendchat', data => {
+    io.sockets["in"](socket.room).emit('updatechat', socket.username, data, socket.room);
+  });
 
-    socket.on('disconnect', function() {
-        delete usernames[socket.username];
-        io.sockets.emit('updateusers', usernames);
-        socket.broadcast.emit('updatechat', 'SERVER', socket.username + ' has disconnected');
-        socket.leave(socket.room);
-    });
+  // socket.on('adduser', function(username, room) {
+  //       socket.username = username;
+  //       socket.room = room;
+  //       usernames[username] = username;
+  //       if (!rooms.includes(room)) {
+  //         rooms.push(room)
+  //       }
+  //       socket.join(room);
+  //       socket.emit('updatechat', 'SERVER', 'you have connected to Lobby');
+  //       socket.broadcast.to(room).emit('updatechat', 'SERVER', username + ' has connected to this room');
+  //       socket.emit('updaterooms', rooms, room);
+  //   });
+  //
+  //   socket.on('sendchat', function(data) {
+  //       io.sockets["in"](socket.room).emit('updatechat', socket.username, data);
+  //   });
+  //
+  //   socket.on('switchRoom', function(newroom) {
+  //       var oldroom;
+  //       oldroom = socket.room;
+  //       socket.leave(socket.room);
+  //       socket.join(newroom);
+  //       socket.emit('updatechat', 'SERVER', 'you have connected to ' + newroom);
+  //       socket.broadcast.to(oldroom).emit('updatechat', 'SERVER', socket.username + ' has left this room');
+  //       socket.room = newroom;
+  //       socket.broadcast.to(newroom).emit('updatechat', 'SERVER', socket.username + ' has joined this room');
+  //       socket.emit('updaterooms', rooms, newroom);
+  //   });
+  //
+  //   socket.on('disconnect', function() {
+  //       delete usernames[socket.username];
+  //       io.sockets.emit('updateusers', usernames);
+  //       socket.broadcast.emit('updatechat', 'SERVER', socket.username + ' has disconnected');
+  //       socket.leave(socket.room);
+  //   });
 });
 
 const compiler = webpack(config);

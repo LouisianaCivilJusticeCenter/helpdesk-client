@@ -52,7 +52,8 @@ class Settings extends React.Component {
     };
     data = JSON.stringify(data);
     const success = (res) => {
-      browserHistory.push(`chat/${res.data[0].user_id}`);
+      console.log(res, 'this is res');
+      browserHistory.push(`chat/${res.data[0].id}`);
     };
     $.ajax({
       type: 'PUT',
