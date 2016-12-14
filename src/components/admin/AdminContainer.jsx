@@ -22,6 +22,7 @@ class AdminContainer extends Component {
       socket.emit('admin', 'admin');
     });
     socket.on('updaterooms', rooms => {
+      console.log('update room')
       console.warn('inside update rooms');
       this.setState({ rooms });
     });
@@ -54,7 +55,7 @@ class AdminContainer extends Component {
   renderRoomList() {
     console.log('rendering room list');
     return this.state.rooms.map((room, i) => (
-      <button key={i} value={room.roomId} onClick={this.switchRoom}>{room.roomId}</button>
+      <button key={i} value={room.roomId} onClick={this.switchRoom}>{room.username}</button>
     ));
   }
 

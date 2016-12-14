@@ -44,7 +44,7 @@ io.on('connection', socket => {
       .broadcast
       .to(user.id)
       .emit('updatechat', 'SERVER', `${user.username} has connected to this room`);
-    socket.emit('updaterooms', rooms);
+    io.sockets.emit('updaterooms', rooms);
   });
 
   socket.on('sendchat', data => {
@@ -100,6 +100,7 @@ io.on('connection', socket => {
       rooms = _.reject(rooms, room => room.username === socket.username);
       console.log('rooms after reject', rooms);
     }
+    io.sockets.emit('updaterooms', rooms);
   });
 });
 
