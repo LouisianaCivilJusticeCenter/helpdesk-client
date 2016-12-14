@@ -26,7 +26,6 @@ class ClientChatContainer extends Component {
           localStorage.clear();
           browserHistory.push('/sign-in');
         } else {
-          context.state.user = res.data[0];
           context.state.socket.emit('adduser', res.data[0]);
         }
       });

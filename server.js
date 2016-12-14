@@ -3,6 +3,7 @@ const webpack = require('webpack');
 const express = require('express');
 const config = require('./webpack.config');
 const proxy = require('express-http-proxy');
+const rp = require('request-promise');
 
 
 const app = express();
@@ -30,16 +31,36 @@ io.on('connection', socket => {
   });
 
   socket.on('sendchat', data => {
+    const options = {
+      method: 'POST',
+      uri: 'http://localhost:3000/v1/messages',
+      body: {
+        from_id: socket.room,
+        from_username: socket.username,
+        body: data,
+        room_id: socket.room,
+      },
+      json: true,
+    };
+
+    rp(options)
+      .then(parsedBody => {
+        console.log(parsedBody);
+      })
+      .catch(err => {
+        console.log(err);
+      });
     console.log('inside sendchat');
-    io.sockets["in"](socket.room).emit('updatechat', socket.username, data, socket.room);
+    io.sockets["in"](socket.room).emit('updatechat', socket.username, data);
   });
 
   socket.on('switchRoom', function(newroom) {
+      console.log('this is newroom on switch', newroom);
       var oldroom;
       oldroom = socket.room;
       socket.leave(socket.room);
       socket.join(newroom);
-      socket.emit('updatechat', 'SERVER', 'you have connected to ' + newroom);
+      socket.emit('updatechat', 'SERVER', 'you have connected to ' + newroom, newroom);
       socket.broadcast.to(oldroom).emit('updatechat', 'SERVER', socket.username + ' has left this room');
       socket.room = newroom;
       socket.broadcast.to(newroom).emit('updatechat', 'SERVER', socket.username + ' has joined this room');
@@ -71,6 +92,12 @@ app.use('/v1/users', proxy('http://localhost:3000', {
 app.use('/v1/access_tokens', proxy('http://localhost:3000', {
   forwardPath: function(req, res) {
     return '/v1/access_tokens' + require('url').parse(req.url).path;
+  },
+}));
+
+app.use('/v1/messages', proxy('http://localhost:3000', {
+  forwardPath: function(req, res) {
+    return '/v1/messages' + require('url').parse(req.url).path;
   },
 }));
 
