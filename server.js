@@ -71,6 +71,11 @@ io.on('connection', socket => {
     io.sockets["in"](socket.room).emit('updatechat', socket.username, data);
   });
 
+  socket.on('unavailable', roomId => {
+    io.sockets["in"](roomId).emit('updatechat', socket.username, 'We Are Currently Unavailable');
+  });
+
+
   socket.on('switchRoom', newroom => {
     let oldroom = null;
     console.warn('this is newroom on switch', newroom);

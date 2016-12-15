@@ -14,6 +14,7 @@ class AdminContainer extends Component {
     this.switchRoom = this.switchRoom.bind(this);
     this.renderRoomList = this.renderRoomList.bind(this);
     this.sendChat = this.sendChat.bind(this);
+    this.emitUnavailable = this.emitUnavailable.bind(this);
   }
 
   componentDidMount() {
@@ -48,8 +49,24 @@ class AdminContainer extends Component {
     console.warn('inside switch room');
     const roomId = e.target.value;
     console.log('this is room ID', roomId);
+    console.log(this.state.currentRoom);
+    let divId = `#enter${this.state.currentRoom}`;
+    console.log('removing class', divId);
+    $(divId).removeClass('btn-success');
     this.setState({ currentRoom: roomId });
+    divId = `#enter${roomId}`;
+    console.log('adding class', divId);
+    $(divId).addClass('btn-success');
     this.state.socket.emit('switchRoom', roomId);
+  }
+
+  emitUnavailable(e) {
+    console.warn('inside switch room');
+    const roomId = e.target.value;
+    console.log('this is room ID', roomId);
+    const divId = `#unavailable${roomId}`;
+    $(divId).addClass('btn-danger');
+    this.state.socket.emit('unavailable', roomId);
   }
 
   renderRoomList() {
@@ -71,9 +88,9 @@ class AdminContainer extends Component {
             <td>{room.username}</td>
             <td>{room.category}</td>
             <td>{room.createdAt}</td>
-            <td><button className="btn btn-default" key={i} value={room.roomId} onClick={this.switchRoom}>Enter</button></td>
+            <td><button className="btn btn-default" key={i} id={`enter${room.roomId}`} value={room.roomId} onClick={this.switchRoom}>Enter</button></td>
             {/* TODO: emit handler for unavailable */}
-            <td><button className="btn btn-default" key={i}>Unavailable</button></td>
+            <td><button className="btn btn-default" key={i} id={`unavailable${room.roomId}`} value={room.roomId} onClick={this.emitUnavailable}>Unavailable</button></td>
           </tr>
           ))
         }
