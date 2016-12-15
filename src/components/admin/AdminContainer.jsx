@@ -7,7 +7,7 @@ class AdminContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      socket: io('http://localhost:8080'),
+      socket: io(`${window.location.protocol}//${window.location.hostname}:8080`),
       rooms: [],
       currentRoom: null,
     };

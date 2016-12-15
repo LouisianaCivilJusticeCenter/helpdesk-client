@@ -1,5 +1,5 @@
 /* eslint no-param-reassign: "off" */
-
+require('dotenv').config({ silent: true });
 const path = require('path');
 const webpack = require('webpack');
 const express = require('express');
@@ -7,14 +7,12 @@ const config = require('./webpack.config');
 const proxy = require('express-http-proxy');
 const rp = require('request-promise');
 const _ = require('underscore');
-
-
+const url = require('url');
 const app = express();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
-http.listen(8080, '127.0.0.1');
-
-const usernames = {};
+const API_SERVER_URL = process.env.API_SERVER_URL;
+http.listen(process.env.SOCKET_PORT, '127.0.0.1');
 
 let rooms = [];
 
@@ -39,7 +37,7 @@ io.on('connection', socket => {
 
     socket.join(user.id);
     // socket.emit('updatechat', 'SERVER', 'you have connected');
-    io.sockets["in"](socket.room).emit('updatechat', 'SERVER', `${socket.username} has connected`);
+    io.sockets.in(socket.room).emit('updatechat', 'SERVER', `${socket.username} has connected`);
     // socket
     //   .broadcast
     //   .to(user.id)
@@ -50,7 +48,7 @@ io.on('connection', socket => {
   socket.on('sendchat', data => {
     const options = {
       method: 'POST',
-      uri: 'http://localhost:3000/v1/messages',
+      uri: `${API_SERVER_URL}/v1/messages`,
       body: {
         from_id: socket.room,
         from_username: socket.username,
@@ -68,18 +66,17 @@ io.on('connection', socket => {
         console.warn(err);
       });
     console.warn('inside sendchat');
-    io.sockets["in"](socket.room).emit('updatechat', socket.username, data);
+    io.sockets.in(socket.room).emit('updatechat', socket.username, data);
   });
 
   socket.on('unavailable', roomId => {
-    io.sockets["in"](roomId).emit('updatechat', socket.username, 'We Are Currently Unavailable');
+    io.sockets.in(roomId).emit('updatechat', socket.username, 'We Are Currently Unavailable');
   });
 
 
   socket.on('switchRoom', newroom => {
-    let oldroom = null;
     console.warn('this is newroom on switch', newroom);
-    oldroom = socket.room;
+    // const oldroom = socket.room;
     socket.leave(socket.room);
     socket.join(newroom);
     socket.emit('updatechat', 'SERVER', `you have connected to ${newroom}`, newroom);
@@ -95,16 +92,12 @@ io.on('connection', socket => {
     socket.emit('updaterooms', rooms);
   });
   //
-  socket.on('disconnect', function() {
-    console.log('this is sicket.username', socket.username);
-    console.log('this is disconnect');
-    io.sockets["in"](socket.room).emit('updatechat', 'SERVER', `${socket.username} has disconnected`);
+  socket.on('disconnect', () => {
+    io.sockets.in(socket.room).emit('updatechat', 'SERVER', `${socket.username} has disconnected`);
     // socket.broadcast.emit('updatechat', 'SERVER', `${socket.username} has disconnected`);
     socket.leave(socket.room);
     if (socket.username !== 'admin') {
-      console.log('rooms before reject', rooms);
       rooms = _.reject(rooms, room => room.username === socket.username);
-      console.log('rooms after reject', rooms);
     }
     io.sockets.emit('updaterooms', rooms);
   });
@@ -118,31 +111,26 @@ app.use(require('webpack-dev-middleware')(compiler, {
 
 app.use(require('webpack-hot-middleware')(compiler));
 
-app.use('/v1/users', proxy('http://localhost:3000', {
-  forwardPath: function(req, res) {
-    return '/v1/users' + require('url').parse(req.url).path;
-  },
+app.use('/v1/users', proxy(API_SERVER_URL, {
+  forwardPath: (req) => `/v1/users${url.parse(req.url).path}`,
 }));
 
-app.use('/v1/access_tokens', proxy('http://localhost:3000', {
-  forwardPath: function(req, res) {
-    return '/v1/access_tokens' + require('url').parse(req.url).path;
-  },
+app.use('/v1/access_tokens', proxy(API_SERVER_URL, {
+  forwardPath: (req) => `/v1/access_tokens${url.parse(req.url).path}`,
+
 }));
 
-app.use('/v1/messages', proxy('http://localhost:3000', {
-  forwardPath: function(req, res) {
-    return '/v1/messages' + require('url').parse(req.url).path;
-  },
+app.use('/v1/messages', proxy(API_SERVER_URL, {
+  forwardPath: (req) => `/v1/messages${url.parse(req.url).path}`,
 }));
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-app.listen(8100, (err) => {
+app.listen(process.env.PORT, (err) => {
   if (err) {
     console.error(err);
   }
-  console.warn('Listening at http://localhost:8100/');
+  console.warn(`Listening at ${process.env.PORT}`);
 });
