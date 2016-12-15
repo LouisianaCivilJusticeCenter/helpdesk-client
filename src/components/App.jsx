@@ -73,7 +73,7 @@ class App extends React.Component {
           <IndexRoute component={Home} />
           <Route path="sign-in" component={SignIn} />
           <Route path="flow/:issue" component={FlowContainer} />
-          <Route path="register" component={Register} />
+          <Route path="register/:title" component={Register} />
           <Route path="chat/:id" component={ClientChatContainer} />
           <Route path="settings" onEnter={this.requireAuth} component={Settings} />
           <Route path="admin" onEnter={this.requireSuperAuth} component={AdminContainer} />

@@ -32,18 +32,18 @@ io.on('connection', socket => {
       rooms.push({
         username: socket.username,
         roomId: socket.room,
-        category: 'category',
+        category: user.category,
         createdAt: socket.createdAt,
       });
     }
 
-    usernames[user.username] = user.username;
     socket.join(user.id);
-    socket.emit('updatechat', 'SERVER', 'you have connected');
-    socket
-      .broadcast
-      .to(user.id)
-      .emit('updatechat', 'SERVER', `${user.username} has connected to this room`);
+    // socket.emit('updatechat', 'SERVER', 'you have connected');
+    io.sockets["in"](socket.room).emit('updatechat', 'SERVER', `${socket.username} has connected`);
+    // socket
+    //   .broadcast
+    //   .to(user.id)
+    //   .emit('updatechat', 'SERVER', `${user.username} has connected to this room`);
     io.sockets.emit('updaterooms', rooms);
   });
 
@@ -83,10 +83,10 @@ io.on('connection', socket => {
     socket.leave(socket.room);
     socket.join(newroom);
     socket.emit('updatechat', 'SERVER', `you have connected to ${newroom}`, newroom);
-    socket
-      .broadcast
-      .to(oldroom)
-      .emit('updatechat', 'SERVER', `${socket.username} has left this room`);
+    // socket
+    //   .broadcast
+    //   .to(oldroom)
+    //   .emit('updatechat', 'SERVER', `${socket.username} has left this room`);
     socket.room = newroom;
     socket
       .broadcast
@@ -98,7 +98,8 @@ io.on('connection', socket => {
   socket.on('disconnect', function() {
     console.log('this is sicket.username', socket.username);
     console.log('this is disconnect');
-    socket.broadcast.emit('updatechat', 'SERVER', `${socket.username} has disconnected`);
+    io.sockets["in"](socket.room).emit('updatechat', 'SERVER', `${socket.username} has disconnected`);
+    // socket.broadcast.emit('updatechat', 'SERVER', `${socket.username} has disconnected`);
     socket.leave(socket.room);
     if (socket.username !== 'admin') {
       console.log('rooms before reject', rooms);
