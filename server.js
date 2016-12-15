@@ -1,39 +1,54 @@
+/* eslint no-param-reassign: "off" */
+require('dotenv').config({ silent: true });
 const path = require('path');
 const webpack = require('webpack');
 const express = require('express');
 const config = require('./webpack.config');
 const proxy = require('express-http-proxy');
 const rp = require('request-promise');
-
-
+const _ = require('underscore');
+const url = require('url');
 const app = express();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
-const _ = require('underscore');
-http.listen(8080, '127.0.0.1');
+const API_SERVER_URL = process.env.API_SERVER_URL;
+http.listen(process.env.SOCKET_PORT, '127.0.0.1');
 
-const usernames = {};
+let rooms = [];
 
 io.on('connection', socket => {
   socket.on('admin', (username) => {
     socket.username = username;
-    socket.emit('updaterooms');
+    socket.emit('updaterooms', rooms);
   });
 
   socket.on('adduser', (user) => {
+    socket.createdAt = new Date();
     socket.username = user.username;
     socket.room = user.id;
-    usernames[user.username] = user.username;
+    if (!_.findWhere(rooms, { roomId: user.id })) {
+      rooms.push({
+        username: socket.username,
+        roomId: socket.room,
+        category: user.category,
+        createdAt: socket.createdAt,
+      });
+    }
+
     socket.join(user.id);
-    socket.emit('updatechat', 'SERVER', 'you have connected');
-    socket.broadcast.to(user.id).emit('updatechat', 'SERVER', user.username + ' has connected to this room');
-    socket.emit('updaterooms');
+    // socket.emit('updatechat', 'SERVER', 'you have connected');
+    io.sockets.in(socket.room).emit('updatechat', 'SERVER', `${socket.username} has connected`);
+    // socket
+    //   .broadcast
+    //   .to(user.id)
+    //   .emit('updatechat', 'SERVER', `${user.username} has connected to this room`);
+    io.sockets.emit('updaterooms', rooms);
   });
 
   socket.on('sendchat', data => {
     const options = {
       method: 'POST',
-      uri: 'http://localhost:3000/v1/messages',
+      uri: `${API_SERVER_URL}/v1/messages`,
       body: {
         from_id: socket.room,
         from_username: socket.username,
@@ -45,34 +60,47 @@ io.on('connection', socket => {
 
     rp(options)
       .then(parsedBody => {
-        console.log(parsedBody);
+        console.warn(parsedBody);
       })
       .catch(err => {
-        console.log(err);
+        console.warn(err);
       });
-    console.log('inside sendchat');
-    io.sockets["in"](socket.room).emit('updatechat', socket.username, data);
+    console.warn('inside sendchat');
+    io.sockets.in(socket.room).emit('updatechat', socket.username, data);
   });
 
-  socket.on('switchRoom', function(newroom) {
-      console.log('this is newroom on switch', newroom);
-      var oldroom;
-      oldroom = socket.room;
-      socket.leave(socket.room);
-      socket.join(newroom);
-      socket.emit('updatechat', 'SERVER', 'you have connected to ' + newroom, newroom);
-      socket.broadcast.to(oldroom).emit('updatechat', 'SERVER', socket.username + ' has left this room');
-      socket.room = newroom;
-      socket.broadcast.to(newroom).emit('updatechat', 'SERVER', socket.username + ' has joined this room');
-      socket.emit('updaterooms');
+  socket.on('unavailable', roomId => {
+    io.sockets.in(roomId).emit('updatechat', socket.username, 'We Are Currently Unavailable');
+  });
+
+
+  socket.on('switchRoom', newroom => {
+    console.warn('this is newroom on switch', newroom);
+    // const oldroom = socket.room;
+    socket.leave(socket.room);
+    socket.join(newroom);
+    socket.emit('updatechat', 'SERVER', `you have connected to ${newroom}`, newroom);
+    // socket
+    //   .broadcast
+    //   .to(oldroom)
+    //   .emit('updatechat', 'SERVER', `${socket.username} has left this room`);
+    socket.room = newroom;
+    socket
+      .broadcast
+      .to(newroom)
+      .emit('updatechat', 'SERVER', `${socket.username} has joined this room`);
+    socket.emit('updaterooms', rooms);
   });
   //
-  //   socket.on('disconnect', function() {
-  //       delete usernames[socket.username];
-  //       io.sockets.emit('updateusers', usernames);
-  //       socket.broadcast.emit('updatechat', 'SERVER', socket.username + ' has disconnected');
-  //       socket.leave(socket.room);
-  //   });
+  socket.on('disconnect', () => {
+    io.sockets.in(socket.room).emit('updatechat', 'SERVER', `${socket.username} has disconnected`);
+    // socket.broadcast.emit('updatechat', 'SERVER', `${socket.username} has disconnected`);
+    socket.leave(socket.room);
+    if (socket.username !== 'admin') {
+      rooms = _.reject(rooms, room => room.username === socket.username);
+    }
+    io.sockets.emit('updaterooms', rooms);
+  });
 });
 
 const compiler = webpack(config);
@@ -83,31 +111,26 @@ app.use(require('webpack-dev-middleware')(compiler, {
 
 app.use(require('webpack-hot-middleware')(compiler));
 
-app.use('/v1/users', proxy('http://localhost:3000', {
-  forwardPath: function(req, res) {
-    return '/v1/users' + require('url').parse(req.url).path;
-  },
+app.use('/v1/users', proxy(API_SERVER_URL, {
+  forwardPath: (req) => `/v1/users${url.parse(req.url).path}`,
 }));
 
-app.use('/v1/access_tokens', proxy('http://localhost:3000', {
-  forwardPath: function(req, res) {
-    return '/v1/access_tokens' + require('url').parse(req.url).path;
-  },
+app.use('/v1/access_tokens', proxy(API_SERVER_URL, {
+  forwardPath: (req) => `/v1/access_tokens${url.parse(req.url).path}`,
+
 }));
 
-app.use('/v1/messages', proxy('http://localhost:3000', {
-  forwardPath: function(req, res) {
-    return '/v1/messages' + require('url').parse(req.url).path;
-  },
+app.use('/v1/messages', proxy(API_SERVER_URL, {
+  forwardPath: (req) => `/v1/messages${url.parse(req.url).path}`,
 }));
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-app.listen(8100, (err) => {
+app.listen(process.env.PORT, (err) => {
   if (err) {
     console.error(err);
   }
-  console.log('Listening at http://localhost:8100/');
+  console.warn(`Listening at ${process.env.PORT}`);
 });

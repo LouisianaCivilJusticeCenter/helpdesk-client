@@ -1,5 +1,5 @@
 /* eslint no-console: ["error", { allow: ["warn", "error"] }] */
-import React from 'react';
+import React, { PropTypes } from 'react';
 import Validation from 'react-validation';
 import { browserHistory } from 'react-router';
 import validator from 'validator';
@@ -62,6 +62,7 @@ class Register extends React.Component {
       email: event.target.email.value,
       username: event.target.username.value,
       password: event.target.password.value,
+      category: this.props.params.title,
     };
     let tokenData = {
       grant_type: 'password',
@@ -106,6 +107,7 @@ class Register extends React.Component {
   }
 
   render() {
+    {console.log(this.props.params, 'this is params')}
     return (
       <Validation.components.Form ref={c => { this.form = c; }} onSubmit={this.onSubmit}>
         <h3>Registration</h3>
@@ -184,5 +186,9 @@ class Register extends React.Component {
     );
   }
 }
+
+Register.propTypes = {
+  params: PropTypes.object.isRequired,
+};
 
 export default Register;
