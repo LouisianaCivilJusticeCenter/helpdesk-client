@@ -54,9 +54,33 @@ class AdminContainer extends Component {
 
   renderRoomList() {
     console.log('rendering room list');
-    return this.state.rooms.map((room, i) => (
-      <button key={i} value={room.roomId} onClick={this.switchRoom}>{room.username}</button>
-    ));
+    return (
+      <table className="table table-condensed">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Time</th>
+            <th></th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+        {this.state.rooms.map((room, i) => (
+          <tr key={room.roomId}>
+            <td>{room.username}</td>
+            <td>{room.category}</td>
+            <td>{room.createdAt}</td>
+            <td><button className="btn btn-default" key={i} value={room.roomId} onClick={this.switchRoom}>Enter</button></td>
+            {/* TODO: emit handler for unavailable */}
+            <td><button className="btn btn-default" key={i}>Unavailable</button></td>
+          </tr>
+          ))
+        }
+        </tbody>
+      </table>
+    )
+
   }
 
   sendChat(e){
