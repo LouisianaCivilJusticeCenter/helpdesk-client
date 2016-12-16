@@ -51,13 +51,14 @@ class SignIn extends React.Component {
         browserHistory.push('/settings');
       }
     };
-    // TODO: Add error handling
+    // TODO: Add AJAX error handling
     $.ajax({
       type: 'POST',
       url: '/v1/access_tokens',
       contentType: 'application/json',
       data: tokenData,
       success: tokenSuccess,
+      error: (err) => { console.error('error signing in', err); },
       dataType: 'json',
     });
   }
