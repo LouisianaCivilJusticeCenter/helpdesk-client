@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import io from 'socket.io-client';
 import $ from 'jquery';
 import moment from 'moment';
-import { chatWrapper as chatStlye } from '../../css/styles.js';
+import Chat from '../Chat.jsx';
 
 class AdminContainer extends Component {
   constructor(props) {
@@ -12,13 +12,11 @@ class AdminContainer extends Component {
       socket: io(`${window.location.protocol}//${window.location.hostname}:8080`),
       rooms: [],
       currentRoom: null,
+      fakeState: 1,
     };
     this.switchRoom = this.switchRoom.bind(this);
     this.renderRoomList = this.renderRoomList.bind(this);
-    this.sendChat = this.sendChat.bind(this);
-    this.endChat = this.endChat.bind(this);
     this.emitUnavailable = this.emitUnavailable.bind(this);
-    this.handleEnterPress = this.handleEnterPress.bind(this);
   }
 
   componentDidMount() {
@@ -28,68 +26,25 @@ class AdminContainer extends Component {
       socket.emit('admin', 'admin');
     });
     socket.on('updaterooms', rooms => {
-      // console.log('update room')
-      // console.warn('inside update rooms');
       this.setState({ rooms });
-    });
-    socket.on('updatechat', (username, message, roomId) => {
-      if (roomId) {
-        // console.warn('fetching');
-        $('#conversation').empty();
-        $('#conversation').append(`<b>${getDisplayName(username)}: </b>${message}<br>`);
-        fetch(`/v1/messages?room_id=${roomId}`)
-        .then(res => res.json())
-        .then(data => {
-          data.data.forEach(oldMessage => {
-            $('#conversation')
-              .append(`<b>${getDisplayName(oldMessage.from_username)}: </b>${oldMessage.body}<br>`);
-          });
-        });
-      } else {
-        $('#conversation').append(`<b>${getDisplayName(username)}:</b>${message}<br>`);
-      }
     });
   }
 
   switchRoom(e) {
-    // console.warn('inside switch room');
     const roomId = e.target.value;
-    // console.log('this is room ID', roomId);
-    // console.log(this.state.currentRoom);
     let divId = `#enter${this.state.currentRoom}`;
-    // console.log('removing class', divId);
     $(divId).removeClass('btn-success');
     this.setState({ currentRoom: roomId });
     divId = `#enter${roomId}`;
-    // console.log('adding class', divId);
     $(divId).addClass('btn-success');
     this.state.socket.emit('switchRoom', roomId);
   }
 
   emitUnavailable(e) {
-    // console.warn('inside switch room');
     const roomId = e.target.value;
-    // console.log('this is room ID', roomId);
     const divId = `#unavailable${roomId}`;
     $(divId).addClass('btn-danger');
     this.state.socket.emit('unavailable', roomId);
-  }
-
-  handleEnterPress(e) {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      this.sendChat();
-    }
-  }
-
-  sendChat() {
-    const message = $('#data').val();
-    $('#data').val('');
-    this.state.socket.emit('sendchat', message);
-  }
-
-  endChat() {
-    // TODO: sign client out
   }
 
   renderRoomList() {
@@ -150,44 +105,10 @@ class AdminContainer extends Component {
         </div>
         <div className="col-sm-6">
           {this.state.currentRoom ?
-            <div className="panel panel-default">
-
-              <div className="panel-heading">
-                Chat {/* TODO: add who they're chatting with */}
-              </div>
-
-              <div className="panel-body">
-                <div className="chat-wrapper" style={chatStlye}>
-                  <div id="conversation">
-                  </div>
-                </div>
-                <form>
-                  <div className="form-group">
-                    <input
-                      id="data"
-                      className="form-control"
-                      onKeyPress={this.handleEnterPress}
-                    />
-                  </div>
-                  <div className="form-group">
-                    <button
-                      className="btn btn-default pull-left"
-                      onClick={this.endChat}
-                    >
-                      End Chat Session
-                    </button>
-                    <button
-                      className="btn btn-default pull-right"
-                      type="button"
-                      id="datasend"
-                      onClick={this.sendChat}
-                    >
-                      Send
-                    </button>
-                  </div>
-                </form>
-              </div>
-            </div>
+            <Chat
+              socket={this.state.socket}
+              onNewMessage={this.getMessages}
+            />
           :
           null}
         </div>
