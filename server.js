@@ -12,7 +12,7 @@ const app = express();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 const API_SERVER_URL = process.env.API_SERVER_URL;
-http.listen(process.env.SOCKET_PORT, '127.0.0.1');
+http.listen(process.env.SOCKET_PORT);
 
 let rooms = [];
 

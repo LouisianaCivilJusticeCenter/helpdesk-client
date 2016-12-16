@@ -14,6 +14,10 @@ Object.assign(Validation.rules, {
     rule: value => validator.isEmail(value),
     hint: value => <span className="form-error is-visible">{value} isnt an Email.</span>,
   },
+  zip: {
+    rule: value => value.length === 5,
+    hint: value => <span className="form-error is-visible">{value} Must be 5 Characters.</span>,
+  },
   api: {
     hint: value => (
       <button className="form-error is-visible">
@@ -30,9 +34,11 @@ class Settings extends React.Component {
       firstName: '',
       lastName: '',
       registered: false,
+      dobInputType: 'text',
     };
     this.onSubmit = this.onSubmit.bind(this);
     this.removeApiError = this.removeApiError.bind(this);
+    this.onDobInputFocus = this.onDobInputFocus.bind(this);
   }
 
   onSubmit(event) {
@@ -51,121 +57,136 @@ class Settings extends React.Component {
       veteran: event.target.veteran.value,
     };
     data = JSON.stringify(data);
-    const success = (res) => {
-      console.log(res, 'this is res');
-      browserHistory.push(`chat/${res.data[0].id}`);
-    };
+    // const success = (res) => {
+    //   console.log(res, 'this is res');
+    //   browserHistory.push(`chat/${res.data[0].id}`);
+    // };
     $.ajax({
       type: 'PUT',
       url: `/v1/users?access_token=${token}`,
       contentType: 'application/json',
       data,
-      success,
+      success: res => browserHistory.push(`chat/${res.data[0].id}`),
+      error: err => console.error(err),
       dataType: 'json',
     });
+  }
+
+  onDobInputFocus() {
+    this.setState({ dobInputType: 'date' });
   }
 
   removeApiError() {
     this.form.hideError('username');
   }
 
+
   render() {
     return (
-      <Validation.components.Form ref={c => { this.form = c; }} onSubmit={this.onSubmit}>
-        <h3>Settings</h3>
-        <div>
-          <label>
-            <Validation.components.Input
-              value=""
-              placeholder="Date Of Birth"
-              name="dob"
-              validations={['required']}
-            />
-          </label>
+      <div className="row">
+        <div className="col-md-offset-4 col-md-2 text-center">
+          <h3>Tell Me About Yourself</h3>
+          <Validation.components.Form ref={c => { this.form = c; }} onSubmit={this.onSubmit}>
+            <div className="form-group">
+              <Validation.components.Input
+                className="form-control"
+                value=""
+                placeholder="Date Of Birth"
+                onFocus={this.onDobInputFocus}
+                name="dob"
+                type={this.state.dobInputType}
+                validations={['required']}
+              />
+            </div>
+            <div className="form-group">
+              <Validation.components.Input
+                className="form-control"
+                value=""
+                placeholder="Home Address"
+                name="street"
+                validations={['required']}
+              />
+            </div>
+            <div className="form-group">
+              <Validation.components.Input
+                className="form-control"
+                value=""
+                placeholder="City"
+                name="city"
+                validations={['required']}
+              />
+            </div>
+            <div className="form-group">
+              <Validation.components.Input
+                className="form-control"
+                value="Louisiana"
+                name="state"
+                validations={['required']}
+              />
+            </div>
+            <div className="form-group">
+              <Validation.components.Input
+                className="form-control"
+                value=""
+                placeholder="Zipcode"
+                type="number"
+                title="5 to 10 characters"
+                name="zip"
+                validations={['required', 'zip']}
+              />
+            </div>
+            <div className="form-group">
+              <Validation.components.Input
+                className="form-control"
+                value=""
+                placeholder="Monthly household income"
+                type="number"
+                name="income"
+                validations={['required']}
+              />
+            </div>
+            <div className="form-group">
+              <Validation.components.Select
+                className="form-control"
+                value=""
+                name="gender"
+                validations={['required']}
+              >
+                <option value="">Gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+              </Validation.components.Select>
+
+            </div>
+            <div className="form-group">
+              <Validation.components.Input
+                className="form-control"
+                value=""
+                placeholder="Race/Ethnicity"
+                name="race"
+                validations={['required']}
+              />
+            </div>
+            <div className="form-group">
+              <Validation.components.Select
+                className="form-control"
+                value=""
+                name="veteran"
+                validations={['required']}
+              >
+                <option value="">Are you a veteran?</option>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+              </Validation.components.Select>
+            </div>
+            <div className="form-group">
+              <Validation.components.Button
+                className="btn btn-default btn-block"
+              >Login & Chat</Validation.components.Button>
+            </div>
+          </Validation.components.Form>
         </div>
-        <div>
-          <label>
-            <Validation.components.Input
-              value=""
-              placeholder="Home Address"
-              name="street"
-              validations={['required']}
-            />
-          </label>
-        </div>
-        <div>
-          <label>
-            <Validation.components.Input
-              value=""
-              placeholder="City"
-              name="city"
-              validations={['required']}
-            />
-          </label>
-        </div>
-        <div>
-          <label>
-            <Validation.components.Input
-              value="Louisiana"
-              name="state"
-              validations={['required']}
-            />
-          </label>
-        </div>
-        <div>
-          <label>
-            <Validation.components.Input
-              value=""
-              placeholder="Zipcode"
-              name="zip"
-              validations={['required']}
-            />
-          </label>
-        </div>
-        <div>
-          <label>
-            <Validation.components.Input
-              value=""
-              placeholder="Monthly household income"
-              name="income"
-              validations={['required']}
-            />
-          </label>
-        </div>
-        <div>
-          <label>
-            <Validation.components.Input
-              value=""
-              placeholder="Gender"
-              name="gender"
-              validations={['required']}
-            />
-          </label>
-        </div>
-        <div>
-          <label>
-            <Validation.components.Input
-              value=""
-              placeholder="Race/Ethnicity"
-              name="race"
-              validations={['required']}
-            />
-          </label>
-        </div>
-        <div>
-          <label>
-            <Validation.components.Input
-              value=""
-              placeholder="Are You A Veteran"
-              name="veteran"
-              validations={['required']}
-            />
-          </label>
-        </div>
-        <div>
-          <Validation.components.Button>Submit</Validation.components.Button>
-        </div>
-      </Validation.components.Form>
+      </div>
     );
   }
 }
