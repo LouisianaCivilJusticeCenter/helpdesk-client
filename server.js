@@ -115,9 +115,12 @@ app.use('/v1/users', proxy(API_SERVER_URL, {
   forwardPath: (req) => `/v1/users${url.parse(req.url).path}`,
 }));
 
+app.use('/v1/users', proxy(API_SERVER_URL, {
+  forwardPath: (req) => `/v1/users${url.parse(req.url).path}`,
+}));
+
 app.use('/v1/access_tokens', proxy(API_SERVER_URL, {
   forwardPath: (req) => `/v1/access_tokens${url.parse(req.url).path}`,
-
 }));
 
 app.use('/v1/messages', proxy(API_SERVER_URL, {
