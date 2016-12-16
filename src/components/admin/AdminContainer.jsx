@@ -12,8 +12,8 @@ class AdminContainer extends Component {
       socket: io(`${window.location.protocol}//${window.location.hostname}:8080`),
       rooms: [],
       currentRoom: null,
-      fakeState: 1,
     };
+
     this.switchRoom = this.switchRoom.bind(this);
     this.renderRoomList = this.renderRoomList.bind(this);
     this.emitUnavailable = this.emitUnavailable.bind(this);
@@ -21,7 +21,6 @@ class AdminContainer extends Component {
 
   componentDidMount() {
     const socket = this.state.socket;
-    const getDisplayName = username => username === 'admin' ? 'me' : username;
     socket.on('connect', () => {
       socket.emit('admin', 'admin');
     });
@@ -100,7 +99,7 @@ class AdminContainer extends Component {
       <div className="row">
         <div className="col-sm-6">
           <b>Current Chats</b>
-          {this.state.rooms ? this.renderRoomList() : <p>no rooms</p>}
+          {this.state.rooms.length ? this.renderRoomList() : <p>no rooms</p>}
           <div id="rooms"></div>
         </div>
         <div className="col-sm-6">

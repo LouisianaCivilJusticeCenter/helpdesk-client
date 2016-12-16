@@ -1,6 +1,5 @@
   // TODO: if you click the logo while logged in send user to dashboard
-import React, { PropTypes } from 'react';
-import Router, { browserHistory } from 'react-router';
+import React from 'react';
 import Header from './Header.jsx';
 
 class MainContainer extends React.Component {

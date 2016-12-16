@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { browserHistory } from 'react-router';
 import io from 'socket.io-client';
-import $ from 'jquery';
 import Chat from '../Chat.jsx';
 
 class ClientChatContainer extends Component {
@@ -30,10 +29,6 @@ class ClientChatContainer extends Component {
         }
       });
     });
-    // 
-    // socket.on('updatechat', (username, message) => {
-    //   $('#conversation').append(`<b>${username}:</b> ${message}<br />`);
-    // });
   }
 
   render() {
