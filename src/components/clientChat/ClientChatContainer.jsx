@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { browserHistory } from 'react-router';
 import io from 'socket.io-client';
-import $ from 'jquery';
+import Chat from '../Chat.jsx';
 
 class ClientChatContainer extends Component {
   constructor(props) {
@@ -29,36 +29,25 @@ class ClientChatContainer extends Component {
         }
       });
     });
-
-    socket.on('updatechat', (username, data) => {
-      $('#conversation').append('<b>'+ username + ':</b> ' + data + '<br>');
-    });
-
-    $('#datasend').click(() => {
-      const message = $('#data').val();
-      $('#data').val('');
-      socket.emit('sendchat', message);
-    });
-
-    $('#data').keypress(function(e) {
-      if (e.which === 13) {
-        $(this).blur();
-        $('#datasend').focus().click();
-      }
-    });
   }
 
   render() {
     return (
-      <div>
-        <div>
-          <div id="conversation"></div>
-          <input id="data" />
-          <input type="button" id="datasend" value="send" />
+      <div className="row">
+        <p className="text-center">
+          Welcome! You can chat with an attorney below.
+        </p>
+
+        <div className="col-sm-6 col-sm-offset-3">
+          <Chat socket={this.state.socket} />
         </div>
       </div>
     );
   }
 }
+
+ClientChatContainer.propTypes = {
+  params: PropTypes.object.isRequired,
+};
 
 export default ClientChatContainer;

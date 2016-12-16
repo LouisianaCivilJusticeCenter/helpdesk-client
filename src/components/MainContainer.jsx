@@ -1,6 +1,5 @@
   // TODO: if you click the logo while logged in send user to dashboard
-import React, { PropTypes } from 'react';
-import { browserHistory } from 'react-router';
+import React from 'react';
 import Header from './Header.jsx';
 
 class MainContainer extends React.Component {
@@ -28,7 +27,6 @@ class MainContainer extends React.Component {
   }
 
   signOut() {
-    console.log('signOut');
     const token = localStorage.getItem('token');
     console.log('token before signout', token);
     fetch(`/v1/access_tokens?access_token=${token}`, {
@@ -36,10 +34,10 @@ class MainContainer extends React.Component {
     }).then(res => {
       console.log(res);
       localStorage.clear();
-      browserHistory.push('/');
+      window.location = `${window.location.origin}`;
     }).catch((err) => {
       localStorage.clear();
-      browserHistory.push('/');
+      window.location = `${window.location.origin}`;
       console.error(err);
     });
   }
