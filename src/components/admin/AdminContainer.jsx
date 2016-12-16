@@ -1,3 +1,4 @@
+/* eslint no-confusing-arrow: "off" */
 import React, { Component } from 'react';
 import io from 'socket.io-client';
 import $ from 'jquery';
@@ -15,12 +16,14 @@ class AdminContainer extends Component {
     this.switchRoom = this.switchRoom.bind(this);
     this.renderRoomList = this.renderRoomList.bind(this);
     this.sendChat = this.sendChat.bind(this);
+    this.endChat = this.endChat.bind(this);
     this.emitUnavailable = this.emitUnavailable.bind(this);
     this.handleEnterPress = this.handleEnterPress.bind(this);
   }
 
   componentDidMount() {
     const socket = this.state.socket;
+    const getDisplayName = username => username === 'admin' ? 'me' : username;
     socket.on('connect', () => {
       socket.emit('admin', 'admin');
     });
@@ -33,16 +36,17 @@ class AdminContainer extends Component {
       if (roomId) {
         // console.warn('fetching');
         $('#conversation').empty();
-        $('#conversation').append(`<b>${username}:</b>${message}<br>`);
+        $('#conversation').append(`<b>${getDisplayName(username)}: </b>${message}<br>`);
         fetch(`/v1/messages?room_id=${roomId}`)
         .then(res => res.json())
         .then(data => {
           data.data.forEach(oldMessage => {
-            $('#conversation').append(`<b>${oldMessage.from_username}:</b>${oldMessage.body}<br>`);
+            $('#conversation')
+              .append(`<b>${getDisplayName(oldMessage.from_username)}: </b>${oldMessage.body}<br>`);
           });
         });
       } else {
-        $('#conversation').append(`<b>${username}:</b>${message}<br>`);
+        $('#conversation').append(`<b>${getDisplayName(username)}:</b>${message}<br>`);
       }
     });
   }
@@ -82,6 +86,10 @@ class AdminContainer extends Component {
     const message = $('#data').val();
     $('#data').val('');
     this.state.socket.emit('sendchat', message);
+  }
+
+  endChat() {
+    // TODO: sign client out
   }
 
   renderRoomList() {
@@ -145,7 +153,7 @@ class AdminContainer extends Component {
             <div className="panel panel-default">
 
               <div className="panel-heading">
-                Chat
+                Chat {/* TODO: add who they're chatting with */}
               </div>
 
               <div className="panel-body">
@@ -163,7 +171,13 @@ class AdminContainer extends Component {
                   </div>
                   <div className="form-group">
                     <button
-                      className="btn btn-default"
+                      className="btn btn-default pull-left"
+                      onClick={this.endChat}
+                    >
+                      End Chat Session
+                    </button>
+                    <button
+                      className="btn btn-default pull-right"
                       type="button"
                       id="datasend"
                       onClick={this.sendChat}

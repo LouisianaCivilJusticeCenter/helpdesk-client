@@ -1,5 +1,5 @@
 export const chatWrapper = {
   overflow: 'scroll',
-  maxHeight: '350px',
+  height: '350px',
 };
 
