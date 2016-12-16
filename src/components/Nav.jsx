@@ -29,7 +29,7 @@ const Nav = ({ signOut }) => {
           {localStorage.getItem('token') ?
             <ul className="nav navbar-right">
               <li><button type="button" onClick={signOut}>Sign Out</button></li>
-              <li><Link to={chatLink}>Chat</Link></li>
+              {/* <li><Link to={chatLink}>Chat</Link></li> */}
             </ul>
             :
             <ul className="nav navbar-right">

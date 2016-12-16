@@ -1,4 +1,3 @@
-/* eslint no-confusing-arrow: "off" */
 import React, { Component } from 'react';
 import io from 'socket.io-client';
 import $ from 'jquery';
@@ -61,7 +60,7 @@ class AdminContainer extends Component {
         <tbody>
         {this.state.rooms.map((room, i) => (
           <tr key={room.roomId}>
-            <td>{room.username}</td>
+            <td>{`${room.firstName} ${room.lastName}`}</td>
             <td>{room.category}</td>
             <td>{moment(room.createdAt).format('h:mmA')}</td>
             <td>
@@ -106,7 +105,7 @@ class AdminContainer extends Component {
           {this.state.currentRoom ?
             <Chat
               socket={this.state.socket}
-              onNewMessage={this.getMessages}
+              isAdmin
             />
           :
           null}

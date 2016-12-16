@@ -10,16 +10,13 @@ class MainContainer extends React.Component {
 
   componentDidMount() {
     const token = localStorage.getItem('token');
-    console.log(token, 'token in compontent did mount');
     fetch(`/v1/access_tokens?access_token=${token}`)
     .then(res => res.json())
     .then((data) => {
-      console.log(data, 'this is data');
+      // console.log(data, 'this is data');
       if (data.meta.error || !data.data.length) {
         localStorage.clear();
       } else {
-        console.log(data.data[0], 'this is data[0]');
-        console.log(data.data[0].user_id, 'this is dat.userid');
         localStorage.setItem('id', data.data[0].user_id);
       }
     })
@@ -28,17 +25,16 @@ class MainContainer extends React.Component {
 
   signOut() {
     const token = localStorage.getItem('token');
-    console.log('token before signout', token);
     fetch(`/v1/access_tokens?access_token=${token}`, {
       method: 'DELETE',
-    }).then(res => {
-      console.log(res);
+    }).then(() => {
+      // console.log(res);
       localStorage.clear();
       window.location = `${window.location.origin}`;
     }).catch((err) => {
       localStorage.clear();
-      window.location = `${window.location.origin}`;
       console.error(err);
+      window.location = `${window.location.origin}`;
     });
   }
 

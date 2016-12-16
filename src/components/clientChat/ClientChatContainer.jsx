@@ -39,7 +39,10 @@ class ClientChatContainer extends Component {
         </p>
 
         <div className="col-sm-6 col-sm-offset-3">
-          <Chat socket={this.state.socket} />
+          <Chat
+            socket={this.state.socket}
+            isAdmin={false}
+          />
         </div>
       </div>
     );
