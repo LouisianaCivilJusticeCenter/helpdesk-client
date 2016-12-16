@@ -54,7 +54,7 @@ class Flow extends Component {
 
   renderChatButton() {
     return (
-      <Link to="/register" params={{ title: this.props.issue.title }} >
+      <Link to={`/register/${this.props.issue.title.toLowerCase()}`}>
         <button
           className="btn btn-default btn-lg btn-block"
         >

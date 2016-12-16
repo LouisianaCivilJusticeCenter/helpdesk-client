@@ -12,23 +12,30 @@ const app = express();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 const API_SERVER_URL = process.env.API_SERVER_URL;
-http.listen(process.env.SOCKET_PORT, '127.0.0.1');
+http.listen(process.env.SOCKET_PORT);
 
 let rooms = [];
 
 io.on('connection', socket => {
-  socket.on('admin', (username) => {
-    socket.username = username;
+  socket.on('admin', () => {
+    socket.username = 'admin';
+    socket.firstName = 'Attorney';
+    socket.lastName = 'General';
     socket.emit('updaterooms', rooms);
   });
 
   socket.on('adduser', (user) => {
+    // console.log(user, 'this is user');
     socket.createdAt = new Date();
     socket.username = user.username;
+    socket.firstName = user.first_name;
+    socket.lastName = user.last_name;
     socket.room = user.id;
     if (!_.findWhere(rooms, { roomId: user.id })) {
       rooms.push({
         username: socket.username,
+        firstName: socket.firstName,
+        lastName: socket.lastName,
         roomId: socket.room,
         category: user.category,
         createdAt: socket.createdAt,
@@ -37,7 +44,7 @@ io.on('connection', socket => {
 
     socket.join(user.id);
     // socket.emit('updatechat', 'SERVER', 'you have connected');
-    io.sockets.in(socket.room).emit('updatechat', 'SERVER', `${socket.username} has connected`);
+    io.sockets.in(socket.room).emit('updatechat', 'SERVER', `${socket.firstName} has connected`);
     // socket
     //   .broadcast
     //   .to(user.id)
@@ -51,6 +58,8 @@ io.on('connection', socket => {
       uri: `${API_SERVER_URL}/v1/messages`,
       body: {
         from_id: socket.room,
+        from_firstName: socket.firstName,
+        from_lastName: socket.lastName,
         from_username: socket.username,
         body: data,
         room_id: socket.room,
@@ -66,7 +75,7 @@ io.on('connection', socket => {
         console.warn(err);
       });
     console.warn('inside sendchat');
-    io.sockets.in(socket.room).emit('updatechat', socket.username, data);
+    io.sockets.in(socket.room).emit('updatechat', socket.firstName, data);
   });
 
   socket.on('unavailable', roomId => {
@@ -115,9 +124,12 @@ app.use('/v1/users', proxy(API_SERVER_URL, {
   forwardPath: (req) => `/v1/users${url.parse(req.url).path}`,
 }));
 
+app.use('/v1/users', proxy(API_SERVER_URL, {
+  forwardPath: (req) => `/v1/users${url.parse(req.url).path}`,
+}));
+
 app.use('/v1/access_tokens', proxy(API_SERVER_URL, {
   forwardPath: (req) => `/v1/access_tokens${url.parse(req.url).path}`,
-
 }));
 
 app.use('/v1/messages', proxy(API_SERVER_URL, {

@@ -107,82 +107,77 @@ class Register extends React.Component {
   }
 
   render() {
-    {console.log(this.props.params, 'this is params')}
     return (
-      <Validation.components.Form ref={c => { this.form = c; }} onSubmit={this.onSubmit}>
-        <h3>Registration</h3>
-        <div>
-          <label>
-            First Name*
-            <Validation.components.Input
-              value=""
-              placeholder="John"
-              name="firstName"
-              validations={['required']}
-            />
-          </label>
+      <div className="row">
+        <div className="col-md-offset-4 col-md-2 text-center">
+          <Validation.components.Form ref={c => { this.form = c; }} onSubmit={this.onSubmit}>
+            <h3>We need to collect some basic information first.</h3>
+            <div className="form-group">
+              <Validation.components.Input
+                className="form-control"
+                value=""
+                placeholder="First Name"
+                name="firstName"
+                validations={['required']}
+              />
+            </div>
+            <div className="form-group">
+              <Validation.components.Input
+                className="form-control"
+                value=""
+                placeholder="Last Name"
+                name="lastName"
+                validations={['required']}
+              />
+            </div>
+            <div className="form-group">
+              <Validation.components.Input
+                className="form-control"
+                value=""
+                placeholder="Username"
+                name="username"
+                validations={['required']}
+              />
+            </div>
+            <div className="form-group">
+              <Validation.components.Input
+                className="form-control"
+                value=""
+                placeholder="Email"
+                name="email"
+                validations={['required', 'email']}
+              />
+            </div>
+            <div className="form-group">
+              <Validation.components.Input
+                className="form-control"
+                type="password"
+                value=""
+                placeholder="Password"
+                name="password"
+                validations={['required', 'password']}
+              />
+            </div>
+            <div className="form-group">
+              <Validation.components.Input
+                className="form-control"
+                type="password"
+                value=""
+                placeholder="Confirm Password"
+                name="passwordConfirm"
+                validations={['required', 'password']}
+              />
+            </div>
+            <div className="form-group">
+              <Validation.components.Button
+                className="btn btn-default btn-block"
+              >
+                Next
+              </Validation.components.Button>
+            </div>
+          </Validation.components.Form>
         </div>
-        <div>
-          <label>
-            Last Name*
-            <Validation.components.Input
-              value=""
-              placeholder="Doe"
-              name="lastName"
-              validations={['required']}
-            />
-          </label>
-        </div>
-        <div>
-          <label>
-            Username*
-            <Validation.components.Input
-              value=""
-              placeholder="JohnDoe"
-              name="username"
-              validations={['required']}
-            />
-          </label>
-        </div>
-        <div>
-          <label>
-            Email*
-            <Validation.components.Input
-              value=""
-              placeholder="email@email.com"
-              name="email"
-              validations={['required', 'email']}
-            />
-          </label>
-        </div>
-        <div>
-          <label>
-            Password*
-            <Validation.components.Input
-              type="password"
-              value=""
-              placeholder="******"
-              name="password"
-              validations={['required', 'password']}
-            />
-          </label>
-        </div>
-        <div>
-          <label>
-            Confirm Password*
-            <Validation.components.Input
-              type="password"
-              value=""
-              placeholder="******"
-              name="passwordConfirm"
-              validations={['required', 'password']}
-            />
-          </label>
-        </div>
-        <div>
-          <Validation.components.Button>Submit</Validation.components.Button>
-        </div>
-      </Validation.components.Form>
+      </div>
     );
   }
 }

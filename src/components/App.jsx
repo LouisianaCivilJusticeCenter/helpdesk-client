@@ -46,8 +46,8 @@ class App extends React.Component {
   requireSuperAuth(nextState, replace, next) {
     const token = localStorage.getItem('token');
     const id = localStorage.getItem('id');
-    if(!token || !id){
-      console.log('no token or id in super auth');
+    if (!token || !id) {
+      // console.log('no token or id in super auth');
       localStorage.clear();
       replace('sign-in');
     }
@@ -74,7 +74,7 @@ class App extends React.Component {
           <Route path="sign-in" component={SignIn} />
           <Route path="flow/:issue" component={FlowContainer} />
           <Route path="register/:title" component={Register} />
-          <Route path="chat/:id" component={ClientChatContainer} />
+          <Route path="chat/:id" onEnter={this.requireAuth} component={ClientChatContainer} />
           <Route path="settings" onEnter={this.requireAuth} component={Settings} />
           <Route path="admin" onEnter={this.requireSuperAuth} component={AdminContainer} />
           <Route path="*" component={NotFound} />

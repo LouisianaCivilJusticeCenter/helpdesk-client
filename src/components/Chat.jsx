@@ -1,3 +1,6 @@
+/* eslint no-confusing-arrow: "off" */
+/* eslint max-len: "off" */
+
 import React, { Component, PropTypes } from 'react';
 import $ from 'jquery';
 import { chatWrapper as chatStlye } from '../css/styles.js';
@@ -13,24 +16,27 @@ class Chat extends Component {
   }
 
   componentDidMount() {
-    const getDisplayName = username => username === 'admin' ? 'me' : username;
-
-    this.props.socket.on('updatechat', (username, message, roomId) => {
+    // TODO: do we really want this?
+    // const getDisplayName = (isAdmin, displayName) =>
+    // (isAdmin && displayName === 'Attorney') ? 'me' : displayName;
+    const getDisplayName = (a, b) => b;
+    const isAdmin = this.props.isAdmin;
+    this.props.socket.on('updatechat', (firstName, message, roomId) => {
       if (roomId) {
         // console.warn('fetching');
         $('#conversation').empty();
-        $('#conversation').append(`<b>${getDisplayName(username)}: </b>${message}<br>`);
+        $('#conversation').append(`<b>${getDisplayName(isAdmin, firstName)}: </b>${message}<br>`);
         fetch(`/v1/messages?room_id=${roomId}`)
         .then(res => res.json())
         .then(data => {
           data.data.forEach(oldMessage => {
             $('#conversation')
-              .append(`<b>${getDisplayName(oldMessage.from_username)}: </b>${oldMessage.body}<br>`);
+              .append(`<b>${getDisplayName(isAdmin, oldMessage.from_username)}: </b>${oldMessage.body}<br>`);
             this.scrollToEnd();
           });
         });
       } else {
-        $('#conversation').append(`<b>${getDisplayName(username)}:</b>${message}<br>`);
+        $('#conversation').append(`<b>${getDisplayName(isAdmin, firstName)}: </b>${message}<br>`);
         this.scrollToEnd();
       }
     });
@@ -63,7 +69,7 @@ class Chat extends Component {
       <div className="panel panel-default">
 
         <div className="panel-heading">
-          Chat {/* TODO: add who they're chatting with */}
+          {/* TODO: Chat with (firstName) */}
         </div>
 
         <div className="panel-body">
@@ -108,6 +114,7 @@ class Chat extends Component {
 
 Chat.propTypes = {
   socket: PropTypes.object.isRequired,
+  isAdmin: PropTypes.bool.isRequired,
 };
 
 export default Chat;
