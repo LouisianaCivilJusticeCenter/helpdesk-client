@@ -1,0 +1,11 @@
+.btn {
+  border-radius: 0;
+}
+
+.btn-default {
+  background: #FF9C5B;
+  border-top: none;
+  border-left:  none;
+  border-right: none;
+  border-bottom: 3px solid #da9365 !important;
+}
