@@ -109,7 +109,7 @@ class Register extends React.Component {
   render() {
     return (
       <div className="row">
-        <div className="col-md-offset-4 col-md-2 text-center">
+        <div className="col-md-offset-4 col-md-4 text-center">
           <Validation.components.Form ref={c => { this.form = c; }} onSubmit={this.onSubmit}>
             <h3>We need to collect some basic information first.</h3>
             <div className="form-group">

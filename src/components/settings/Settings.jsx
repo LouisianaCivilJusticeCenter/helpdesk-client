@@ -84,7 +84,7 @@ class Settings extends React.Component {
   render() {
     return (
       <div className="row">
-        <div className="col-md-offset-4 col-md-2 text-center">
+        <div className="col-md-offset-4 col-md-4 text-center">
           <h3>Tell Me About Yourself</h3>
           <Validation.components.Form ref={c => { this.form = c; }} onSubmit={this.onSubmit}>
             <div className="form-group">

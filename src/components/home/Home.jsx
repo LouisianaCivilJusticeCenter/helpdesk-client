@@ -32,7 +32,7 @@ const Home = () => {
           </div>
         </div>
         <div className="row">
-          <div className="col-md-offset-3 col-md-6 text-center">
+          <div className="col-md-offset-3 col-md-5 text-center">
             <h3>What do you need help with?</h3>
               {flows.map((item, index) => (
                 <Link to={item.link} className="btn btn-default btn-lg btn-block" key={index} >

@@ -6,12 +6,12 @@ const FlowQuestion = ({ renderChatButton, success, error, answer, onNo, onYes, h
     <div className="row">
       {!answer.prev ?
         <div>
-          <h2>
-            We need you to answer some questions first to see what level of support you're eligible to recieve
-          </h2>
           <h3>
-            (it takes 5 minutes)
+            We need you to answer some questions first to see what level of support you're eligible to recieve
           </h3>
+          <h4>
+            (it takes 5 minutes)
+          </h4>
         </div>
         :
         null
@@ -44,13 +44,13 @@ const FlowQuestion = ({ renderChatButton, success, error, answer, onNo, onYes, h
         <button
           type="button"
           onClick={handleBack}
-          className="btn btn-default"
+          className="btn btn-default back"
         >
           <span
             className="glyphicon glyphicon-menu-left"
             aria-hidden="true"
           />
-          back
+          Back
         </button>
         :
         null

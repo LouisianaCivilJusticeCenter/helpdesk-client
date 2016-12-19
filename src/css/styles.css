@@ -3,9 +3,52 @@
 }
 
 .btn-default {
-  background: #FF9C5B;
-  border-top: none;
-  border-left:  none;
-  border-right: none;
-  border-bottom: 3px solid #da9365 !important;
+  transition: background 0.5s ease;
+  background: linear-gradient(-180deg,#74C947 0,#4BC459 100%);
+  border-radius: 5px;
+  border: none;
+  color: #fff;
+}
+
+.btn-default:hover {
+  background: linear-gradient(-180deg,#74C947 0,#36a643 100%);
+  color: #fff;
+}
+
+.navbar-default, .navbar-default a, .navbar-default a.navbar-brand  {
+  background-color: #243548;
+  color: #fff;
+}
+
+body {
+  font-family: 'Open Sans', sans-serif;
+}
+
+h1, h2, h3, h4 {
+  font-family: 'Lato', sans-serif;
+}
+
+p {
+  font-size: 1.6rem;
+}
+
+.flow-wrap {
+  background: #eee;
+  padding: 15px;
+}
+
+.flow-wrap .btn {
+  margin: 0 30px 20px 0;
+  padding: 12px 30px;
+  font-size: 1.7rem;
+}
+
+.flow-wrap h3 {
+  padding-bottom: 20px;
+}
+
+.flow-wrap .back {
+  padding: 10px 15px;
+  font-size: 1.2rem;
+  margin-top: 30px;
 }

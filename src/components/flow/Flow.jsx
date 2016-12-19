@@ -67,18 +67,20 @@ class Flow extends Component {
   render() {
     const { answer, error, success } = this.state;
     return (
-      <div className="row">
-        <div className="col-md-offset-3 col-md-6 text-center">
-          <h1>{this.props.issue.title}</h1>
-          <FlowQuestion
-            answer={answer}
-            onNo={this.handleNo}
-            onYes={this.handleYes}
-            error={error}
-            renderChatButton={this.renderChatButton}
-            success={success}
-            handleBack={this.handleBack}
-          />
+      <div className="flow-wrap">
+        <div className="row">
+          <div className="col-md-offset-3 col-md-6 text-center">
+            <h1>{this.props.issue.title}</h1>
+            <FlowQuestion
+              answer={answer}
+              onNo={this.handleNo}
+              onYes={this.handleYes}
+              error={error}
+              renderChatButton={this.renderChatButton}
+              success={success}
+              handleBack={this.handleBack}
+            />
+          </div>
         </div>
       </div>
     );
