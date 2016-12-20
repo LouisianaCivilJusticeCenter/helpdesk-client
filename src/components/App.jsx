@@ -21,49 +21,22 @@ class App extends React.Component {
     const token = localStorage.getItem('token');
     const id = localStorage.getItem('id');
     if (!token || !id) {
+      localStorage.clear();
       replace('sign-in');
+    } else {
+      next();
     }
-    // console.log(token);
-
-    fetch(`/v1/users/${id}?access_token=${token}`)
-      .then(res => res.json())
-      .then((data) => {
-        if (data.meta.error) {
-          localStorage.clear();
-          replace('sign-in');
-        } else {
-          // localStorage.setItem('user.name', data.name);
-          // localStorage.setItem('user.id', data.id);
-        }
-      })
-      .then(() => next())
-      .catch((err) => {
-        console.error(err);
-        replace('sign-in');
-      });
   }
 
   requireSuperAuth(nextState, replace, next) {
     const token = localStorage.getItem('token');
     const id = localStorage.getItem('id');
     if (!token || !id) {
-      // console.log('no token or id in super auth');
-      localStorage.clear();
+      console.warn('no token or id in super auth');
       replace('sign-in');
+    } else {
+      next();
     }
-
-    fetch(`/v1/users/${id}?access_token=${token}`)
-      .then(res => res.json())
-      .then((data) => {
-        if (data.meta.error || data.data.id !== 1) {
-          replace('sign-in');
-        }
-      })
-      .then(() => next())
-      .catch((err) => {
-        console.error(err);
-        replace('sign-in');
-      });
   }
 
   render() {
@@ -76,7 +49,7 @@ class App extends React.Component {
           <Route path="register/:title" component={Register} />
           <Route path="chat/:id" onEnter={this.requireAuth} component={ClientChatContainer} />
           <Route path="settings" onEnter={this.requireAuth} component={Settings} />
-          <Route path="admin" onEnter={this.requireSuperAuth} component={AdminContainer} />
+          <Route path="admin" onEnter={this.requireAuth} component={AdminContainer} />
           <Route path="*" component={NotFound} />
         </Route>
       </Router>

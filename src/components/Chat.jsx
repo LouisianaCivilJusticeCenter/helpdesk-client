@@ -2,6 +2,7 @@
 /* eslint max-len: "off" */
 
 import React, { Component, PropTypes } from 'react';
+import { browserHistory } from 'react-router';
 import $ from 'jquery';
 import { chatWrapper as chatStlye } from '../css/styles.js';
 
@@ -61,7 +62,8 @@ class Chat extends Component {
   }
 
   endChat() {
-    // TODO: sign client out
+    this.props.socket.emit('disconnect');
+    browserHistory.push('/admin');
   }
 
   render() {
