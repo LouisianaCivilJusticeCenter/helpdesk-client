@@ -54,13 +54,17 @@ class Flow extends Component {
 
   renderChatButton() {
     return (
-      <Link to={`/register/${this.props.issue.title.toLowerCase()}`}>
-        <button
-          className="btn btn-default btn-lg btn-block"
-        >
-          Register
-        </button>
-      </Link>
+      <div className="eligible">
+        <p>You're eligible to recieve free advice with an attorney via chat.
+        We just need some basic information first.</p>
+        <Link to={`/register/${this.props.issue.title.toLowerCase()}`}>
+          <button
+            className="btn btn-default btn-lg btn-block"
+          >
+            Register
+          </button>
+        </Link>
+      </div>
     );
   }
 

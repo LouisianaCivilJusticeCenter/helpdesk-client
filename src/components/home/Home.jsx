@@ -14,11 +14,11 @@ const Home = () => {
     { flow: 'Inter-Family Adoption', link: '/flow/adoption' },
   ];
   return (
-    <div className="row">
-      <div className="col-md-9">
+    <div className="row home">
+      <div className="col-md-12">
         <div className="row">
-          <div className="col-md-12">
-            <h4>Welcome to the Louisiana Civil Justice Center's Online Legal Kiosk in [Webster/Iberia/Concordia]</h4>
+          <div className="col-md-7">
+            <h3>Welcome to the Louisiana Civil Justice Center's Online Legal Kiosk in [Webster/Iberia/Concordia]</h3>
             <p>
               The Louisiana Civil Justice Center is a 501c3 non-profit organization that provides free legal information, advice, documents, and referrals.
               This legal kiosk is designed allow self-represented litigants to access family law assistance remotely through their local library.
@@ -30,20 +30,17 @@ const Home = () => {
               If you need assistance with a civil legal issue that is not related to family law, or ifyou are not sure what kind of legal issue you have, please call our hotline at 1-800-310-7029
             </p>
           </div>
-        </div>
-        <div className="row">
-          <div className="col-md-offset-3 col-md-5 text-center">
+          <div className="col-md-5 text-center">
             <h3>What do you need help with?</h3>
-              {flows.map((item, index) => (
+            {flows.map((item, index) => (
+              <div>
                 <Link to={item.link} className="btn btn-default btn-lg btn-block" key={index} >
                   {item.flow}
                 </Link>
-              ))}
+              </div>
+            ))}
           </div>
         </div>
-      </div>
-      <div className="col-md-3">
-        <Sidebar />
       </div>
     </div>
   );

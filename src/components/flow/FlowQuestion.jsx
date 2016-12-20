@@ -7,7 +7,7 @@ const FlowQuestion = ({ renderChatButton, success, error, answer, onNo, onYes, h
       {!answer.prev ?
         <div>
           <h3>
-            We need you to answer some questions first to see what level of support you're eligible to recieve
+            Please answer some questions first to see what level of support you're eligible to recieve
           </h3>
           <h4>
             (it takes 5 minutes)

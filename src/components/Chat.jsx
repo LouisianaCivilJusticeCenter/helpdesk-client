@@ -90,7 +90,7 @@ class Chat extends Component {
             </div>
             <div className="form-group">
               <button
-                className="btn btn-default pull-left"
+                className="btn btn-warning pull-left"
                 onClick={this.endChat}
               >
                 End Chat Session
