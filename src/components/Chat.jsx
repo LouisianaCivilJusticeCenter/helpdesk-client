@@ -2,7 +2,6 @@
 /* eslint max-len: "off" */
 
 import React, { Component, PropTypes } from 'react';
-import { browserHistory } from 'react-router';
 import $ from 'jquery';
 import { chatWrapper as chatStlye } from '../css/styles.js';
 
@@ -44,7 +43,6 @@ class Chat extends Component {
   }
 
   scrollToEnd() {
-    // auto scroll to bottom (latest) message
     this.chatRef.scrollTop = this.chatRef.scrollHeight;
   }
 
@@ -62,8 +60,7 @@ class Chat extends Component {
   }
 
   endChat() {
-    this.props.socket.emit('disconnect');
-    browserHistory.push('/admin');
+    this.props.socket.emit('sign-out');
   }
 
   render() {
@@ -71,7 +68,7 @@ class Chat extends Component {
       <div className="panel panel-default">
 
         <div className="panel-heading">
-          {/* TODO: Chat with (firstName) */}
+          {/* TODO: Chat with (firstName) do we want this? */}
         </div>
 
         <div className="panel-body">
@@ -92,6 +89,7 @@ class Chat extends Component {
             </div>
             <div className="form-group">
               <button
+                type="button"
                 className="btn btn-warning pull-left"
                 onClick={this.endChat}
               >

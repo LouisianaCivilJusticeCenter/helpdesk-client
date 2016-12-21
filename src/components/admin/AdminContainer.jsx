@@ -24,7 +24,7 @@ class AdminContainer extends Component {
     const token = localStorage.getItem('token');
     const id = localStorage.getItem('id');
     if (!token || !id) {
-      this.signOut();
+      this.signOut(token);
       return;
     }
     fetch(`/v1/users/${id}?access_token=${token}`)
@@ -32,7 +32,7 @@ class AdminContainer extends Component {
       .then((data) => {
         if (data.meta.error || data.data[0].id !== 1) {
           console.warn('not an admin');
-          this.signOut();
+          this.signOut(token);
         } else {
           socket.on('connect', () => {
             socket.emit('admin', 'admin');
@@ -44,12 +44,15 @@ class AdminContainer extends Component {
       })
       .catch((err) => {
         console.error(err);
-        this.signOut();
+        this.signOut(token);
       });
+
+    socket.on('sign-out', () => {
+      this.setState({ currentRoom: null });
+    });
   }
 
-  signOut() {
-    const token = localStorage.getItem('token');
+  signOut(token) {
     fetch(`/v1/access_tokens?access_token=${token}`, {
       method: 'DELETE',
     }).then(() => {

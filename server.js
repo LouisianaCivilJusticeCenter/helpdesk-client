@@ -24,13 +24,14 @@ io.on('connection', socket => {
     socket.emit('updaterooms', rooms);
   });
 
-  socket.on('adduser', (user) => {
+  socket.on('adduser', (user, token) => {
     // console.log(user, 'this is user');
     socket.createdAt = new Date();
     socket.username = user.username;
     socket.firstName = user.first_name;
     socket.lastName = user.last_name;
     socket.room = user.id;
+    socket.clientToken = token;
     if (!_.findWhere(rooms, { roomId: user.id })) {
       rooms.push({
         username: socket.username,
@@ -39,6 +40,7 @@ io.on('connection', socket => {
         roomId: socket.room,
         category: user.category,
         createdAt: socket.createdAt,
+        clientToken: token,
       });
     }
 
@@ -100,10 +102,14 @@ io.on('connection', socket => {
       .emit('updatechat', 'SERVER', `${socket.username} has joined this room`);
     socket.emit('updaterooms', rooms);
   });
-  //
+
+  socket.on('sign-out', () => {
+    io.sockets.in(socket.room).emit('sign-out', socket.clientToken);
+  });
+
   socket.on('disconnect', () => {
     io.sockets.in(socket.room).emit('updatechat', 'SERVER', `${socket.username} has disconnected`);
-    // socket.broadcast.emit('updatechat', 'SERVER', `${socket.username} has disconnected`);
+    // socket.broadcast.emit('signout', 'SERVER', `${socket.username} has disconnected`);
     socket.leave(socket.room);
     if (socket.username !== 'admin') {
       rooms = _.reject(rooms, room => room.username === socket.username);
