@@ -54,31 +54,37 @@ class Flow extends Component {
 
   renderChatButton() {
     return (
-      <Link to={`/register/${this.props.issue.title.toLowerCase()}`}>
-        <button
-          className="btn btn-default btn-lg btn-block"
-        >
-          Register
-        </button>
-      </Link>
+      <div className="eligible">
+        <p>You're eligible to recieve free advice with an attorney via chat.
+        We just need some basic information first.</p>
+        <Link to={`/register/${this.props.issue.title.toLowerCase()}`}>
+          <button
+            className="btn btn-default btn-lg btn-block"
+          >
+            Register
+          </button>
+        </Link>
+      </div>
     );
   }
 
   render() {
     const { answer, error, success } = this.state;
     return (
-      <div className="row">
-        <div className="col-md-offset-3 col-md-6 text-center">
-          <h1>{this.props.issue.title}</h1>
-          <FlowQuestion
-            answer={answer}
-            onNo={this.handleNo}
-            onYes={this.handleYes}
-            error={error}
-            renderChatButton={this.renderChatButton}
-            success={success}
-            handleBack={this.handleBack}
-          />
+      <div className="flow-wrap">
+        <div className="row">
+          <div className="col-md-offset-3 col-md-6 text-center">
+            <h1>{this.props.issue.title}</h1>
+            <FlowQuestion
+              answer={answer}
+              onNo={this.handleNo}
+              onYes={this.handleYes}
+              error={error}
+              renderChatButton={this.renderChatButton}
+              success={success}
+              handleBack={this.handleBack}
+            />
+          </div>
         </div>
       </div>
     );

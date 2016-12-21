@@ -1,0 +1,83 @@
+.btn {
+  border-radius: 0;
+}
+
+.btn-default {
+  transition: background 0.5s ease;
+  background: linear-gradient(-180deg,#74C947 0,#4BC459 100%);
+  border-radius: 5px;
+  border: none;
+  color: #fff;
+}
+
+.btn-default:hover {
+  background: linear-gradient(-180deg,#74C947 0,#36a643 100%);
+  color: #fff;
+}
+
+.navbar-default, .navbar-default a, .navbar-default a.navbar-brand  {
+  background-color: #243548;
+  color: #fff;
+}
+
+body {
+  font-family: 'Open Sans', sans-serif;
+}
+
+h1, h2, h3, h4 {
+  font-family: 'Lato', sans-serif;
+}
+
+p {
+  font-size: 1.67rem;
+}
+
+.home .btn {
+  margin: 0 auto;
+  padding: 16px;
+  max-width: 300px;
+}
+
+.home .col-md-5 div {
+  margin-bottom: 10px;
+}
+
+.flow-wrap {
+  background: #eee;
+  padding: 15px;
+}
+
+.flow-wrap .btn {
+  margin: 0 10px 25px 10px;
+  padding: 12px 30px;
+  font-size: 1.7rem;
+}
+
+.flow-wrap h3 {
+  padding-bottom: 20px;
+}
+
+.flow-wrap .back {
+  padding: 10px 15px;
+  font-size: 1.2rem;
+  margin-top: 30px;
+}
+
+.eligible {
+  background: #fff;
+  padding: 20px 30px 10px 30px;
+  border-radius: 5px;
+}
+
+.eligible .btn {
+  width: 220px;
+  margin: 0 auto;
+}
+
+ul.navbar-left {
+  padding-top: 5px;
+}
+
+ul.navbar-right {
+  padding-top: 15px;
+}

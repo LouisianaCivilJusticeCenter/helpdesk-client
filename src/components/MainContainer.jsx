@@ -42,7 +42,7 @@ class MainContainer extends React.Component {
     return (
       <div>
         <Header signOut={this.signOut} />
-        <div className="container-fluid">
+        <div className="container">
           {this.props.children}
         </div>
       </div>

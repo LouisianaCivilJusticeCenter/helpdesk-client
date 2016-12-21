@@ -6,7 +6,7 @@ const Nav = ({ signOut }) => {
   const chatLink = `/chat/${userId}`;
   return (
     <nav className="navbar navbar-default">
-      <div className="container-fluid">
+      <div className="container">
         <div className="navbar-header">
           <button
             type="button"
@@ -20,7 +20,7 @@ const Nav = ({ signOut }) => {
             <span className="icon-bar"></span>
             <span className="icon-bar"></span>
           </button>
-          <a className="navbar-brand" href="#">Justice Tours</a>
+          <a className="navbar-brand" href="#">LCJC</a>
         </div>
         <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul className="nav navbar-left">
@@ -28,11 +28,11 @@ const Nav = ({ signOut }) => {
           </ul>
           {localStorage.getItem('token') ?
             <ul className="nav navbar-right">
-              <li><button type="button" onClick={signOut}>Sign Out</button></li>
+              <li><button type="button" className="btn" onClick={signOut}>Sign Out</button></li>
               {/* <li><Link to={chatLink}>Chat</Link></li> */}
             </ul>
             :
-            <ul className="nav navbar-right">
+            <ul className="navbar-right list-inline">
               <li><Link to="/sign-in">Sign In</Link></li>
               <li><Link to="/admin">admin</Link></li>
             </ul>
