@@ -16,15 +16,53 @@ class AdminContainer extends Component {
     this.switchRoom = this.switchRoom.bind(this);
     this.renderRoomList = this.renderRoomList.bind(this);
     this.emitUnavailable = this.emitUnavailable.bind(this);
+    this.signOut = this.signOut.bind(this);
   }
 
-  componentDidMount() {
+  componentWillMount() {
     const socket = this.state.socket;
-    socket.on('connect', () => {
-      socket.emit('admin', 'admin');
+    const token = localStorage.getItem('token');
+    const id = localStorage.getItem('id');
+    if (!token || !id) {
+      this.signOut(token);
+      return;
+    }
+    fetch(`/v1/users/${id}?access_token=${token}`)
+      .then(res => res.json())
+      .then((data) => {
+        if (data.meta.error || data.data[0].id !== 1) {
+          console.warn('not an admin');
+          this.signOut(token);
+        } else {
+          socket.on('connect', () => {
+            socket.emit('admin', 'admin');
+          });
+          socket.on('updaterooms', rooms => {
+            this.setState({ rooms });
+          });
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        this.signOut(token);
+      });
+
+    socket.on('sign-out', () => {
+      this.setState({ currentRoom: null });
     });
-    socket.on('updaterooms', rooms => {
-      this.setState({ rooms });
+  }
+
+  signOut(token) {
+    fetch(`/v1/access_tokens?access_token=${token}`, {
+      method: 'DELETE',
+    }).then(() => {
+      // console.log(res);
+      localStorage.clear();
+      window.location = `${window.location.origin}`;
+    }).catch((err) => {
+      localStorage.clear();
+      console.error(err);
+      window.location = `${window.location.origin}`;
     });
   }
 

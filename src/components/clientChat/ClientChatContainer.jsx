@@ -25,9 +25,25 @@ class ClientChatContainer extends Component {
           localStorage.clear();
           browserHistory.push('/sign-in');
         } else {
-          context.state.socket.emit('adduser', res.data[0]);
+          context.state.socket.emit('adduser', res.data[0], token);
         }
       });
+    });
+    socket.on('sign-out', clientToken => {
+      this.signOut(clientToken);
+    });
+  }
+
+  signOut(token) {
+    fetch(`/v1/access_tokens?access_token=${token}`, {
+      method: 'DELETE',
+    }).then(() => {
+      localStorage.clear();
+      window.location = `${window.location.origin}`;
+    }).catch((err) => {
+      localStorage.clear();
+      console.error(err);
+      window.location = `${window.location.origin}`;
     });
   }
 
