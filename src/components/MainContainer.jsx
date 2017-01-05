@@ -9,7 +9,6 @@ class MainContainer extends React.Component {
   }
 
   componentDidMount() {
-    console.log('hello');
     const token = localStorage.getItem('token');
     fetch(`/v1/access_tokens?access_token=${token}`)
     .then(res => res.json())
