@@ -1,6 +1,7 @@
   // TODO: if you click the logo while logged in send user to dashboard
 import React from 'react';
 import Header from './Header.jsx';
+import Footer from './Footer.jsx';
 
 class MainContainer extends React.Component {
   constructor(props) {
@@ -44,6 +45,7 @@ class MainContainer extends React.Component {
         <div className="container">
           {this.props.children}
         </div>
+        <Footer />
       </div>
     );
   }

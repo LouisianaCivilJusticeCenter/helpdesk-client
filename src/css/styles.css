@@ -81,3 +81,13 @@ ul.navbar-left {
 ul.navbar-right {
   padding-top: 15px;
 }
+
+footer {
+  margin-top: 55px;
+}
+
+footer img {
+  width: 140px;
+  margin: 0 auto;
+  display: block;
+}
