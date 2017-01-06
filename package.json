@@ -6,7 +6,6 @@
   "scripts": {
     "start": "nodemon server.js",
     "start:production": "node server.js",
-    "test": "eslint app && mocha test/.setup.js test",
     "pm2": "pm2 start server.js --name=\"jt-client\""
   },
   "keywords": [],
