@@ -20,7 +20,7 @@ const Nav = ({ signOut }) => {
             <span className="icon-bar"></span>
             <span className="icon-bar"></span>
           </button>
-          <a className="navbar-brand" href="#">LCJC</a>
+          <a className="navbar-brand" href="/">LCJC Virtual Legal Help Desk</a>
         </div>
         <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul className="nav navbar-left">
@@ -32,10 +32,7 @@ const Nav = ({ signOut }) => {
               {/* <li><Link to={chatLink}>Chat</Link></li> */}
             </ul>
             :
-            <ul className="navbar-right list-inline">
-              <li><Link to="/sign-in">Sign In</Link></li>
-              <li><Link to="/admin">admin</Link></li>
-            </ul>
+            null
           }
 
         </div>
