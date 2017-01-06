@@ -19,7 +19,7 @@ const Home = () => {
             <h3>Welcome to the Louisiana Civil Justice Center's Virtual Legal Help Desk</h3>
             <p>
               The Louisiana Civil Justice Center is a 501c3 non-profit organization that provides free legal information, advice, documents, and referrals.
-              This legal kiosk is designed allow self-represented litigants to access family law assistance remotely through their local library.
+              This legal Virtual Legal Help Desk is designed allow self-represented litigants to access family law assistance remotely through their local library.
             </p>
             <p>
               Through our online intake and chat portal, you may access legal information and documents <b>free of your charge</b>.

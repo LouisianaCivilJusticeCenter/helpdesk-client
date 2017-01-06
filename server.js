@@ -25,7 +25,7 @@ io.on('connection', socket => {
   });
 
   socket.on('adduser', (user, token) => {
-    // console.log(user, 'this is user');
+    console.log(user, 'this is user');
     socket.createdAt = new Date();
     socket.username = user.username;
     socket.firstName = user.first_name;
