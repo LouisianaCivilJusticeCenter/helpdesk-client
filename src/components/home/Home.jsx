@@ -2,8 +2,6 @@
 
 import React from 'react';
 import { Link } from 'react-router';
-import Sidebar from './Sidebar.jsx';
-
 
 const Home = () => {
   const flows = [

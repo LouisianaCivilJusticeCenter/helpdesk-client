@@ -23,8 +23,18 @@ const Nav = ({ signOut }) => {
           <a className="navbar-brand" href="/">LCJC Virtual Legal Help Desk</a>
         </div>
         <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-          <ul className="nav navbar-left">
+          <ul className="nav navbar-nav navbar-left">
             <li><Link to="/">Home</Link></li>
+            <li className="dropdown">
+              <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Resources<span className="caret"></span></a>
+              <ul className="dropdown-menu">
+                <li><a href="#">Webster parish</a></li>
+                <li role="separator" className="divider"></li>
+                <li><a href="#">Iberia Parish</a></li>
+                <li role="separator" className="divider"></li>
+                <li><a href="#">Concordia parish</a></li>
+              </ul>
+            </li>
           </ul>
           {localStorage.getItem('token') ?
             <ul className="nav navbar-right">
