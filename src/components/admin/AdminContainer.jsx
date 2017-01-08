@@ -92,9 +92,13 @@ class AdminContainer extends Component {
     const divId = `#email${roomId}`;
     $(divId).removeClass('btn-primary');
     $(divId).addClass('btn-success');
-    // TODO: create emit listener
-    // this.state.socket.emit('email', roomId);
-    console.warn('email functionality still in progress');
+    fetch(`/v1/mailer?room_id=${roomId}`, {
+      method: 'POST',
+    }).then((res) => {
+      console.warn('email response', res);
+    }).catch((err) => {
+      console.error(err, 'there was an error');
+    });
   }
 
   renderRoomList() {
