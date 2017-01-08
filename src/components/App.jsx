@@ -33,6 +33,7 @@ class App extends React.Component {
   }
 
   requireAuthAndTime(nextState, replace, next) {
+    // TODO: this is only for new orleans time zone..use moment to work for other timezones
     const time = new Date().getHours();
     const token = localStorage.getItem('token');
     const id = localStorage.getItem('id');
