@@ -72,7 +72,6 @@ class AdminContainer extends Component {
     let divId = `#enter${this.state.currentRoom}`;
     $(divId).removeClass('btn-success');
     $(divId).addClass('btn-primary');
-    console.log('remiving class');
     this.setState({ currentRoom: roomId });
     divId = `#enter${roomId}`;
     $(divId).removeClass('btn-primary');
