@@ -20,11 +20,21 @@ const Nav = ({ signOut }) => {
             <span className="icon-bar"></span>
             <span className="icon-bar"></span>
           </button>
-          <a className="navbar-brand" href="#">LCJC</a>
+          <a className="navbar-brand" href="/">LCJC Virtual Legal Help Desk</a>
         </div>
         <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-          <ul className="nav navbar-left">
+          <ul className="nav navbar-nav navbar-left">
             <li><Link to="/">Home</Link></li>
+            <li className="dropdown">
+              <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Resources<span className="caret"></span></a>
+              <ul className="dropdown-menu">
+                <li><a href="webster">Webster parish</a></li>
+                <li role="separator" className="divider"></li>
+                <li><a href="iberia">Iberia Parish</a></li>
+                <li role="separator" className="divider"></li>
+                <li><a href="concordia">Concordia parish</a></li>
+              </ul>
+            </li>
           </ul>
           {localStorage.getItem('token') ?
             <ul className="nav navbar-right">
@@ -32,10 +42,7 @@ const Nav = ({ signOut }) => {
               {/* <li><Link to={chatLink}>Chat</Link></li> */}
             </ul>
             :
-            <ul className="navbar-right list-inline">
-              <li><Link to="/sign-in">Sign In</Link></li>
-              <li><Link to="/admin">admin</Link></li>
-            </ul>
+            null
           }
 
         </div>

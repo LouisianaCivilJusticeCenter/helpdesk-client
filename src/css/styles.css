@@ -1,3 +1,19 @@
+/* The good stuff */
+
+body {
+  font-family: 'Open Sans', sans-serif;
+}
+
+h1, h2, h3, h4 {
+  font-family: 'Lato', sans-serif;
+}
+
+p {
+  font-size: 1.67rem;
+}
+
+/* Buttons */
+
 .btn {
   border-radius: 0;
 }
@@ -15,32 +31,59 @@
   color: #fff;
 }
 
-.navbar-default, .navbar-default a, .navbar-default a.navbar-brand  {
-  background-color: #243548;
-  color: #fff;
-}
-
-body {
-  font-family: 'Open Sans', sans-serif;
-}
-
-h1, h2, h3, h4 {
-  font-family: 'Lato', sans-serif;
-}
-
-p {
-  font-size: 1.67rem;
-}
-
 .home .btn {
   margin: 0 auto;
   padding: 16px;
   max-width: 300px;
 }
 
+/* Navbar */
+
+.navbar-default, .navbar-default a, .navbar-default a.navbar-brand  {
+  background-color: #243548;
+  color: #fff;
+}
+
+.navbar-default .navbar-nav>li>a {
+  color: #fff;
+  font-size: 16px;
+  text-transform: uppercase;
+}
+
+.dropdown-menu>li>a:focus, .dropdown-menu>li>a:hover {
+  color: #fff;
+  text-decoration: underline;
+  background: #243548;
+}
+
+.dropdown-menu>li>a, .dropdown-menu {
+  background: #243548;
+  color: #fff;
+}
+
+.navbar-default .navbar-nav>li>a:focus, .navbar-default .navbar-nav>li>a:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
+.navbar-brand {
+  font-size: 20px;
+  padding-top: 15px;
+}
+
+ul.navbar-left {
+  padding-left: 20px;
+}
+
+ul.navbar-right {
+  padding-top: 15px;
+}
+
 .home .col-md-5 div {
   margin-bottom: 10px;
 }
+
+/* Questions template */
 
 .flow-wrap {
   background: #eee;
@@ -74,10 +117,14 @@ p {
   margin: 0 auto;
 }
 
-ul.navbar-left {
-  padding-top: 5px;
+/* Footer */
+
+footer {
+  margin-top: 155px;
 }
 
-ul.navbar-right {
-  padding-top: 15px;
+footer img {
+  width: 140px;
+  margin: 0 auto;
+  display: block;
 }
