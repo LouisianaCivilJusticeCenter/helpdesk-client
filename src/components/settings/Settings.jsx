@@ -78,19 +78,17 @@ class Settings extends React.Component {
       url: `/v1/users?access_token=${token}`,
       contentType: 'application/json',
       data,
-      success: res => this.sendEmail(res),
+      success: res => this.sendEmail(res.data[0].id),
       error: err => console.error(err),
       dataType: 'json',
     });
   }
 
-  sendEmail(res) {
-    console.log('send email hit');
-    const id = res.data[0].id;
+  sendEmail(id) {
     fetch(`/v1/mailer/${id}?type=newChat`, {
       method: 'POST',
-    }).then(() => {
-      console.warn('email send success');
+    }).then((res) => {
+      console.warn('email response', res);
       browserHistory.push(`chat/${id}`);
     }).catch((err) => {
       console.error(err, 'there was an error');
