@@ -13,10 +13,10 @@ const Home = () => (
           <h3>Welcome to the Louisiana Civil Justice Center's Virtual Legal Help Desk</h3>
           <p>
             The Louisiana Civil Justice Center is a 501c3 non-profit organization that provides free legal information, advice, documents, and referrals.
-            This legal Virtual Legal Help Desk is designed allow self-represented litigants to access family law assistance remotely through their local library.
+            This Virtual Legal Help Desk is designed allow self-represented litigants to access family law assistance remotely through their local library.
           </p>
           <p>
-            Through our online intake and chat portal, you may access legal information and documents <b>free of your charge</b>.
+            Through our online intake and chat portal, you may access legal information and documents <b>free of charge</b>.
             Family law issues may include custody/visitation, child support, tutorship, domestic abuse, inter-family adoption, and divorce.
             To continue, please select one of the options below.
             If you need assistance with a civil legal issue that is not related to family law, or if you are not sure what kind of legal issue you have, please call our hotline at 1-800-310-7029

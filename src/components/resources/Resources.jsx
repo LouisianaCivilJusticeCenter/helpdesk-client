@@ -1,5 +1,3 @@
-/* eslint max-len: 0 */
-
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 import resources from '../resources.js';

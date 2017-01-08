@@ -1,8 +1,8 @@
 import React from 'react';
 import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 import Home from './home/Home.jsx';
-import NotFound from './NotFound.jsx';
-import AfterHours from './AfterHours.jsx';
+import NotFound from './splash/NotFound.jsx';
+import AfterHours from './splash/AfterHours.jsx';
 import SignIn from './SignIn.jsx';
 import FlowContainer from './flow/FlowContainer.jsx';
 import Register from './register/Register.jsx';
