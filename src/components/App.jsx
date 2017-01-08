@@ -10,9 +10,7 @@ import Settings from './settings/Settings.jsx';
 import MainContainer from './MainContainer.jsx';
 import AdminContainer from './admin/AdminContainer.jsx';
 import ClientChatContainer from './clientChat/ClientChatContainer.jsx';
-import Webster from './resources/Webster.jsx';
-import Concordia from './resources/Concordia.jsx';
-import Iberia from './resources/Iberia.jsx';
+import Resources from './resources/Resources.jsx';
 
 class App extends React.Component {
   constructor(props) {
@@ -54,9 +52,7 @@ class App extends React.Component {
       <Router history={browserHistory}>
         <Route path="/" component={MainContainer}>
           <IndexRoute component={Home} />
-          <Route path="webster" component={Webster} />
-          <Route path="concordia" component={Concordia} />
-          <Route path="iberia" component={Iberia} />
+          <Route path="resources/:parish" component={Resources} />
           <Route path="sign-in" component={SignIn} />
           <Route path="flow/:issue" component={FlowContainer} />
           <Route path="register/:title" component={Register} />

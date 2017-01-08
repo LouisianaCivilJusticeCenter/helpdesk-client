@@ -30,22 +30,21 @@ const Nav = ({ signOut }) => (
               role="button"
               aria-haspopup="true"
               aria-expanded="false"
-            >
-              Resources<span className="caret"></span>
+            >Resources<span className="caret"></span>
             </a>
             <ul className="dropdown-menu">
-              <li><a href="webster">Webster parish</a></li>
+              <li><Link to="/resources/webster">Webster parish</Link></li>
               <li role="separator" className="divider"></li>
-              <li><a href="iberia">Iberia Parish</a></li>
+              <li><Link to="/resources/iberia">Iberia Parish</Link></li>
               <li role="separator" className="divider"></li>
-              <li><a href="concordia">Concordia parish</a></li>
+              <li><Link to="resources/concordia">Concordia parish</Link></li>
             </ul>
           </li>
         </ul>
         {localStorage.getItem('token') ?
           <ul className="nav navbar-right">
             <li><button type="button" className="btn" onClick={signOut}>Sign Out</button></li>
-            {/* <li><Link to={chatLink}>Chat</Link></li> */}
+            {/* <li><Link to={`/chat/${localStorage.getItem('id')}`}>Chat</Link></li> */}
           </ul>
           :
           null
