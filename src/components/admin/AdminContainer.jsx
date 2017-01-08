@@ -16,6 +16,7 @@ class AdminContainer extends Component {
     this.switchRoom = this.switchRoom.bind(this);
     this.renderRoomList = this.renderRoomList.bind(this);
     this.emitUnavailable = this.emitUnavailable.bind(this);
+    this.emitEmail = this.emitEmail.bind(this);
     this.signOut = this.signOut.bind(this);
   }
 
@@ -70,8 +71,11 @@ class AdminContainer extends Component {
     const roomId = e.target.value;
     let divId = `#enter${this.state.currentRoom}`;
     $(divId).removeClass('btn-success');
+    $(divId).addClass('btn-primary');
+    console.log('remiving class');
     this.setState({ currentRoom: roomId });
     divId = `#enter${roomId}`;
+    $(divId).removeClass('btn-primary');
     $(divId).addClass('btn-success');
     this.state.socket.emit('switchRoom', roomId);
   }
@@ -79,8 +83,19 @@ class AdminContainer extends Component {
   emitUnavailable(e) {
     const roomId = e.target.value;
     const divId = `#unavailable${roomId}`;
+    $(divId).removeClass('btn-primary');
     $(divId).addClass('btn-danger');
     this.state.socket.emit('unavailable', roomId);
+  }
+
+  emitEmail(e) {
+    const roomId = e.target.value;
+    const divId = `#email${roomId}`;
+    $(divId).removeClass('btn-primary');
+    $(divId).addClass('btn-success');
+    // TODO: create emit listener
+    // this.state.socket.emit('email', roomId);
+    console.warn('email functionality still in progress');
   }
 
   renderRoomList() {
@@ -103,7 +118,7 @@ class AdminContainer extends Component {
             <td>{moment(room.createdAt).format('h:mmA')}</td>
             <td>
               <button
-                className="btn btn-default btn-sm"
+                className="btn btn-primary btn-sm"
                 key={i}
                 id={`enter${room.roomId}`}
                 value={room.roomId}
@@ -114,13 +129,24 @@ class AdminContainer extends Component {
             </td>
             <td>
               <button
-                className="btn btn-default btn-sm"
+                className="btn btn-primary btn-sm"
                 key={i}
                 id={`unavailable${room.roomId}`}
                 value={room.roomId}
                 onClick={this.emitUnavailable}
               >
                 Unavailable
+              </button>
+            </td>
+            <td>
+              <button
+                className="btn btn-primary btn-sm"
+                key={i}
+                id={`email${room.roomId}`}
+                value={room.roomId}
+                onClick={this.emitEmail}
+              >
+                Email Chat
               </button>
             </td>
           </tr>
