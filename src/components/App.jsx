@@ -48,6 +48,7 @@ class App extends React.Component {
 
 
   render() {
+    // onEnter={this.requireAuthAndTime}
     return (
       <Router history={browserHistory}>
         <Route path="/" component={MainContainer}>
@@ -60,7 +61,6 @@ class App extends React.Component {
           <Route path="register/:title" component={Register} />
           <Route
             path="chat/:id"
-            onEnter={this.requireAuthAndTime}
             component={ClientChatContainer}
           />
           <Route path="settings" onEnter={this.requireAuth} component={Settings} />

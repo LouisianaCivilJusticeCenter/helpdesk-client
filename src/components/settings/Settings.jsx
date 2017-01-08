@@ -55,6 +55,7 @@ class Settings extends React.Component {
       gender: event.target.gender.value,
       race: event.target.race.value,
       veteran: event.target.veteran.value,
+      householdSize: event.target.householdSize.value,
     };
     data = JSON.stringify(data);
     // const success = (res) => {
@@ -142,6 +143,16 @@ class Settings extends React.Component {
                 placeholder="Monthly household income"
                 type="number"
                 name="income"
+                validations={['required']}
+              />
+            </div>
+            <div className="form-group">
+              <Validation.components.Input
+                className="form-control"
+                value=""
+                placeholder="Number of Adults/Minors in your Household"
+                type="number"
+                name="householdSize"
                 validations={['required']}
               />
             </div>
