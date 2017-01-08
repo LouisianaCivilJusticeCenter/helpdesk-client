@@ -39,10 +39,11 @@ class Settings extends React.Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.removeApiError = this.removeApiError.bind(this);
     this.onDobInputFocus = this.onDobInputFocus.bind(this);
+    this.updateSettings = this.updateSettings.bind(this);
+    this.sendEmail = this.sendEmail.bind(this);
   }
 
   onSubmit(event) {
-    const token = localStorage.getItem('token');
     event.preventDefault();
 
     let data = {
@@ -58,19 +59,7 @@ class Settings extends React.Component {
       householdSize: event.target.householdSize.value,
     };
     data = JSON.stringify(data);
-    // const success = (res) => {
-    //   console.log(res, 'this is res');
-    //   browserHistory.push(`chat/${res.data[0].id}`);
-    // };
-    $.ajax({
-      type: 'PUT',
-      url: `/v1/users?access_token=${token}`,
-      contentType: 'application/json',
-      data,
-      success: res => browserHistory.push(`chat/${res.data[0].id}`),
-      error: err => console.error(err),
-      dataType: 'json',
-    });
+    this.updateSettings(data);
   }
 
   onDobInputFocus() {
@@ -81,6 +70,30 @@ class Settings extends React.Component {
     this.form.hideError('username');
   }
 
+  updateSettings(data) {
+    const token = localStorage.getItem('token');
+
+    $.ajax({
+      type: 'PUT',
+      url: `/v1/users?access_token=${token}`,
+      contentType: 'application/json',
+      data,
+      success: res => this.sendEmail(res.data[0].id),
+      error: err => console.error(err),
+      dataType: 'json',
+    });
+  }
+
+  sendEmail(id) {
+    fetch(`/v1/mailer/${id}?type=newChat`, {
+      method: 'POST',
+    }).then((res) => {
+      console.warn('email response', res);
+      browserHistory.push(`chat/${id}`);
+    }).catch((err) => {
+      console.error(err, 'there was an error');
+    });
+  }
 
   render() {
     return (

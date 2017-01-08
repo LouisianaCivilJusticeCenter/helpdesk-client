@@ -140,6 +140,10 @@ app.use('/v1/messages', proxy(API_SERVER_URL, {
   forwardPath: (req) => `/v1/messages${url.parse(req.url).path}`,
 }));
 
+app.use('/v1/mailer', proxy(API_SERVER_URL, {
+  forwardPath: (req) => `/v1/mailer${url.parse(req.url).path}`,
+}));
+
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
