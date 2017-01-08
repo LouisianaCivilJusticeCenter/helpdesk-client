@@ -1,9 +1,9 @@
 import React from 'react';
-import Splash from '../Splash.jsx';
+import Splash from './Splash.jsx';
 
 const NotFound = () => (
   <div>
-    <Splash title={'404 not found, would you like to try again?'} subtitle={'Go home'} />
+    <Splash title={'404 Not Found'} subTitle={'The Page You Requested Does Not Exist'} />
   </div>
 );
 

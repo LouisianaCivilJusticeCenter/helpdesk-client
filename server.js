@@ -25,7 +25,6 @@ io.on('connection', socket => {
   });
 
   socket.on('adduser', (user, token) => {
-    // console.log(user, 'this is user');
     socket.createdAt = new Date();
     socket.username = user.username;
     socket.firstName = user.first_name;
@@ -86,7 +85,6 @@ io.on('connection', socket => {
 
 
   socket.on('switchRoom', newroom => {
-    console.warn('this is newroom on switch', newroom);
     // const oldroom = socket.room;
     socket.leave(socket.room);
     socket.join(newroom);

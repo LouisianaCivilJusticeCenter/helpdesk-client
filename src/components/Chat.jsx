@@ -1,5 +1,7 @@
 /* eslint no-confusing-arrow: "off" */
 /* eslint max-len: "off" */
+/* eslint no-alert: "off" */
+
 
 import React, { Component, PropTypes } from 'react';
 import $ from 'jquery';
@@ -16,7 +18,7 @@ class Chat extends Component {
   }
 
   componentDidMount() {
-    // TODO: do we really want this?
+    // TODO: do we want this display name?
     // const getDisplayName = (isAdmin, displayName) =>
     // (isAdmin && displayName === 'Attorney') ? 'me' : displayName;
     const getDisplayName = (a, b) => b;
@@ -60,7 +62,8 @@ class Chat extends Component {
   }
 
   endChat() {
-    this.props.socket.emit('sign-out');
+    // TODO: do we want a better confirm compopnent?
+    return confirm('Are you sure you want to end this conversation') ? this.props.socket.emit('sign-out') : null;
   }
 
   render() {

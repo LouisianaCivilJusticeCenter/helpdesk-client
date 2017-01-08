@@ -3,6 +3,7 @@
 const flows = {
   divorce: {
     title: 'Divorce',
+    link: 'divorce',
     question: {
       text: 'Have you or your spouse filed for a divorce?',
       yes: {
@@ -79,6 +80,7 @@ const flows = {
   },
   child_support: {
     title: 'Child Support',
+    link: 'child_support',
     question: {
       text: 'Is there a child support order in place from the state of Louisiana',
       yes: {
@@ -128,6 +130,7 @@ const flows = {
   },
   custody: {
     title: 'Custody',
+    link: 'custody',
     question: {
       text: 'Is there a custody order in place?',
       yes: {
@@ -193,6 +196,7 @@ const flows = {
   },
   dv: {
     title: 'Domestic Violence',
+    link: 'dv',
     question: {
       text: 'Are you or your minor child a victim of Abuse?',
       yes: {
@@ -237,6 +241,7 @@ const flows = {
   },
   adoption: {
     title: 'Visitiation',
+    link: 'adoption',
     question: {
       text: 'Are you the parent of the child?',
       yes: {
