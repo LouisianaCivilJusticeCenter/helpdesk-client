@@ -7,7 +7,7 @@ class ClientChatContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      socket: io(`${window.location.protocol}//${window.location.hostname}:${window.location.port}`),
+      socket: io(`${window.location.hostname}:${window.location.port}`),
       user: null,
     };
   }
