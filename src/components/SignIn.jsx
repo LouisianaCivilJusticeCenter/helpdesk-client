@@ -31,6 +31,7 @@ class SignIn extends React.Component {
   }
 
   onSubmit(event) {
+    console.log('onsubmit');
     event.preventDefault();
 
     let tokenData = {

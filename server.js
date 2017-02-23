@@ -1,20 +1,69 @@
 /* eslint no-param-reassign: "off" */
 require('dotenv').config({ silent: true });
-const path = require('path');
-const webpack = require('webpack');
+const http = require('http');
 const express = require('express');
+
+const webpack = require('webpack');
 const config = require('./webpack.config');
+const compiler = webpack(config);
+
+const app = express();
+
+const path = require('path');
 const proxy = require('express-http-proxy');
 const rp = require('request-promise');
 const _ = require('underscore');
 const url = require('url');
-const app = express();
-const http = require('http').createServer(app);
-const io = require('socket.io')(http);
+
+const PORT = process.env.PORT || 8090;
 const API_SERVER_URL = process.env.API_SERVER_URL;
-http.listen(process.env.SOCKET_PORT);
+// http.listen(process.env.SOCKET_PORT);
 
 let rooms = [];
+
+
+app.use(require('webpack-dev-middleware')(compiler, {
+  noInfo: true,
+  publicPath: config.output.publicPath,
+}));
+
+app.use(require('webpack-hot-middleware')(compiler));
+
+app.use('/v1/users', proxy(API_SERVER_URL, {
+  forwardPath: (req) => {
+    console.log('v1 usrs hit');
+    return `/v1/users${url.parse(req.url).path}`;
+  },
+}));
+
+app.use('/v1/access_tokens', proxy(API_SERVER_URL, {
+  forwardPath: (req) => {
+    console.log('access tokens hit');
+    return `/v1/access_tokens${url.parse(req.url).path}`;
+  },
+}));
+
+app.use('/v1/messages', proxy(API_SERVER_URL, {
+  forwardPath: (req) => `/v1/messages${url.parse(req.url).path}`,
+}));
+
+app.use('/v1/mailer', proxy(API_SERVER_URL, {
+  forwardPath: (req) => `/v1/mailer${url.parse(req.url).path}`,
+}));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+const server = new http.Server(app);
+const io = require('socket.io')(server);
+
+server.listen(PORT, (err) => {
+  if (err) {
+    console.error(err);
+  }
+  console.warn(`Listening at ${process.env.PORT}`);
+});
 
 io.on('connection', socket => {
   socket.on('admin', () => {
@@ -114,43 +163,4 @@ io.on('connection', socket => {
     }
     io.sockets.emit('updaterooms', rooms);
   });
-});
-
-const compiler = webpack(config);
-
-app.use(require('webpack-dev-middleware')(compiler, {
-  publicPath: config.output.publicPath,
-}));
-
-app.use(require('webpack-hot-middleware')(compiler));
-
-app.use('/v1/users', proxy(API_SERVER_URL, {
-  forwardPath: (req) => `/v1/users${url.parse(req.url).path}`,
-}));
-
-app.use('/v1/users', proxy(API_SERVER_URL, {
-  forwardPath: (req) => `/v1/users${url.parse(req.url).path}`,
-}));
-
-app.use('/v1/access_tokens', proxy(API_SERVER_URL, {
-  forwardPath: (req) => `/v1/access_tokens${url.parse(req.url).path}`,
-}));
-
-app.use('/v1/messages', proxy(API_SERVER_URL, {
-  forwardPath: (req) => `/v1/messages${url.parse(req.url).path}`,
-}));
-
-app.use('/v1/mailer', proxy(API_SERVER_URL, {
-  forwardPath: (req) => `/v1/mailer${url.parse(req.url).path}`,
-}));
-
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
-});
-
-app.listen(process.env.PORT, (err) => {
-  if (err) {
-    console.error(err);
-  }
-  console.warn(`Listening at ${process.env.PORT}`);
 });
