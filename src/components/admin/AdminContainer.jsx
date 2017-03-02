@@ -30,14 +30,14 @@ class AdminContainer extends Component {
     }
     fetch(`/v1/users/${id}?access_token=${token}`)
       .then(res => res.json())
-      .then((data) => {
+      .then(data => {
         if (data.meta.error || data.data[0].id !== 1) {
           this.signOut(token);
         } else {
           this.initSocket();
         }
       })
-      .catch((err) => {
+      .catch(err => {
         console.error(err);
         this.signOut(token);
       });
@@ -81,7 +81,7 @@ class AdminContainer extends Component {
     divId = `#enter${roomId}`;
     $(divId).removeClass('btn-primary');
     $(divId).addClass('btn-success');
-    this.state.socket.emit('switchRoom', roomId);
+    this.state.socket.emit('switchRoom', +roomId);
   }
 
   emitUnavailable(e) {
@@ -120,7 +120,7 @@ class AdminContainer extends Component {
         <tbody>
         {this.state.rooms.map((room, i) => (
           <tr key={room.roomId}>
-            <td>{`${room.firstName} ${room.lastName}`}</td>
+            <td>{`${room.first_name} ${room.last_name}`}</td>
             <td>{room.category}</td>
             <td>{moment(room.createdAt).format('h:mmA')}</td>
             <td>
