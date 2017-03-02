@@ -30,17 +30,11 @@ app.use(require('webpack-dev-middleware')(compiler, {
 app.use(require('webpack-hot-middleware')(compiler));
 
 app.use('/v1/users', proxy(API_SERVER_URL, {
-  forwardPath: (req) => {
-    console.log('v1 usrs hit');
-    return `/v1/users${url.parse(req.url).path}`;
-  },
+  forwardPath: (req) => `/v1/users${url.parse(req.url).path}`,
 }));
 
 app.use('/v1/access_tokens', proxy(API_SERVER_URL, {
-  forwardPath: (req) => {
-    console.log('access tokens hit');
-    return `/v1/access_tokens${url.parse(req.url).path}`;
-  },
+  forwardPath: (req) => `/v1/access_tokens${url.parse(req.url).path}`,
 }));
 
 app.use('/v1/messages', proxy(API_SERVER_URL, {
@@ -134,6 +128,7 @@ io.on('connection', socket => {
 
 
   socket.on('switchRoom', newroom => {
+    console.warn('Admin switching rooms');
     // const oldroom = socket.room;
     socket.leave(socket.room);
     socket.join(newroom);
@@ -146,7 +141,7 @@ io.on('connection', socket => {
     socket
       .broadcast
       .to(newroom)
-      .emit('updatechat', 'SERVER', `${socket.username} has joined this room`);
+      .emit('updatechat', 'SERVER', 'Admin has joined this room');
     socket.emit('updaterooms', rooms);
   });
 

@@ -8,7 +8,6 @@ class ClientChatContainer extends Component {
     super(props);
     this.state = {
       socket: io(`${window.location.hostname}:${window.location.port}`),
-      user: null,
     };
   }
 
