@@ -1,4 +1,6 @@
 /* eslint no-param-reassign: "off" */
+/* eslint camelcase: "off" */
+
 require('dotenv').config({ silent: true });
 const http = require('http');
 const express = require('express');
@@ -30,17 +32,11 @@ app.use(require('webpack-dev-middleware')(compiler, {
 app.use(require('webpack-hot-middleware')(compiler));
 
 app.use('/v1/users', proxy(API_SERVER_URL, {
-  forwardPath: (req) => {
-    console.log('v1 usrs hit');
-    return `/v1/users${url.parse(req.url).path}`;
-  },
+  forwardPath: (req) => `/v1/users${url.parse(req.url).path}`,
 }));
 
 app.use('/v1/access_tokens', proxy(API_SERVER_URL, {
-  forwardPath: (req) => {
-    console.log('access tokens hit');
-    return `/v1/access_tokens${url.parse(req.url).path}`;
-  },
+  forwardPath: (req) => `/v1/access_tokens${url.parse(req.url).path}`,
 }));
 
 app.use('/v1/messages', proxy(API_SERVER_URL, {
@@ -58,7 +54,7 @@ app.get('*', (req, res) => {
 const server = new http.Server(app);
 const io = require('socket.io')(server);
 
-server.listen(PORT, (err) => {
+server.listen(PORT, err => {
   if (err) {
     console.error(err);
   }
@@ -68,33 +64,33 @@ server.listen(PORT, (err) => {
 io.on('connection', socket => {
   socket.on('admin', () => {
     socket.username = 'admin';
-    socket.firstName = 'Attorney';
-    socket.lastName = 'General';
+    socket.first_name = 'Attorney';
+    socket.last_name = 'General';
     socket.emit('updaterooms', rooms);
   });
 
-  socket.on('adduser', (user, token) => {
+  socket.on('adduser', (user, clientToken) => {
     socket.createdAt = new Date();
     socket.username = user.username;
-    socket.firstName = user.first_name;
-    socket.lastName = user.last_name;
+    socket.first_name = user.first_name;
+    socket.last_name = user.last_name;
     socket.room = user.id;
-    socket.clientToken = token;
+    socket.clientToken = clientToken;
     if (!_.findWhere(rooms, { roomId: user.id })) {
       rooms.push({
         username: socket.username,
-        firstName: socket.firstName,
-        lastName: socket.lastName,
+        first_name: socket.first_name,
+        last_name: socket.last_name,
         roomId: socket.room,
-        category: user.category,
         createdAt: socket.createdAt,
-        clientToken: token,
+        category: user.category,
+        clientToken,
       });
     }
 
     socket.join(user.id);
     // socket.emit('updatechat', 'SERVER', 'you have connected');
-    io.sockets.in(socket.room).emit('updatechat', 'SERVER', `${socket.firstName} has connected`);
+    io.sockets.in(socket.room).emit('updatechat', 'SERVER', `${socket.first_name} has connected`);
     // socket
     //   .broadcast
     //   .to(user.id)
@@ -108,9 +104,8 @@ io.on('connection', socket => {
       uri: `${API_SERVER_URL}/v1/messages`,
       body: {
         from_id: socket.room,
-        from_firstName: socket.firstName,
-        from_lastName: socket.lastName,
-        from_username: socket.username,
+        from_first_name: socket.first_name,
+        from_last_name: socket.last_name,
         body: data,
         room_id: socket.room,
       },
@@ -125,19 +120,21 @@ io.on('connection', socket => {
         console.warn(err);
       });
     console.warn('inside sendchat');
-    io.sockets.in(socket.room).emit('updatechat', socket.firstName, data);
+    io.sockets.in(socket.room).emit('updatechat', socket.first_name, data);
   });
 
   socket.on('unavailable', roomId => {
-    io.sockets.in(roomId).emit('updatechat', socket.username, 'We Are Currently Unavailable');
+    io.sockets.in(roomId).emit('updatechat', socket.first_name, 'We Are Currently Unavailable');
   });
 
 
   socket.on('switchRoom', newroom => {
+    console.warn('Admin switching rooms');
     // const oldroom = socket.room;
     socket.leave(socket.room);
     socket.join(newroom);
-    socket.emit('updatechat', 'SERVER', `you have connected to ${newroom}`, newroom);
+    const user_first_name = _.findWhere(rooms, { roomId: newroom }).first_name || 'anonymous';
+    socket.emit('updatechat', 'SERVER', `you have connected to ${user_first_name}`, newroom);
     // socket
     //   .broadcast
     //   .to(oldroom)
@@ -146,7 +143,7 @@ io.on('connection', socket => {
     socket
       .broadcast
       .to(newroom)
-      .emit('updatechat', 'SERVER', `${socket.username} has joined this room`);
+      .emit('updatechat', 'SERVER', `${socket.first_name} has joined this room`);
     socket.emit('updaterooms', rooms);
   });
 
@@ -155,7 +152,9 @@ io.on('connection', socket => {
   });
 
   socket.on('disconnect', () => {
-    io.sockets.in(socket.room).emit('updatechat', 'SERVER', `${socket.username} has disconnected`);
+    io.sockets
+      .in(socket.room)
+      .emit('updatechat', 'SERVER', `${socket.first_name} has disconnected`);
     // socket.broadcast.emit('signout', 'SERVER', `${socket.username} has disconnected`);
     socket.leave(socket.room);
     if (socket.username !== 'admin') {

@@ -31,8 +31,8 @@ class Settings extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      firstName: '',
-      lastName: '',
+      first_name: '',
+      last_name: '',
       registered: false,
       dobInputType: 'text',
     };

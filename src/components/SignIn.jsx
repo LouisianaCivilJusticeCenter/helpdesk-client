@@ -22,8 +22,8 @@ class SignIn extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      firstName: '',
-      lastName: '',
+      first_name: '',
+      last_name: '',
       registered: false,
     };
     this.onSubmit = this.onSubmit.bind(this);
@@ -31,7 +31,6 @@ class SignIn extends React.Component {
   }
 
   onSubmit(event) {
-    console.log('onsubmit');
     event.preventDefault();
 
     let tokenData = {
@@ -40,18 +39,14 @@ class SignIn extends React.Component {
       password: event.target.password.value,
     };
     tokenData = JSON.stringify(tokenData);
-    const tokenSuccess = (res) => {
-      console.warn(res.data[0].access_token, 'this is res in token success');
-      console.warn(res.data[0], 'this is res.data in token success');
+    const tokenSuccess = res => {
       localStorage.setItem('token', res.data[0].access_token);
       localStorage.setItem('id', res.data[0].user_id);
       localStorage.setItem('username', res.data[0].username);
-      if (res.data[0].user_id === 1) {
-        browserHistory.push('/admin');
-      } else {
-        browserHistory.push('/settings');
-      }
+      return res.data[0].user_id === 1 ?
+        browserHistory.push('/admin') : browserHistory.push('/settings');
     };
+
     // TODO: Add AJAX error handling
     $.ajax({
       type: 'POST',
@@ -59,7 +54,7 @@ class SignIn extends React.Component {
       contentType: 'application/json',
       data: tokenData,
       success: tokenSuccess,
-      error: (err) => { console.error('error signing in', err); },
+      error: err => { console.error('error signing in', err); },
       dataType: 'json',
     });
   }

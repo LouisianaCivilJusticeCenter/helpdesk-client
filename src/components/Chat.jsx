@@ -1,7 +1,7 @@
 /* eslint no-confusing-arrow: "off" */
 /* eslint max-len: "off" */
 /* eslint no-alert: "off" */
-
+/* eslint camelcase: "off" */
 
 import React, { Component, PropTypes } from 'react';
 import $ from 'jquery';
@@ -23,22 +23,22 @@ class Chat extends Component {
     // (isAdmin && displayName === 'Attorney') ? 'me' : displayName;
     const getDisplayName = (a, b) => b;
     const isAdmin = this.props.isAdmin;
-    this.props.socket.on('updatechat', (firstName, message, roomId) => {
+    this.props.socket.on('updatechat', (first_name, message, roomId) => {
       if (roomId) {
         // console.warn('fetching');
         $('#conversation').empty();
-        $('#conversation').append(`<b>${getDisplayName(isAdmin, firstName)}: </b>${message}<br>`);
+        $('#conversation').append(`<b>${getDisplayName(isAdmin, first_name)}: </b>${message}<br>`);
         fetch(`/v1/messages?room_id=${roomId}`)
         .then(res => res.json())
         .then(data => {
           data.data.forEach(oldMessage => {
             $('#conversation')
-              .append(`<b>${getDisplayName(isAdmin, oldMessage.from_username)}: </b>${oldMessage.body}<br>`);
+              .append(`<b>${getDisplayName(isAdmin, oldMessage.from_first_name)}: </b>${oldMessage.body}<br>`);
             this.scrollToEnd();
           });
         });
       } else {
-        $('#conversation').append(`<b>${getDisplayName(isAdmin, firstName)}: </b>${message}<br>`);
+        $('#conversation').append(`<b>${getDisplayName(isAdmin, first_name)}: </b>${message}<br>`);
         this.scrollToEnd();
       }
     });
@@ -71,7 +71,7 @@ class Chat extends Component {
       <div className="panel panel-default">
 
         <div className="panel-heading">
-          {/* TODO: Chat with (firstName) do we want this? */}
+          {/* TODO: Chat with (first_name) do we want this? */}
         </div>
 
         <div className="panel-body">
