@@ -240,7 +240,7 @@ const flows = {
     },
   },
   adoption: {
-    title: 'Visitiation',
+    title: 'Visitation',
     link: 'adoption',
     question: {
       text: 'Are you the parent of the child?',
