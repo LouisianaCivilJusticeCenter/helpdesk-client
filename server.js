@@ -152,9 +152,16 @@ io.on('connection', socket => {
   });
 
   socket.on('disconnect', () => {
-    io.sockets
-      .in(socket.room)
-      .emit('updatechat', 'SERVER', `${socket.first_name} has disconnected`);
+    if (socket.first_name === 'Attorney') {
+      io.sockets
+        .in(socket.room)
+        .emit('updatechat', 'SERVER', `${socket.first_name} has disconnected....with other stuff to add here`);
+    } else {
+      io.sockets
+        .in(socket.room)
+        .emit('updatechat', 'SERVER', `${socket.first_name} has disconnected`);
+    }
+
     // socket.broadcast.emit('signout', 'SERVER', `${socket.username} has disconnected`);
     socket.leave(socket.room);
     if (socket.username !== 'admin') {
