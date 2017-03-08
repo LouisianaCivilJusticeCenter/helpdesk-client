@@ -1,4 +1,6 @@
 /* eslint max-len: 0 */
+const error = 'Please call our hotline at: 1-800-310-7029';
+const success = 'You are eligible for online assistance through this kiosk. Create your user profile and access free legal chat and documents here.';
 
 const flows = {
   divorce: {
@@ -7,13 +9,13 @@ const flows = {
     question: {
       text: 'Have you or your spouse filed for a divorce?',
       yes: {
-        error: 'Please call our hotline: (504) 355-0970',
+        error,
       },
       no: {
         question: {
           text: 'Are either you or your spouse represented by an attorney?',
           yes: {
-            error: 'Due to Legal Ethics Concerns, if you are represented by an attorney we cannot assist with this matter. If you spouse is represented, please call our Hotline: 1-800-310-7029',
+            error: 'Due to legal ethics concerns, if you are represented by an attorney we cannot assist with this matter. If you spouse is represented, please call our Hotline: 1-800-310-7029',
           },
           no: {
             question: {
@@ -25,28 +27,28 @@ const flows = {
                     question: {
                       text: 'Do you have any community property that needs to be divided?',
                       yes: {
-                        error: 'Please call our hotline: (504) 355-0970',
+                        error,
                       },
                       no: {
                         question: {
                           text: 'Is this a covenant marriage?',
                           yes: {
-                            error: 'Please call our hotline: (504) 355-0970',
+                            error,
                           },
                           no: {
                             question: {
                               text: 'Are you or your spouse active members of the U.S. Armed Forces?',
                               yes: {
-                                error: 'Please call our hotline: (504) 355-0970',
+                                error,
                               },
                               no: {
                                 question: {
                                   text: 'Have you or your spouse lived in Louisiana for the last 6 months?',
                                   yes: {
-                                    success: 'success',
+                                    success,
                                   },
                                   no: {
-                                    error: 'Please call our hotline: (504 355-0970)',
+                                    error,
                                   },
                                 },
                               },
@@ -57,7 +59,7 @@ const flows = {
                     },
                   },
                   no: {
-                    error: 'Please call hotline',
+                    error,
                   },
                 },
               },
@@ -65,10 +67,10 @@ const flows = {
                 question: {
                   text: 'Have you been living seperate and apart for 180 days?',
                   yes: {
-                    success: 'success',
+                    success,
                   },
                   no: {
-                    error: 'Please call our hotline: (504 355-0970)',
+                    error,
                   },
                 },
               },
@@ -90,10 +92,10 @@ const flows = {
             question: {
               text: 'Are you names a party to the case?',
               yes: {
-                success: 'You are eligible for online assistance through this kiosk. Create your user profile and access free legal chat and documents here.',
+                success,
               },
               no: {
-                error: 'Please call our hotline: 1-800-310-7029',
+                error,
               },
             },
           },
@@ -109,20 +111,20 @@ const flows = {
                 question: {
                   text: 'Does the child live in Louisiana',
                   yes: {
-                    success: 'You are eligible for online assistance through this kiosk. Create your user profile and access free legal chat and documents here.',
+                    success,
                   },
                   no: {
-                    error: 'Please call our hotline: 1-800-310-7029',
+                    error,
                   },
                 },
               },
               no: {
-                error: 'Please call our hotline: 1-800-310-7029',
+                error,
               },
             },
           },
           no: {
-            error: 'Please call our hotline: 1-800-310-7029',
+            error,
           },
         },
       },
@@ -209,7 +211,7 @@ const flows = {
                 question: {
                   text: 'Were you ever accused of Domestic Violence/sexual or physcial against the child or a parent of the child?',
                   yes: {
-                    error: 'Please call our hotline: 1-800-310-7029',
+                    error,
                   },
                   no: {
                     question: {
@@ -218,27 +220,27 @@ const flows = {
                         question: {
                           text: 'Are you named a party to the case?',
                           yes: {
-                            success: 'You are eligible for online assistance through this kiosk. Create your user profile and access free legal chat and documents here.',
+                            success,
                           },
                           no: {
-                            error: 'Please call our hotline: 1-800-310-7029',
+                            error,
                           },
                         },
                       },
                       yes: {
-                        error: 'Please call our hotline: 1-800-310-7029',
+                        error,
                       },
                     },
                   },
                 },
               },
               no: {
-                error: 'Please call our hotline: 1-800-310-7029',
+                error,
               },
             },
           },
           no: {
-            error: 'Please call our hotline: 1-800-310-7029',
+            error,
           },
         },
       },
@@ -249,15 +251,15 @@ const flows = {
             question: {
               text: 'Are the parents of the child married?',
               yes: {
-                error: 'Please call our hotline: 1-800-310-7029',
+                error,
               },
               no: {
-                success: 'You are eligible for online assistance through this kiosk. Create your user profile and access free legal chat and documents here.',
+                success,
               },
             },
           },
           no: {
-            error: 'Please call our hotline: 1-800-310-7029',
+            error,
           },
         },
       },
@@ -275,10 +277,10 @@ const flows = {
             question: {
               text: 'Are you seeking a protective order',
               yes: {
-                success: 'You are eligible for online assistance through this kiosk. Create your user profile and access free legal chat and documents here.',
+                success,
               },
               no: {
-                error: 'Please call our hotline: 1-800-310-7029',
+                error,
               },
             },
           },
@@ -289,22 +291,22 @@ const flows = {
                 question: {
                   text: 'Are you seeking a Protective order?',
                   yes: {
-                    success: 'You are eligible for online assistance through this kiosk. Create your user profile and access free legal chat and documents here.',
+                    success,
                   },
                   no: {
-                    error: 'Please call our hotline: 1-800-310-7029',
+                    error,
                   },
                 },
               },
               no: {
-                error: 'Please call our hotline: 1-800-310-7029',
+                error,
               },
             },
           },
         },
       },
       no: {
-        error: 'Please call our hotline: 1-800-310-7029',
+        error,
       },
     },
   },
