@@ -84,13 +84,13 @@ const flows = {
     title: 'Child Support',
     link: 'child_support',
     question: {
-      text: 'Is there a child support order in place from the state of Louisiana',
+      text: 'Is there a child support order in place from the state of Louisiana?',
       yes: {
         question: {
           text: 'Are you seeking to modify the current order?',
           yes: {
             question: {
-              text: 'Are you names a party to the case?',
+              text: 'Are you named a party to the case?',
               yes: {
                 success,
               },
@@ -103,13 +103,13 @@ const flows = {
       },
       no: {
         question: {
-          text: 'Are you trying to establish Child Support',
+          text: 'Are you trying to establish Child Support?',
           yes: {
             question: {
               text: 'Has the paternity been established?',
               yes: {
                 question: {
-                  text: 'Does the child live in Louisiana',
+                  text: 'Does the child live in Louisiana?',
                   yes: {
                     success,
                   },
@@ -169,13 +169,13 @@ const flows = {
       },
       no: {
         question: {
-          text: 'Are you trying to establish custody/visitations',
+          text: 'Are you trying to establish custody?',
           yes: {
             question: {
               text: 'Are you the father?',
               yes: {
                 question: {
-                  text: 'Has your paternity been established? (Is your name on the childs birth certificate?)',
+                  text: 'Has your paternity been established (is your name on the child’s birth certificate? Or, if not, have you legally established your paternity in some other way)?',
                   yes: {
                     success: 'You are eligible for assistance through this kiosk. Create your user profile and acess free legal chat and documents HERE.',
                   },
@@ -203,7 +203,7 @@ const flows = {
       text: 'Are you the parent of the child?',
       yes: {
         question: {
-          text: 'Is there a custoy/visitation order in place',
+          text: 'Is there a custoy/visitation order in place?',
           yes: {
             question: {
               text: 'Are you trying to change the visitation order?',
@@ -246,7 +246,7 @@ const flows = {
       },
       no: {
         question: {
-          text: 'Are you the grandparent of the child or subling?',
+          text: 'Are you the child’s grandparent or sibling?',
           yes: {
             question: {
               text: 'Are the parents of the child married?',
@@ -269,13 +269,13 @@ const flows = {
     title: 'Domestic Violence',
     link: 'dv',
     question: {
-      text: 'Are you or your minor child a victim of Abuse?',
+      text: 'Are you, or is your minor child, a victim of abuse?',
       yes: {
         question: {
-          text: 'Is the abuser your: Spouse, Former Spouse, Dating Partner, Parent, Child, Stepparent, Stepchild, Foster Parent, Foster Child, Grandparent, Grandchild?',
+          text: 'Is the abuser your: spouse, former spouse, dating partner, parent, child, stepparent, stepchild, foster parent, foster child, grandparent, or grandchild?',
           yes: {
             question: {
-              text: 'Are you seeking a protective order',
+              text: 'Are you seeking a Protective Order?',
               yes: {
                 success,
               },
@@ -289,7 +289,7 @@ const flows = {
               text: 'Were you the victim of stalking or cyberstalking by a stranger or acquaintance?',
               yes: {
                 question: {
-                  text: 'Are you seeking a Protective order?',
+                  text: 'Are you seeking a Protective Order?',
                   yes: {
                     success,
                   },
