@@ -17,7 +17,6 @@ const Home = () => (
           </p>
           <p>
             Through our online intake and chat portal, you may access legal information and documents <b>free of charge</b>.
-            Family law issues may include custody/visitation, child support, tutorship, domestic abuse, inter-family adoption, and divorce.
             To continue, please select one of the options below.
             If you need assistance with a civil legal issue that is not related to family law, or if you are not sure what kind of legal issue you have, please call our hotline at 1-800-310-7029
           </p>

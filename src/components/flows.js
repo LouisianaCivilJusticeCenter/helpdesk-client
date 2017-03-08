@@ -13,7 +13,7 @@ const flows = {
         question: {
           text: 'Are either you or your spouse represented by an attorney?',
           yes: {
-            error: 'Due to Legal Ethics Concerns, if you are represented by an attorney we cannot assist with this matter. If you spouse is represented, please call our Hotline: 504-355-0970',
+            error: 'Due to Legal Ethics Concerns, if you are represented by an attorney we cannot assist with this matter. If you spouse is represented, please call our Hotline: 1-800-310-7029',
           },
           no: {
             question: {
@@ -93,7 +93,7 @@ const flows = {
                 success: 'You are eligible for online assistance through this kiosk. Create your user profile and access free legal chat and documents here.',
               },
               no: {
-                error: 'Please call our hotline: 504-355-0970',
+                error: 'Please call our hotline: 1-800-310-7029',
               },
             },
           },
@@ -112,17 +112,17 @@ const flows = {
                     success: 'You are eligible for online assistance through this kiosk. Create your user profile and access free legal chat and documents here.',
                   },
                   no: {
-                    error: 'Please call our hotline: 504-355-0970',
+                    error: 'Please call our hotline: 1-800-310-7029',
                   },
                 },
               },
               no: {
-                error: 'Please call our hotline: 504-355-0970',
+                error: 'Please call our hotline: 1-800-310-7029',
               },
             },
           },
           no: {
-            error: 'Please call our hotline: 504-355-0970',
+            error: 'Please call our hotline: 1-800-310-7029',
           },
         },
       },
@@ -149,17 +149,17 @@ const flows = {
                         success: 'You are eligible for assistance through this kiosk. Create your user profile and acess free legal chat and documents HERE.',
                       },
                       no: {
-                        error: 'Please call our hotline at 504-355-0970',
+                        error: 'Please call our hotline at 1-800-310-7029',
                       },
                     },
                   },
                   no: {
-                    error: 'Please call our hotline at 504-355-0970',
+                    error: 'Please call our hotline at 1-800-310-7029',
                   },
                 },
               },
               no: {
-                error: 'Please call our hotline at 504-355-0970',
+                error: 'Please call our hotline at 1-800-310-7029',
               },
             },
           },
@@ -178,7 +178,7 @@ const flows = {
                     success: 'You are eligible for assistance through this kiosk. Create your user profile and acess free legal chat and documents HERE.',
                   },
                   no: {
-                    error: 'Please call our hotline at 504-355-0970',
+                    error: 'Please call our hotline at 1-800-310-7029',
                   },
                 },
               },
@@ -188,7 +188,76 @@ const flows = {
             },
           },
           no: {
-            error: 'Please call our hotline at 504-355-0970',
+            error: 'Please call our hotline at 1-800-310-7029',
+          },
+        },
+      },
+    },
+  },
+  adoption: {
+    title: 'Visitation',
+    link: 'adoption',
+    question: {
+      text: 'Are you the parent of the child?',
+      yes: {
+        question: {
+          text: 'Is there a custoy/visitation order in place',
+          yes: {
+            question: {
+              text: 'Are you trying to change the visitation order?',
+              yes: {
+                question: {
+                  text: 'Were you ever accused of Domestic Violence/sexual or physcial against the child or a parent of the child?',
+                  yes: {
+                    error: 'Please call our hotline: 1-800-310-7029',
+                  },
+                  no: {
+                    question: {
+                      text: 'Is there any material change in the circumstances? Or you are unhappy with the Judgement?',
+                      no: {
+                        question: {
+                          text: 'Are you named a party to the case?',
+                          yes: {
+                            success: 'You are eligible for online assistance through this kiosk. Create your user profile and access free legal chat and documents here.',
+                          },
+                          no: {
+                            error: 'Please call our hotline: 1-800-310-7029',
+                          },
+                        },
+                      },
+                      yes: {
+                        error: 'Please call our hotline: 1-800-310-7029',
+                      },
+                    },
+                  },
+                },
+              },
+              no: {
+                error: 'Please call our hotline: 1-800-310-7029',
+              },
+            },
+          },
+          no: {
+            error: 'Please call our hotline: 1-800-310-7029',
+          },
+        },
+      },
+      no: {
+        question: {
+          text: 'Are you the grandparent of the child or subling?',
+          yes: {
+            question: {
+              text: 'Are the parents of the child married?',
+              yes: {
+                error: 'Please call our hotline: 1-800-310-7029',
+              },
+              no: {
+                success: 'You are eligible for online assistance through this kiosk. Create your user profile and access free legal chat and documents here.',
+              },
+            },
+          },
+          no: {
+            error: 'Please call our hotline: 1-800-310-7029',
           },
         },
       },
@@ -209,7 +278,7 @@ const flows = {
                 success: 'You are eligible for online assistance through this kiosk. Create your user profile and access free legal chat and documents here.',
               },
               no: {
-                error: 'Please call our hotline: 504-355-0970',
+                error: 'Please call our hotline: 1-800-310-7029',
               },
             },
           },
@@ -223,88 +292,19 @@ const flows = {
                     success: 'You are eligible for online assistance through this kiosk. Create your user profile and access free legal chat and documents here.',
                   },
                   no: {
-                    error: 'Please call our hotline: 504-355-0970',
+                    error: 'Please call our hotline: 1-800-310-7029',
                   },
                 },
               },
               no: {
-                error: 'Please call our hotline: 504-355-0970',
+                error: 'Please call our hotline: 1-800-310-7029',
               },
             },
           },
         },
       },
       no: {
-        error: 'Please call our hotline: 504-355-0970',
-      },
-    },
-  },
-  adoption: {
-    title: 'Visitation',
-    link: 'adoption',
-    question: {
-      text: 'Are you the parent of the child?',
-      yes: {
-        question: {
-          text: 'Is there a custoy/visitation order in place',
-          yes: {
-            question: {
-              text: 'Are you trying to change the visitation order?',
-              yes: {
-                question: {
-                  text: 'Were you ever accused of Domestic Violence/sexual or physcial against the child or a parent of the child?',
-                  yes: {
-                    error: 'Please call our hotline: 504-355-0970',
-                  },
-                  no: {
-                    question: {
-                      text: 'Is there any material change in the circumstances? Or you are unhappy with the Judgement?',
-                      no: {
-                        question: {
-                          text: 'Are you named a party to the case?',
-                          yes: {
-                            success: 'You are eligible for online assistance through this kiosk. Create your user profile and access free legal chat and documents here.',
-                          },
-                          no: {
-                            error: 'Please call our hotline: 504-355-0970',
-                          },
-                        },
-                      },
-                      yes: {
-                        error: 'Please call our hotline: 504-355-0970',
-                      },
-                    },
-                  },
-                },
-              },
-              no: {
-                error: 'Please call our hotline: 504-355-0970',
-              },
-            },
-          },
-          no: {
-            error: 'Please call our hotline: 504-355-0970',
-          },
-        },
-      },
-      no: {
-        question: {
-          text: 'Are you the grandparent of the child or subling?',
-          yes: {
-            question: {
-              text: 'Are the parents of the child married?',
-              yes: {
-                error: 'Please call our hotline: 504-355-0970',
-              },
-              no: {
-                success: 'You are eligible for online assistance through this kiosk. Create your user profile and access free legal chat and documents here.',
-              },
-            },
-          },
-          no: {
-            error: 'Please call our hotline: 504-355-0970',
-          },
-        },
+        error: 'Please call our hotline: 1-800-310-7029',
       },
     },
   },

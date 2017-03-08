@@ -55,7 +55,7 @@ class Flow extends Component {
   renderChatButton() {
     return (
       <div className="eligible">
-        <p>You're eligible to recieve free advice with an attorney via chat.
+        <p>You're eligible to receive free advice with an attorney via chat.
         We just need some basic information first.</p>
         <Link to={`/register/${this.props.issue.title.toLowerCase()}`}>
           <button
