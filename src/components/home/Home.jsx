@@ -24,10 +24,10 @@ const Home = () => (
         </div>
         <div className="col-md-5 text-center">
           <h3>What do you need help with?</h3>
-          {_.map(flows, (item, index) => (
-            <div key={item.title}>
-              <Link to={`flow/${item.link}`} className="btn btn-default btn-lg btn-block" key={index} >
-                {item.title}
+          {_.map(flows, (flow, index) => (
+            <div key={flow.title}>
+              <Link to={`flow/${flow.link}`} className="btn btn-default btn-lg btn-block" key={index} >
+                {flow.title}
               </Link>
             </div>
           ))}
