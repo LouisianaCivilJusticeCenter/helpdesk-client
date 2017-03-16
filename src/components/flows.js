@@ -245,23 +245,7 @@ const flows = {
         },
       },
       no: {
-        question: {
-          text: 'Are you the child’s grandparent or sibling?',
-          yes: {
-            question: {
-              text: 'Are the parents of the child married?',
-              yes: {
-                error,
-              },
-              no: {
-                success,
-              },
-            },
-          },
-          no: {
-            error,
-          },
-        },
+        error: 'Please use the custody button on the homepage.',
       },
     },
   },
