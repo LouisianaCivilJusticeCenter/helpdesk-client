@@ -204,9 +204,9 @@ const flows = {
     link: 'adoption',
     question: {
       text: 'Are you the parent of the child?',
-      yes: {
+      no: {
         question: {
-          text: 'Is there a custoy/visitation order in place?',
+          text: 'Is there a custody/visitation order in place?',
           yes: {
             question: {
               text: 'Are you trying to change the visitation order?',
@@ -247,7 +247,7 @@ const flows = {
           },
         },
       },
-      no: {
+      yes: {
         error: 'Please use the custody button on the homepage.',
       },
     },

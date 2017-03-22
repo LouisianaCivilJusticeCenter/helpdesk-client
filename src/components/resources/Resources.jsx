@@ -1,5 +1,4 @@
 import React, { PropTypes } from 'react';
-import { Link } from 'react-router';
 import resources from '../resources.js';
 import _ from 'underscore';
 
@@ -9,21 +8,21 @@ const Resources = ({ params }) => (
   <div className="row">
     <div className="col-md-9">
       <div className="row">
-        <div className="col-md-offset-2 col-md-8">
-          <h3 className="text-center">Legal Resources</h3>
+        <div className="col-md-8">
+          <h3>Legal Resources</h3>
         </div>
         <div className="col-md-3">
         </div>
       </div>
       <div className="row">
-        <div className="col-md-offset-3 col-md-6 text-center">
+        <div className="col-md-6">
           {/* TODO: Its better to make this map in its own component */}
           <h3>{resources[params.parish].parish} Parish</h3>
           {_.map(resources[params.parish].resources, (resource, index) => (
             <div key={resource.title}>
-              <Link to={resource.link} className="btn btn-default btn-lg btn-block" key={index} >
+              <h4 key={index} >
                 {resource.title}
-              </Link>
+              </h4>
               <p>{resource.description}</p>
             </div>
           ))}
