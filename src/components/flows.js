@@ -204,7 +204,7 @@ const flows = {
     link: 'adoption',
     question: {
       text: 'Are you the parent of the child?',
-      no: {
+      yes: {
         question: {
           text: 'Is there a custody/visitation order in place?',
           yes: {
@@ -219,7 +219,7 @@ const flows = {
                   no: {
                     question: {
                       text: 'Is there any material change in the circumstances? Or you are unhappy with the Judgement?',
-                      no: {
+                      yes: {
                         question: {
                           text: 'Are you named a party to the case?',
                           yes: {
@@ -230,7 +230,7 @@ const flows = {
                           },
                         },
                       },
-                      yes: {
+                      no: {
                         error,
                       },
                     },
@@ -247,8 +247,24 @@ const flows = {
           },
         },
       },
-      yes: {
-        error: 'Please use the custody button on the homepage.',
+      no: {
+        question: {
+          text: 'Are you a grandparent or sibling of the child?',
+          no: {
+            success,
+          },
+          yes: {
+            question: {
+              text: 'Are the parents of the child married?',
+              yes: {
+                error,
+              },
+              no: {
+                success,
+              },
+            },
+          },
+        },
       },
     },
   },
