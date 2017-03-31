@@ -254,7 +254,7 @@ const flows = {
             success,
           },
           yes: {
-            questions: {
+            question: {
               text: 'Are the parents of the child married?',
               yes: {
                 error,
