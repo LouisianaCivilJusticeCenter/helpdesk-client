@@ -205,47 +205,7 @@ const flows = {
     question: {
       text: 'Are you the parent of the child?',
       yes: {
-        question: {
-          text: 'Is there a custody/visitation order in place?',
-          yes: {
-            question: {
-              text: 'Are you trying to change the visitation order?',
-              yes: {
-                question: {
-                  text: 'Were you ever accused of Domestic Violence/sexual or physcial against the child or a parent of the child?',
-                  yes: {
-                    error,
-                  },
-                  no: {
-                    question: {
-                      text: 'Is there any material change in the circumstances? Or you are unhappy with the Judgement?',
-                      yes: {
-                        question: {
-                          text: 'Are you named a party to the case?',
-                          yes: {
-                            success,
-                          },
-                          no: {
-                            error,
-                          },
-                        },
-                      },
-                      no: {
-                        error,
-                      },
-                    },
-                  },
-                },
-              },
-              no: {
-                error,
-              },
-            },
-          },
-          no: {
-            error,
-          },
-        },
+        error: 'Please use the custody button on the homepage.',
       },
       no: {
         question: {
