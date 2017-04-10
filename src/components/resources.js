@@ -23,7 +23,7 @@ const resources = {
     resources: [
       { title: 'Iberia Parish Clerk of Court', description: '(337) 365-7282' },
       { title: 'Acadiana Legal Services', description: '(337) 237-4320' },
-      { title: 'SNAP: Safety Net for Abused Persons', description: '(337) 367-SNAP' },
+      { title: 'Chez Hope', description: '(337) 560-0090' },
     ],
   },
   concordia: {
