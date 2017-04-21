@@ -67,7 +67,39 @@ const flows = {
                 question: {
                   text: 'Have you been living seperate and apart for 180 days?',
                   yes: {
-                    success,
+                    question: {
+                      text: 'Do you have any community property that needs to be divided?',
+                      yes: {
+                        error,
+                      },
+                      no: {
+                        question: {
+                          text: 'Is this a covenant marriage?',
+                          yes: {
+                            error,
+                          },
+                          no: {
+                            question: {
+                              text: 'Are you or your spouse active members of the U.S. Armed Forces?',
+                              yes: {
+                                error,
+                              },
+                              no: {
+                                question: {
+                                  text: 'Have you or your spouse lived in Louisiana for the last 6 months?',
+                                  yes: {
+                                    success,
+                                  },
+                                  no: {
+                                    error,
+                                  },
+                                },
+                              },
+                            },
+                          },
+                        },
+                      },
+                    },
                   },
                   no: {
                     error,
