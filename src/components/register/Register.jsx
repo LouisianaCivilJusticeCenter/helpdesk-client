@@ -5,8 +5,8 @@ import React, { PropTypes } from 'react';
 import Validation from 'react-validation';
 import { browserHistory } from 'react-router';
 import validator from 'validator';
-import $ from 'jquery';
 import _ from 'underscore';
+import axios from 'axios';
 
 Object.assign(Validation.rules, {
   required: {
@@ -53,54 +53,44 @@ class Register extends React.Component {
     super(props);
 
     this.onSubmit = this.onSubmit.bind(this);
+    this.createUser = this.createUser.bind(this);
+    this.loginUser = this.loginUser.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
     this.removeApiError = this.removeApiError.bind(this);
   }
 
-  onSubmit(event) {
-    event.preventDefault();
-    // TODO: should change this to fetch
+  onSubmit(e) {
+    e.preventDefault();
 
-    let data = _.reduce(event.target, (memo, target) => {
-      memo[target.name] = target.value;
-      return memo;
-    }, {});
+    const data = _.chain(e.target)
+      .reduce((memo, { name, value }) => Object.assign({ [name]: value }, memo), {})
+      .omit('passwordConfirm', '')
+      .value();
     data.category = this.props.params.title;
-    let tokenData = {
+    const tokenData = {
       grant_type: 'password',
       username: data.username,
       password: data.password,
     };
 
-    data = JSON.stringify(data);
-    tokenData = JSON.stringify(tokenData);
-    const tokenSuccess = (res) => {
-      localStorage.setItem('token', res.data[0].access_token);
-      localStorage.setItem('id', res.data[0].user_id);
-      localStorage.setItem('username', res.data[0].username);
+    this.createUser(data, tokenData);
+  }
 
-      browserHistory.push('/settings');
-    };
+  createUser(data, tokenData) {
+    axios.post('/v1/users', data)
+      .then(() => this.loginUser(tokenData))
+      .catch(error => console.error(error, 'Create user error'));
+  }
 
-    const success = () => {
-      $.ajax({
-        type: 'POST',
-        url: '/v1/access_tokens',
-        contentType: 'application/json',
-        data: tokenData,
-        success: tokenSuccess,
-        error: err => console.error(err),
-        dataType: 'json',
-      });
-    };
-    $.ajax({
-      type: 'POST',
-      url: '/v1/users',
-      contentType: 'application/json',
-      data,
-      success,
-      error: err => console.error(err),
-      dataType: 'json',
-    });
+  loginUser(tokenData) {
+    axios.post('/v1/access_tokens', tokenData)
+      .then(({ data: { data } }) => {
+        localStorage.setItem('token', data[0].access_token);
+        localStorage.setItem('id', data[0].user_id);
+        localStorage.setItem('username', data[0].username);
+        browserHistory.push('/settings');
+      })
+      .catch(error => console.error(error, 'Login User Error'));
   }
 
   removeApiError() {
