@@ -3,7 +3,8 @@ import React from 'react';
 import Validation from 'react-validation';
 import validator from 'validator';
 import { browserHistory } from 'react-router';
-import $ from 'jquery';
+// import $ from 'jquery';
+import axios from 'axios';
 
 Object.assign(Validation.rules, {
   required: {
@@ -70,18 +71,11 @@ class Settings extends React.Component {
     this.form.hideError('username');
   }
 
-  updateSettings(data) {
+  updateSettings(settings) {
     const token = localStorage.getItem('token');
-
-    $.ajax({
-      type: 'PUT',
-      url: `/v1/users?access_token=${token}`,
-      contentType: 'application/json',
-      data,
-      success: res => this.sendEmail(res.data[0].id),
-      error: err => console.error(err),
-      dataType: 'json',
-    });
+    axios.put(`/v1/users?access_token=${token}`, settings)
+      .then(({ data: { data } }) => this.sendEmail(data[0].id))
+      .catch(err => console.error(err));
   }
 
   sendEmail(id) {
