@@ -47,7 +47,7 @@ class Settings extends React.Component {
   onSubmit(event) {
     event.preventDefault();
 
-    let data = {
+    const data = {
       dob: event.target.dob.value,
       street: event.target.street.value,
       city: event.target.city.value,
@@ -59,7 +59,6 @@ class Settings extends React.Component {
       veteran: event.target.veteran.value,
       householdSize: event.target.householdSize.value,
     };
-    data = JSON.stringify(data);
     this.updateSettings(data);
   }
 
@@ -79,14 +78,12 @@ class Settings extends React.Component {
   }
 
   sendEmail(id) {
-    fetch(`/v1/mailer/${id}?type=newChat`, {
-      method: 'POST',
-    }).then((res) => {
-      console.warn('email response', res);
-      browserHistory.push(`chat/${id}`);
-    }).catch((err) => {
-      console.error(err, 'there was an error');
-    });
+    axios.post(`/v1/mailer/${id}?type=newChat`)
+      .then(res => {
+        console.warn('email response', res);
+        browserHistory.push(`chat/${id}`);
+      })
+      .catch(err => console.error(err));
   }
 
   render() {
