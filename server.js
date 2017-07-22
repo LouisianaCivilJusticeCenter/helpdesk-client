@@ -20,7 +20,7 @@ const url = require('url');
 const PORT = process.env.PORT || 8090;
 const API_SERVER_URL = process.env.API_SERVER_URL;
 
-const renderUnavailableMessage = 'We are currentl unavailable';
+const renderUnavailableMessage = 'We are currently unavailable';
 const renderDisconnectedMessage = `Attorney has disconnected. If the conversation was not finished, 
 this is most likely due to an internet connectivity problem. You may finish your conversation over 
 the phone by calling 1-800-310-7029 and indicating that you received assistance through the virtual 
