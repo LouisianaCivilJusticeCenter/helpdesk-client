@@ -53,7 +53,7 @@ class AdminContainer extends Component {
     });
     socket.on('sign-out', () => {
       console.log('Signout hit in admin');
-      this.setState({ currentRoom: null });
+      this.setState({ currentRoom: null, rooms: this.state.rooms });
       // window.location = `${window.location.origin}/admin`;
     });
     this.setState({ socket });

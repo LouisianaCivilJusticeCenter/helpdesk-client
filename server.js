@@ -128,6 +128,7 @@ io.on('connection', socket => {
   });
 
   socket.on('unavailable', roomId => {
+    console.log(rooms, 'this is rooms');    
     io.sockets.in(roomId).emit('updatechat', socket.first_name, renderUnavailableMessage);
   });
 
@@ -153,6 +154,10 @@ io.on('connection', socket => {
 
   socket.on('sign-out', () => {
     io.sockets.in(socket.room).emit('sign-out', socket.clientToken);
+
+    // update rooms
+    rooms = _.reject(rooms, room => room.id === socket.id);
+    io.sockets.emit('updaterooms', rooms);
   });
 
   socket.on('disconnect', () => {
