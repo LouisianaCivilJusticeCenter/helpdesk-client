@@ -19,10 +19,14 @@ const url = require('url');
 
 const PORT = process.env.PORT || 8090;
 const API_SERVER_URL = process.env.API_SERVER_URL;
-// http.listen(process.env.SOCKET_PORT);
+
+const renderUnavailableMessage = 'We are currently unavailable';
+const renderDisconnectedMessage = `Attorney has disconnected. If the conversation was not finished, 
+this is most likely due to an internet connectivity problem. You may finish your conversation over 
+the phone by calling 1-800-310-7029 and indicating that you received assistance through the virtual 
+helpdesk.`;
 
 let rooms = [];
-
 
 app.use(require('webpack-dev-middleware')(compiler, {
   noInfo: true,
@@ -124,7 +128,8 @@ io.on('connection', socket => {
   });
 
   socket.on('unavailable', roomId => {
-    io.sockets.in(roomId).emit('updatechat', socket.first_name, 'We Are Currently Unavailable');
+    console.log(rooms, 'this is rooms');    
+    io.sockets.in(roomId).emit('updatechat', socket.first_name, renderUnavailableMessage);
   });
 
 
@@ -149,13 +154,17 @@ io.on('connection', socket => {
 
   socket.on('sign-out', () => {
     io.sockets.in(socket.room).emit('sign-out', socket.clientToken);
+
+    // update rooms
+    rooms = _.reject(rooms, room => room.id === socket.id);
+    io.sockets.emit('updaterooms', rooms);
   });
 
   socket.on('disconnect', () => {
     if (socket.first_name === 'Attorney') {
       io.sockets
         .in(socket.room)
-        .emit('updatechat', 'SERVER', `${socket.first_name} has disconnected....with other stuff to add here`);
+        .emit('updatechat', 'SERVER', renderDisconnectedMessage);
     } else {
       io.sockets
         .in(socket.room)
