@@ -19,6 +19,7 @@ const url = require('url');
 
 const PORT = process.env.PORT || 8090;
 const API_SERVER_URL = process.env.API_SERVER_URL;
+const USERNAME = process.env.USERNAME || 'admin';
 
 const renderUnavailableMessage = 'We are currently unavailable';
 const renderDisconnectedMessage = `Attorney has disconnected. If the conversation was not finished, 
@@ -67,7 +68,7 @@ server.listen(PORT, err => {
 
 io.on('connection', socket => {
   socket.on('admin', () => {
-    socket.username = 'admin';
+    socket.username = USERNAME;
     socket.first_name = 'Attorney';
     socket.last_name = 'General';
     socket.emit('updaterooms', rooms);
@@ -117,21 +118,20 @@ io.on('connection', socket => {
     };
 
     rp(options)
-      .then(parsedBody => {
-        console.warn(parsedBody);
-      })
-      .catch(err => {
-        console.warn(err);
-      });
-    console.warn('inside sendchat');
-    io.sockets.in(socket.room).emit('updatechat', socket.first_name, data);
-  });
+      .then(parsedBody => console.warn(parsedBody))
+      .catch(err => console.warn(err));
 
+<<<<<<< HEAD
   socket.on('unavailable', roomId => {
     console.log(rooms, 'this is rooms');    
     io.sockets.in(roomId).emit('updatechat', socket.first_name, renderUnavailableMessage);
+=======
+    io.sockets.in(socket.room).emit('updatechat', socket.first_name, data);
+>>>>>>> (update) chat
   });
 
+  socket.on('unavailable', roomId =>
+    io.sockets.in(roomId).emit('updatechat', socket.first_name, renderUnavailableMessage));
 
   socket.on('switchRoom', newroom => {
     console.warn('Admin switching rooms');
@@ -154,9 +154,12 @@ io.on('connection', socket => {
 
   socket.on('sign-out', () => {
     io.sockets.in(socket.room).emit('sign-out', socket.clientToken);
+<<<<<<< HEAD
 
     // update rooms
     rooms = _.reject(rooms, room => room.id === socket.id);
+=======
+>>>>>>> (update) chat
     io.sockets.emit('updaterooms', rooms);
   });
 
@@ -173,7 +176,7 @@ io.on('connection', socket => {
 
     // socket.broadcast.emit('signout', 'SERVER', `${socket.username} has disconnected`);
     socket.leave(socket.room);
-    if (socket.username !== 'admin') {
+    if (socket.username !== USERNAME) {
       rooms = _.reject(rooms, room => room.username === socket.username);
     }
     io.sockets.emit('updaterooms', rooms);

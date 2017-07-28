@@ -45,17 +45,19 @@ class AdminContainer extends Component {
 
   initSocket() {
     const socket = io(`${window.location.hostname}:${window.location.port}`);
-    socket.on('connect', () => {
-      socket.emit('admin', 'admin');
-    });
-    socket.on('updaterooms', rooms => {
-      this.setState({ rooms });
-    });
+    socket.on('connect', () => socket.emit('admin'));
+    socket.on('updaterooms', rooms => this.setState({ rooms }));
     socket.on('sign-out', () => {
+<<<<<<< HEAD
       console.log('Signout hit in admin');
       this.setState({ currentRoom: null, rooms: this.state.rooms });
       // window.location = `${window.location.origin}/admin`;
+=======
+      this.setState({ currentRoom: null });
+      this.forceUpdate();
+>>>>>>> (update) chat
     });
+
     this.setState({ socket });
   }
 
@@ -169,21 +171,21 @@ class AdminContainer extends Component {
   }
 
   render() {
+    const { rooms, currentRoom, socket } = this.state;
     return (
       <div className="row">
         <div className="col-sm-6">
           <b>Current Chats</b>
-          {this.state.rooms.length ? this.renderRoomList() : <p>no rooms</p>}
+          {rooms.length ? this.renderRoomList() : <p>no rooms</p>}
           <div id="rooms"></div>
         </div>
         <div className="col-sm-6">
-          {this.state.currentRoom ?
+          {currentRoom &&
             <Chat
-              socket={this.state.socket}
+              socket={socket}
               isAdmin
             />
-          :
-          null}
+          }
         </div>
       </div>
     );
