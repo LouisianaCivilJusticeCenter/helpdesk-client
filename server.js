@@ -146,10 +146,8 @@ io.on('connection', socket => {
     socket.emit('updaterooms', rooms);
   });
 
-  socket.on('sign-out', () => {
-    io.sockets.in(socket.room).emit('sign-out', socket.clientToken);
-    io.sockets.emit('updaterooms', rooms);
-  });
+  socket.on('sign-out', () =>
+    io.sockets.in(socket.room).emit('sign-out', socket.clientToken));
 
   socket.on('disconnect', () => {
     if (socket.first_name === 'Attorney') {
@@ -167,6 +165,7 @@ io.on('connection', socket => {
     if (socket.username !== USERNAME) {
       rooms = _.reject(rooms, room => room.username === socket.username);
     }
+    console.log('emmitting update rooms');
     io.sockets.emit('updaterooms', rooms);
   });
 });

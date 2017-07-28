@@ -46,7 +46,11 @@ class AdminContainer extends Component {
   initSocket() {
     const socket = io(`${window.location.hostname}:${window.location.port}`);
     socket.on('connect', () => socket.emit('admin'));
-    socket.on('updaterooms', rooms => this.setState({ rooms }));
+    socket.on('updaterooms', rooms => {
+      console.log('updateing rooms', rooms);
+      this.setState({ rooms });
+      this.forceUpdate();
+    });
     socket.on('sign-out', () => {
       this.setState({ currentRoom: null });
       this.forceUpdate();
