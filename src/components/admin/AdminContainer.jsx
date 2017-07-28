@@ -48,14 +48,8 @@ class AdminContainer extends Component {
     socket.on('connect', () => socket.emit('admin'));
     socket.on('updaterooms', rooms => this.setState({ rooms }));
     socket.on('sign-out', () => {
-<<<<<<< HEAD
-      console.log('Signout hit in admin');
-      this.setState({ currentRoom: null, rooms: this.state.rooms });
-      // window.location = `${window.location.origin}/admin`;
-=======
       this.setState({ currentRoom: null });
       this.forceUpdate();
->>>>>>> (update) chat
     });
 
     this.setState({ socket });

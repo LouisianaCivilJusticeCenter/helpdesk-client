@@ -121,13 +121,7 @@ io.on('connection', socket => {
       .then(parsedBody => console.warn(parsedBody))
       .catch(err => console.warn(err));
 
-<<<<<<< HEAD
-  socket.on('unavailable', roomId => {
-    console.log(rooms, 'this is rooms');    
-    io.sockets.in(roomId).emit('updatechat', socket.first_name, renderUnavailableMessage);
-=======
     io.sockets.in(socket.room).emit('updatechat', socket.first_name, data);
->>>>>>> (update) chat
   });
 
   socket.on('unavailable', roomId =>
@@ -154,12 +148,6 @@ io.on('connection', socket => {
 
   socket.on('sign-out', () => {
     io.sockets.in(socket.room).emit('sign-out', socket.clientToken);
-<<<<<<< HEAD
-
-    // update rooms
-    rooms = _.reject(rooms, room => room.id === socket.id);
-=======
->>>>>>> (update) chat
     io.sockets.emit('updaterooms', rooms);
   });
 
