@@ -1,3 +1,5 @@
+"use strict";
+
 const resources = {
   webster: {
     parish: 'Webster',
@@ -35,6 +37,13 @@ const resources = {
       { title: 'The Wellspring (Domestic Violence Hotline)', description: '1-888- 411-1333' },
     ],
   },
+  natchitoches: {
+  parish: 'Natchitoches',
+  link: 'natchitoches',
+  resources: [
+    { title: 'Natchitoches Parish Clerk of Court', description: '(318) 352-8152' },
+  ],
+},
 };
 
 export default resources;

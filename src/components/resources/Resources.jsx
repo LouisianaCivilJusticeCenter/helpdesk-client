@@ -5,6 +5,7 @@ import _ from 'underscore';
 
 const Resources = ({ params }) => (
   // TODO: max i got theses collumns mixed up can you fix the css on these
+  // sure things bae. Antoine
   <div className="row">
     <div className="col-md-9">
       <div className="row">

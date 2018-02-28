@@ -38,6 +38,8 @@ const Nav = ({ signOut }) => (
               <li><Link to="/resources/iberia">Iberia Parish</Link></li>
               <li role="separator" className="divider"></li>
               <li><Link to="resources/concordia">Concordia parish</Link></li>
+              <li role="separator" className="divider"></li>
+              <li><Link to="resources/natchitoches">Natchitoches parish</Link></li>
             </ul>
           </li>
         </ul>
