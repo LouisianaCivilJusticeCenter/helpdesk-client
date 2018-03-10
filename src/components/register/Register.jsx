@@ -13,38 +13,9 @@ Object.assign(Validation.rules, {
     rule: value => value.toString().trim(),
     hint: () => <span className="form-error is-visible">Required</span>,
   },
-  email: {
-    rule: value => validator.isEmail(value),
-    hint: value => <span className="form-error is-visible">{value} isnt an Email.</span>,
-  },
-  password: {
-    rule: (value, components) => {
-      const password = components.password.state;
-      const passwordConfirm = components.passwordConfirm.state;
-      const isBothUsed = password
-          && passwordConfirm
-          && password.isUsed
-          && passwordConfirm.isUsed;
-      const isBothChanged = isBothUsed && password.isChanged && passwordConfirm.isChanged;
-
-      if (!isBothUsed || !isBothChanged) {
-        return true;
-      }
-
-      return password.value === passwordConfirm.value;
-    },
-    hint: () => <span className="form-error is-visible">Passwords should be equal.</span>,
-  },
   phone: {
     rule: value => validator.isMobilePhone(value, 'en-US'),
     hint: value => <span className="form-error is-visible">{value} not a valid US Phone.</span>,
-  },
-  api: {
-    hint: value => (
-      <button className="form-error is-visible">
-        API Error on "{value}" value. Focus to hide.
-      </button>
-    ),
   },
 });
 
@@ -56,7 +27,6 @@ class Register extends React.Component {
     this.createUser = this.createUser.bind(this);
     this.loginUser = this.loginUser.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
-    this.removeApiError = this.removeApiError.bind(this);
   }
 
   onSubmit(e) {
@@ -67,13 +37,16 @@ class Register extends React.Component {
       .omit('passwordConfirm', '')
       .value();
     data.category = this.props.params.title;
-    const tokenData = {
-      grant_type: 'password',
-      username: data.username,
-      password: data.password,
-    };
+    console.log(data);
+    //drift.api.widget.show()
+    drift.api.sidebar.open()
+    //drift.identify(data.first_name + "-" + data.last_name ,{email:data.email,phoneNumber:data.phone, category:data.category});
+      drift.api.setUserAttributes({
+    email: data.email,
+    name: data.first_name + "-" + data.last_name,
+    phoneNumber: data.phone
 
-    this.createUser(data, tokenData);
+  })
   }
 
   createUser(data, tokenData) {
@@ -93,9 +66,6 @@ class Register extends React.Component {
       .catch(error => console.error(error, 'Login User Error'));
   }
 
-  removeApiError() {
-    this.form.hideError('username');
-  }
 
   render() {
     return (
@@ -125,21 +95,11 @@ class Register extends React.Component {
               <Validation.components.Input
                 className="form-control"
                 value=""
-                placeholder="Username"
-                name="username"
-                validations={['required']}
-              />
-            </div>
-            <div className="form-group">
-              <Validation.components.Input
-                className="form-control"
-                value=""
                 placeholder="Phone"
                 name="phone"
                 validations={['required', 'phone']}
               />
             </div>
-            {/* TODO:  Do we want email validations? Was told no */}
             <div className="form-group">
               <Validation.components.Input
                 className="form-control"
@@ -150,30 +110,10 @@ class Register extends React.Component {
               />
             </div>
             <div className="form-group">
-              <Validation.components.Input
-                className="form-control"
-                type="password"
-                value=""
-                placeholder="Password"
-                name="password"
-                validations={['required', 'password']}
-              />
-            </div>
-            <div className="form-group">
-              <Validation.components.Input
-                className="form-control"
-                type="password"
-                value=""
-                placeholder="Confirm Password"
-                name="passwordConfirm"
-                validations={['required', 'password']}
-              />
-            </div>
-            <div className="form-group">
               <Validation.components.Button
                 className="btn btn-default btn-block"
               >
-                Next
+                Start Chat
               </Validation.components.Button>
             </div>
           </Validation.components.Form>
