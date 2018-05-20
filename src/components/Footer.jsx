@@ -8,7 +8,6 @@ const Footer = () => (
         <img src="http://laciviljustice.org/wp-content/uploads/2015/04/lcjc-logo_red-on-white-trimmed.png" alt="LCJC lcjc-logo_red-on-white-trimmed" />
       </Link>
       <div className="text-center">
-        <Link to="/admin">Admin</Link>
       </div>
     </div>
   </footer>
