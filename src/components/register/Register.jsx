@@ -8,9 +8,26 @@ import validator from 'validator';
 import _ from 'underscore';
 import axios from 'axios';
 
-const options = [
-  'one', 'two', 'three'
-]
+import Dropdown from 'react-dropdown';
+import 'react-dropdown/style.css';
+
+const genderOptions = [
+  'Male', 'Female', 'N/A'
+];
+const genderDefaultOptions = genderOptions[0];
+
+const raceOptions = [
+  'Black', 'Hispanic/Latino', 'White', 'Asian', 'Pacific Islander','Native American', 'Multiracial', 'Other'
+];
+const raceDefaultOptions = raceOptions[0];
+
+const incomeOptions = [
+  'Employment', 'SSI', 'Disability', 'Social Security', 'Other retirement income','Help from familly/friends','Other'
+];
+const incomeDefaultOptions = incomeOptions[0];
+
+
+
 
 Object.assign(Validation.rules, {
   required: {
@@ -75,6 +92,7 @@ class Register extends React.Component {
     return (
       <div className="row">
         <div className="col-md-offset-4 col-md-4 text-center">
+
           <Validation.components.Form ref={c => { this.form = c; }} onSubmit={this.onSubmit}>
             <h3>We need to collect some basic information first.</h3>
             <div className="form-group">
@@ -132,6 +150,12 @@ class Register extends React.Component {
               />
             </div>
             <div className="form-group">
+                <Dropdown options={genderOptions} onChange={this._onSelect} value={genderDefaultOptions} placeholder="Select an option" />
+            </div>
+            <div className="form-group">
+                <Dropdown options={raceOptions} onChange={this._onSelect} value={raceDefaultOptions} placeholder="Select an option" />
+            </div>
+            <div className="form-group">
               <Validation.components.Input
                 className="form-control"
                 value=""
@@ -141,14 +165,9 @@ class Register extends React.Component {
               />
             </div>
             <div className="form-group">
-              <Validation.components.Input
-                className="form-control"
-                value=""
-                placeholder="Income source"
-                name="income_source"
-                validations={[]}
-              />
+                <Dropdown options={incomeOptions} onChange={this._onSelect} value={incomeDefaultOptions} placeholder="Select an option" />
             </div>
+
             <div className="form-group">
               <Validation.components.Button
                 className="btn btn-default btn-block"
