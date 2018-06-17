@@ -95,6 +95,24 @@ class Register extends React.Component {
               <Validation.components.Input
                 className="form-control"
                 value=""
+                placeholder="Date of Birth"
+                name="birth_date"
+                validations={['required']}
+              />
+            </div>
+            <div className="form-group">
+              <Validation.components.Input
+                className="form-control"
+                value=""
+                placeholder="Address"
+                name="address"
+                validations={['required']}
+              />
+            </div>
+            <div className="form-group">
+              <Validation.components.Input
+                className="form-control"
+                value=""
                 placeholder="Phone"
                 name="phone"
                 validations={['required', 'phone']}
