@@ -22,7 +22,7 @@ const raceOptions = [
 const raceDefaultOptions = raceOptions[0];
 
 const incomeOptions = [
-  'Employment', 'SSI', 'Disability', 'Social Security', 'Other retirement income','Help from familly/friends','Other'
+  'Employment', 'SSI', 'Disability', 'Child/Spousal support', 'Unemployment','Veteran\'s benefits','Retirement', 'None', 'Other'
 ];
 const incomeDefaultOptions = incomeOptions[0];
 
@@ -150,10 +150,10 @@ class Register extends React.Component {
               />
             </div>
             <div className="form-group">
-                <Dropdown options={genderOptions} onChange={this._onSelect} value={genderDefaultOptions} placeholder="Select an option" />
+                <Dropdown options={genderOptions} onChange={this._onSelect} placeholder="Gender" />
             </div>
             <div className="form-group">
-                <Dropdown options={raceOptions} onChange={this._onSelect} value={raceDefaultOptions} placeholder="Select an option" />
+                <Dropdown options={raceOptions} onChange={this._onSelect} placeholder="Race" />
             </div>
             <div className="form-group">
               <Validation.components.Input
@@ -165,7 +165,7 @@ class Register extends React.Component {
               />
             </div>
             <div className="form-group">
-                <Dropdown options={incomeOptions} onChange={this._onSelect} value={incomeDefaultOptions} placeholder="Select an option" />
+                <Dropdown options={incomeOptions} onChange={this._onSelect}  placeholder="Income source" />
             </div>
 
             <div className="form-group">
