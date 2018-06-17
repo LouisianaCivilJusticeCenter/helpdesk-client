@@ -8,6 +8,10 @@ import validator from 'validator';
 import _ from 'underscore';
 import axios from 'axios';
 
+const options = [
+  'one', 'two', 'three'
+]
+
 Object.assign(Validation.rules, {
   required: {
     rule: value => value.toString().trim(),
@@ -124,6 +128,24 @@ class Register extends React.Component {
                 value=""
                 placeholder="Email"
                 name="email"
+                validations={[]}
+              />
+            </div>
+            <div className="form-group">
+              <Validation.components.Input
+                className="form-control"
+                value=""
+                placeholder="Monthly Income"
+                name="income"
+                validations={[]}
+              />
+            </div>
+            <div className="form-group">
+              <Validation.components.Input
+                className="form-control"
+                value=""
+                placeholder="Income source"
+                name="income_source"
                 validations={[]}
               />
             </div>
