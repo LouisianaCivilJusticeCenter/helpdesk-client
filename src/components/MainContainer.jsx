@@ -10,17 +10,17 @@ class MainContainer extends React.Component {
   }
 
   componentDidMount() {
-    const token = localStorage.getItem('token');
-    fetch(`/v1/access_tokens?access_token=${token}`)
-    .then(res => res.json())
-    .then((data) => {
-      if (data.meta.error || !data.data.length) {
-        localStorage.clear();
-      } else {
-        localStorage.setItem('id', data.data[0].user_id);
-      }
-    })
-    .catch(err => console.error(err));
+    // const token = localStorage.getItem('token');
+    // fetch(`/v1/access_tokens?access_token=${token}`)
+    // .then(res => res.json())
+    // .then((data) => {
+    //   if (data.meta.error || !data.data.length) {
+    //     localStorage.clear();
+    //   } else {
+    //     localStorage.setItem('id', data.data[0].user_id);
+    //   }
+    // })
+    // .catch(err => console.error(err));
   }
 
   signOut() {
