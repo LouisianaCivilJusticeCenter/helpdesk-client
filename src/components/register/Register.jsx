@@ -11,6 +11,11 @@ import axios from 'axios';
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
 
+import DatePicker from 'react-datepicker';
+import moment from 'moment';
+ 
+import 'react-datepicker/dist/react-datepicker.css';
+ 
 const genderOptions = [
   'Male', 'Female', 'N/A'
 ];
@@ -39,19 +44,79 @@ Object.assign(Validation.rules, {
     hint: value => <span className="form-error is-visible">{value} not a valid US Phone.</span>,
   },
 });
-
+//
 class Register extends React.Component {
   constructor(props) {
     super(props);
+
+    var deleteCookie = function delete_cookie(name) {
+      document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    }
 
     this.onSubmit = this.onSubmit.bind(this);
     this.createUser = this.createUser.bind(this);
     this.loginUser = this.loginUser.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+
+    this.state = {
+      chatting: false
+    };
+    this._onSelectGender = this._onSelectGender.bind(this);
+    this._onSelectRace = this._onSelectRace.bind(this);
+    this._onSelectIncome = this._onSelectIncome.bind(this);
+
+    deleteCookie("driftt_sid");
+    deleteCookie("driftt_aid");
+    deleteCookie("driftt_eid");
+    deleteCookie("DFTT_LEAD_HAS_PREV_IDENTIFIED");
+
   }
+
+  _onSelectGender (option) {
+    console.log('You selected ', option.label)
+    this.setState({selectedGender: option})
+  }
+
+  _onSelectRace (option) {
+    console.log('You selected ', option.label)
+    this.setState({selectedRace: option})
+  }
+
+  _onSelectIncome (option) {
+    console.log('You selected ', option.label)
+    this.setState({selectedIncome: option})
+  }
+
+ set_cookie(name, value) {
+  document.cookie = name +'='+ value +'; Path=/;';
+}
+
+
+handleAlternate(event) {
+    var deleteCookie = function delete_cookie(name) {
+      document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    }
+
+    event.preventDefault();
+    console.log("close");
+    sessionStorage.clear();
+    localStorage.clear();
+    deleteCookie("driftt_sid");
+    deleteCookie("driftt_aid");
+    deleteCookie("driftt_eid");
+    deleteCookie("DFTT_LEAD_HAS_PREV_IDENTIFIED");
+    window.location = '/'
+
+}
+
+
+ 
 
   onSubmit(e) {
     e.preventDefault();
+
+    this.setState({ chatting: true });
+    this.props.location.state = "chatting";
 
     const data = _.chain(e.target)
       .reduce((memo, { name, value }) => Object.assign({ [name]: value }, memo), {})
@@ -104,6 +169,7 @@ class Register extends React.Component {
                 validations={['required']}
               />
             </div>
+
             <div className="form-group">
               <Validation.components.Input
                 className="form-control"
@@ -113,15 +179,17 @@ class Register extends React.Component {
                 validations={['required']}
               />
             </div>
+
             <div className="form-group">
               <Validation.components.Input
                 className="form-control"
                 value=""
-                placeholder="Date of Birth"
+                placeholder="Birth Date"
                 name="birth_date"
-                validations={['required']}
+                validations={[]}
               />
             </div>
+
             <div className="form-group">
               <Validation.components.Input
                 className="form-control"
@@ -150,10 +218,10 @@ class Register extends React.Component {
               />
             </div>
             <div className="form-group">
-                <Dropdown options={genderOptions} onChange={this._onSelect} placeholder="Gender" />
+                <Dropdown options={genderOptions} onChange={this._onSelectGender} value={this.state.selectedGender} placeholder="Gender" />
             </div>
             <div className="form-group">
-                <Dropdown options={raceOptions} onChange={this._onSelect} placeholder="Race" />
+                <Dropdown options={raceOptions} onChange={this._onSelectRace} value={this.state.selectedRace} placeholder="Race" />
             </div>
             <div className="form-group">
               <Validation.components.Input
@@ -165,15 +233,14 @@ class Register extends React.Component {
               />
             </div>
             <div className="form-group">
-                <Dropdown options={incomeOptions} onChange={this._onSelect}  placeholder="Income source" />
+                <Dropdown options={incomeOptions} onChange={this._onSelectIncome}  value={this.state.selectedIncome}  placeholder="Income source" />
             </div>
 
             <div className="form-group">
-              <Validation.components.Button
-                className="btn btn-default btn-block"
-              >
-                Start Chat
-              </Validation.components.Button>
+              { ! this.state.chatting ? <Validation.components.Button className="btn btn-default btn-block" > Start Chat</Validation.components.Button> : null }
+
+              { this.state.chatting ?  <Validation.components.Button className="btn btn-danger btn-block" onClick={this.handleAlternate.bind(this)}> End Chat</Validation.components.Button> : null }
+             
             </div>
           </Validation.components.Form>
         </div>
