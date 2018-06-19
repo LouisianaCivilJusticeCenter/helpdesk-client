@@ -38,12 +38,21 @@ const resources = {
     ],
   },
   natchitoches: {
-  parish: 'Natchitoches',
-  link: 'natchitoches',
-  resources: [
-    { title: 'Natchitoches Parish Clerk of Court', description: '(318) 352-8152' },
-  ],
-},
+	  parish: 'Natchitoches',
+	  link: 'natchitoches',
+	  resources: [
+	    { title: 'Natchitoches Parish Clerk of Court', description: '(318) 352-8152' },
+	  ],
+  },
+  tangipahoa:{
+	  	parish: 'Tangipahoa',
+	    link: 'tangipahoa',
+	    resources: [
+	      { title: 'Concordia Parish Clerk of Court', description: '(318) 336-4204' },
+	      { title: 'Acadiana Legal Services', description: '(318) 443-7281' },
+	      { title: 'The Wellspring (Domestic Violence Hotline)', description: '1-888- 411-1333' },
+	    ],
+  }
 };
 
 export default resources;

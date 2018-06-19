@@ -73,17 +73,14 @@ class Register extends React.Component {
   }
 
   _onSelectGender (option) {
-    console.log('You selected ', option.label)
     this.setState({selectedGender: option})
   }
 
   _onSelectRace (option) {
-    console.log('You selected ', option.label)
     this.setState({selectedRace: option})
   }
 
   _onSelectIncome (option) {
-    console.log('You selected ', option.label)
     this.setState({selectedIncome: option})
   }
 
@@ -123,14 +120,24 @@ handleAlternate(event) {
       .omit('passwordConfirm', '')
       .value();
     data.category = this.props.params.title;
-    console.log(data);
+    data.race = this.state.selectedRace.value;
+    data.gender = this.state.selectedGender.value;
+    data.incomeSource = this.state.selectedIncome.value;
+
     //drift.api.widget.show()
     drift.api.sidebar.open()
     //drift.identify(data.first_name + "-" + data.last_name ,{email:data.email,phoneNumber:data.phone, category:data.category});
       drift.api.setUserAttributes({
     email: data.email,
     name: data.first_name + "-" + data.last_name,
-    phoneNumber: data.phone
+    phoneNumber: data.phone,
+    address:data.address,
+    birth_date: data.birth_date,
+    category:data.category,
+    income:data.income,
+    income_source: data.incomeSource,
+    gender: data.gender,
+    race:data.race
 
   })
   }

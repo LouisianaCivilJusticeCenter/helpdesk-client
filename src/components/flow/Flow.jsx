@@ -61,7 +61,7 @@ class Flow extends Component {
           <button
             className="btn btn-default btn-lg btn-block"
           >
-            Register
+            Start Chat
           </button>
         </Link>
       </div>
