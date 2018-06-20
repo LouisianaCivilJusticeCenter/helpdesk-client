@@ -33,8 +33,19 @@ const resources = {
     link: 'concorida',
     resources: [
       { title: 'Concordia Parish Clerk of Court', description: '(318) 336-4204' },
-      { title: 'Acadiana Legal Services', description: '(318) 443-7281' },
-      { title: 'The Wellspring (Domestic Violence Hotline)', description: '1-888- 411-1333' },
+      { title: 'Acadiana Legal Services : Legal Aid', description: '(318) 443-7281' },
+      { title: 'Advocacy Center : Legal Advice and Advocacy for Elderly or Disabled', description: '(504) 522-2337' },
+      { title: 'Louisiana Coalition against domestic violence', description: '1 (888) 411-1333' },
+      { title: 'The Wellspring : Crisis hotline', description: '(318) 323-1505' },
+      { title: 'Medicaid Eligibility Hotline', description: '1 (888) 411-1333' },
+      { title: 'Medicaid Appeals', description: '(225) 342-6207' },
+      { title: 'Justice and Accountability Center of LA Expungement Hotline : Information and assistance for expungement', description: '(504) 322-4050' },
+      { title: 'Innocent Project New Orleans : statewide criminal defense', description: '(504) 943-1901'},
+      { title: 'Concordia Parish District Attorney', description: '(318) 336-5526'},
+      { title: 'Concordia Child Welfare Office', description: '(318) 336-8611'},
+      { title: 'Child support enforcement', description: '(888) 524-3578'},
+      { title: 'Elderly Protective Services', description: '(800) 255-4990'},
+      { title: 'Concordia Parish council on Aging', description: '(318) 336-7887'}
     ],
   },
   natchitoches: {
